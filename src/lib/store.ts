@@ -56,7 +56,8 @@ async function writeJson(file: string, data: unknown) {
   await fs.rename(tmp, file);
 }
 
-export const storeEnabled = () => (process.env.LEAD_STORE || "file") === "file";
+// Auf Vercel (schreibgeschütztes Dateisystem) automatisch aus
+export const storeEnabled = () => (process.env.LEAD_STORE || (process.env.VERCEL ? "none" : "file")) === "file";
 
 export async function listLeads() {
   return readJson<StoredLead[]>(LEADS, []);
