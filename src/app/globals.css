@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/* Lokal gehostete Schriften (OFL-lizenziert, über @fontsource gebündelt) */
+@import "@fontsource-variable/manrope/index.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/cormorant-garamond/500-italic.css";
+@import "@fontsource/ibm-plex-sans-arabic/400.css";
+@import "@fontsource/ibm-plex-sans-arabic/500.css";
+@import "@fontsource/ibm-plex-sans-arabic/600.css";
+@import "@fontsource/ibm-plex-sans-arabic/700.css";
+
+/* ===================================================================
+   DESIGN TOKENS – siehe DESIGN-SYSTEM.md
+   Kontraste geprüft (WCAG 2.2 AA): navy/ivory 13.4 · brass/ivory 5.5 ·
+   champagne/navy 5.4 · champagne-light/navy 7.1 · muted/ivory 6.95
+   =================================================================== */
+@theme {
+  --color-navy: #102a43;
+  --color-navy-deep: #0b1e31;
+  --color-navy-soft: #1d3a57;
+  --color-ivory: #f7f5ef;
+  --color-sand: #efeadf;
+  --color-paper: #ffffff;
+  --color-champagne: #b49a68; /* nur Dekor auf hell, Text nur auf Navy */
+  --color-champagne-light: #c9b286;
+  --color-brass: #7a5f2e; /* Akzent-Text auf hellem Grund */
+  --color-ink: #14212e;
+  --color-muted: #4a5563;
+  --color-line: #ddd5c4;
+  --color-line-dark: #2c4763;
+  --color-mist: #aab6c3;
+  --color-success: #1f6b4a;
+  --color-error: #a3271f;
+
+  --font-sans: "Manrope Variable", "Manrope", system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Noto Sans Arabic", Tahoma, sans-serif;
+
+  --radius-soft: 0.5rem;
+  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- Basis ---------- */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+body {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.7;
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+@media (min-width: 1024px) {
+  body { font-size: 1.1875rem; } /* 19px */
+}
+
+/* Arabisch: eigene Typografie, etwas größere Schrift & mehr Zeilenhöhe */
+html[lang="ar"] body {
+  font-family: var(--font-arabic);
+  line-height: 1.9;
+  font-size: 1.1875rem;
+}
+html[lang="ar"] .font-serif,
+html[lang="ar"] .display {
+  font-family: var(--font-arabic);
+  font-weight: 600;
+  letter-spacing: 0 !important;
+  font-style: normal !important;
+}
+html[lang="ar"] .tracking-label { letter-spacing: 0 !important; }
+
+/* Display-Typografie */
+.display {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.08;
+  text-wrap: balance;
+  font-variant-numeric: lining-nums;
+}
+html[lang="ar"] .display { line-height: 1.45; }
+.tracking-label {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+p { text-wrap: pretty; }
+/* Lange deutsche Komposita („Berufsunfähigkeitsversicherung“) sauber trennen */
+h1, h2, h3, h4, .display { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
+main [class*="grid-cols"] > * { min-width: 0; }
+
+/* Fokus – immer sichtbar */
+:focus-visible {
+  outline: 3px solid var(--color-champagne);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.on-dark :focus-visible { outline-color: var(--color-champagne-light); }
+
+/* Skip-Link */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  top: -100px;
+  z-index: 100;
+  background: var(--color-navy);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-soft);
+}
+.skip-link:focus { top: 1rem; }
+
+/* Feine Linien & Ornamente */
+.hairline { height: 1px; background: var(--color-line); }
+.gold-rule {
+  display: inline-block;
+  width: 2.5rem;
+  height: 1px;
+  background: var(--color-champagne);
+  vertical-align: middle;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3.25rem; /* 52px – deutlich > 44px */
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  transition: background-color 0.25s var(--ease-calm), color 0.25s var(--ease-calm),
+    border-color 0.25s var(--ease-calm), transform 0.25s var(--ease-calm);
+  text-align: center;
+}
+.btn-primary { background: var(--color-navy); color: #fff; }
+.btn-primary:hover { background: var(--color-navy-soft); }
+.btn-gold { background: var(--color-champagne-light); color: var(--color-navy-deep); }
+.btn-gold:hover { background: #d8c49c; }
+.btn-ghost { border: 1.5px solid var(--color-navy); color: var(--color-navy); background: transparent; }
+.btn-ghost:hover { background: var(--color-navy); color: #fff; }
+.btn-ghost-light { border: 1.5px solid rgba(255,255,255,0.55); color: #fff; }
+.btn-ghost-light:hover { background: #fff; color: var(--color-navy); }
+.btn:active { transform: translateY(1px); }
+
+/* Textlinks */
+.link {
+  color: var(--color-navy);
+  text-decoration: underline;
+  text-decoration-color: var(--color-champagne);
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1.5px;
+}
+.link:hover { text-decoration-color: var(--color-navy); }
+
+/* Dezente Einblend-Animation (nur ohne reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { animation: reveal 0.9s var(--ease-calm) both; }
+  .reveal-delay-1 { animation-delay: 0.08s; }
+  .reveal-delay-2 { animation-delay: 0.16s; }
+  .reveal-delay-3 { animation-delay: 0.24s; }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Range-Slider (Rechner) – großer Daumen, gut greifbar */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2.75rem;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-navy) var(--fill, 50%), var(--color-line) var(--fill, 50%));
+}
+html[dir="rtl"] input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(to left, var(--color-navy) var(--fill, 50%), var(--color-line) var(--fill, 50%));
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -11px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--color-navy);
+  box-shadow: 0 2px 8px rgba(16, 42, 67, 0.25);
+}
+input[type="range"]::-moz-range-track { height: 6px; border-radius: 999px; background: var(--color-line); }
+input[type="range"]::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--color-navy); }
+input[type="range"]::-moz-range-thumb {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--color-navy);
+}
+
+/* Details/Accordion */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-icon { transform: rotate(45deg); }
+
+/* Platzhalter (nur Vorschau) */
+.placeholder-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1.5px dashed #b45309;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.1rem 0.55rem;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* Feine Papiertextur über Navy-Flächen */
+.navy-surface {
+  background-color: var(--color-navy);
+  background-image:
+    radial-gradient(1200px 500px at 85% -10%, rgba(201, 178, 134, 0.14), transparent 60%),
+    radial-gradient(800px 400px at -10% 110%, rgba(255, 255, 255, 0.05), transparent 60%);
+}
+
+/* Zahlen in RTL korrekt */
+.ltr-nums { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+@media print {
+  .no-print { display: none !important; }
+}
