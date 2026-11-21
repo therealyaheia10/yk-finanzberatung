@@ -42,5 +42,6 @@ Logische CSS-Eigenschaften (`ps-`, `ms-`, `start-`), Pfeile werden gespiegelt (`
 Telefonnummern und Beträge als isolierte LTR-Inseln (`.ltr-nums`), westliche Ziffern auch im Arabischen.
 
 ## Logo
-Wortmarke `YAHEIA KASWAN` (Manrope, Sperrung 0,26 em) + Monogramm im doppelten Messingrahmen.
-Beides wird aus `advisor.brandName` und `advisor.initials` erzeugt – auch Favicon und Social-Grafiken.
+Bildmarke: minimalistischer Globus aus feinen Navy-Linien mit einem Messing-Bogen (Begleitung/Verbindung) –
+international, ruhig, ohne Flaggen und unabhängig von einzelnen Beratern. Wortmarke zweizeilig:
+„INTERNATIONAL“ (Manrope, gesperrt, Messing) über „Finance Consulting“ (Cormorant Garamond). Komponente: `src/components/ui/Logo.tsx`; Favicon: `src/app/icon.tsx`.

@@ -1,41 +1,25 @@
 # Produkt- und Rechtsquellen
 
-## Status: NICHT VERIFIZIERT – vor Veröffentlichung prüfen
-Die offiziellen Quellen konnten in der Entwicklungsumgebung **nicht abgerufen werden**
-(Netzwerkzugriff auf ergo.de und gesetze-im-internet.de gesperrt). Die Leistungsseiten enthalten
-daher **bewusst keine** Tarifnamen, Beitragszahlen, Garantiezinsen, Grenzwerte (z. B. JAEG,
-Beitragsbemessungsgrenzen, steuerfreie bAV-Höchstbeträge) oder Produktversprechen.
-Alle Aussagen sind allgemeines, marktübliches Grundlagenwissen mit vorsichtigen Formulierungen
-(„in vielen Tarifen“, „je nach Tarif“, „unter bestimmten Voraussetzungen“).
-Auf jeder Leistungsseite steht ein Hinweis, dass ausschließlich die Vertragsunterlagen verbindlich sind.
+**Status: verifiziert am 21.11.2026** an den offiziellen Seiten (Abruf aus der Entwicklungsumgebung).
+Die verwendeten Fakten stehen zentral in `src/config/products.ts` und erscheinen auf jeder Produktseite
+im Block „Anbieter- und Produktinformationen“ mit Quelle und Datum. **Vor dem Launch erneut prüfen.**
 
-## Zu prüfende Quellen
-| Thema | Offizielle Quelle | Prüfpunkte | Geprüft von / am |
+| Thema | Quelle | Verwendete Fakten | Risikoträger |
 |---|---|---|---|
-| Kidspolicen / Kinder-Vorsorge | https://www.ergo.de/de/Produkte/Bausparen-Finanzierung/Kidspolicen | Produktname, Fondsanlage/Garantien, Übertragung aufs Kind, Zuzahlung/Entnahme, Kosten | |
-| Berufsunfähigkeit | https://www.ergo.de/de/Produkte/Berufsunfaehigkeitsversicherung | BU-Definition (50 %, 6 Monate), Nachversicherungsgarantie, Leistungsdauer | |
-| Private Krankenversicherung | https://www.ergo.de/de/Produkte/Krankenversicherung/Krankenvollversicherung | Risikoträger **DKV Deutsche Krankenversicherung AG** bestätigen, Tarifbezeichnungen | |
-| bAV | https://www.ergo.de/de/Geschaeftskunden-Produkte/Betriebliche-Altersversorgung | angebotene Durchführungswege, Risikoträger (z. B. ERGO Vorsorge Lebensversicherung AG) | |
-| bKV | https://www.ergo.de/de/Geschaeftskunden-Produkte/Gewerbliche-Krankenversicherung/Betriebliche-Krankenversicherung | Risikoträger DKV, Mindestgruppengröße, Gesundheitsfragen, Bausteine | |
-| Erstinformation | https://www.gesetze-im-internet.de/versvermv_2018/__15.html | Pflichtinhalte und Form (Textform beim ersten Geschäftskontakt) | |
-| Verfahren | https://www.gesetze-im-internet.de/versvermv_2018/__16.html | Inhalt prüfen und umsetzen | |
-| Vermittlerregister | https://www.vermittlerregister.info | Registernummer des Auftraggebers; Registerstelle DIHK, Breite Straße 29, 10178 Berlin | |
-| Schlichtung | https://www.versicherungsombudsmann.de · https://www.pkv-ombudsmann.de | Postanschriften (eingesetzt: Postfach 08 06 32, 10006 Berlin; Postfach 06 02 22, 10052 Berlin) | |
+| Altersvorsorge | https://www.ergo.de/de/Produkte/Rentenversicherung | Rentenversicherungen ab 25 €/Monat; Index-Variante 100 % Beitragssicherung ab 12 J. Laufzeit mit Höchststandgarantie; Basis-Rente (Rürup) ab 25 €, steuerlich absetzbar; Altersvorsorgedepot ab 2027 | ERGO Vorsorge Lebensversicherung AG |
+| Kidspolicen | https://www.ergo.de/de/Produkte/Bausparen-Finanzierung/Kidspolicen | Varianten Index, Balance, Dynamik, Chance, Zukunfts-Chance; ab 25 €/Monat oder 2.500 € Einmalbeitrag; Zuzahlungen ab 100 €, Entnahmen ab 500 € | ERGO Vorsorge Lebensversicherung AG |
+| BU | https://www.ergo.de/de/Produkte/Berufsunfaehigkeitsversicherung | Tarife Best / Best Plus; volle Rente ab 50 % BU; Best Plus mit Online-Programmen zur mentalen Gesundheit | ERGO Vorsorge Lebensversicherung AG |
+| PKV | https://www.ergo.de/de/Produkte/Krankenversicherung/Krankenvollversicherung | DKV BestMed Basis (BME), BestMed Komfort (BMK/BMKD), PremiumMed (PMN); vertraglich garantierte Leistungen; Beitragsrückerstattung möglich | DKV Deutsche Krankenversicherung AG |
+| bAV | https://www.ergo.de/de/Geschaeftskunden-Produkte/Betriebliche-Altersversorgung | Betriebs-Rente Index (100 % Beitragsgarantie ab 12 J.), Dynamik (Garantie 60–100 %), Dynamik Comfort (80/100 %); Direktversicherung, Unterstützungskasse, Direktzusage, Pensionsfonds; förderfähig nach § 3 Nr. 63 und § 100 EStG | ERGO Vorsorge Lebensversicherung AG / ERGO Pensionsfonds AG |
+| bKV | https://www.ergo.de/de/Geschaeftskunden-Produkte/Gewerbliche-Krankenversicherung/Betriebliche-Krankenversicherung | arbeitgeber- oder arbeitnehmerfinanziert; Budgetbausteine 300/600/900/1.200 € p. a.; arbeitgeberfinanziert ohne Gesundheitsprüfung und Wartezeiten; Fortführung ohne Gesundheitsprüfung | DKV Deutsche Krankenversicherung AG |
+| Erstinformation | https://www.gesetze-im-internet.de/versvermv_2018/__15.html | 12 Pflichtangaben je Vermittler (Name, Anschrift, Status, Beratung, Vergütung, Register, Beteiligungen, Schlichtung) – auf der Seite „Erstinformation“ je Berater umgesetzt | – |
 
-## Gesetzliche Grundlagen, die in den Texten berücksichtigt wurden (aus Fachwissen, zu verifizieren)
-- § 5 DDG (Impressum), § 34d GewO (Erlaubnis/Status), §§ 15, 16 VersVermV (Erstinformation),
-  §§ 59–68 VVG (Beratung/Dokumentation), DSGVO, TDDDG (§ 25: keine Cookies/Endgerätezugriffe ohne Einwilligung).
-- Erwerbsminderungsrente statt Berufsunfähigkeitsrente für Geburtsjahrgänge ab 2.1.1961.
-- Rechtsanspruch auf Entgeltumwandlung (§ 1a BetrAVG); verpflichtender Arbeitgeberzuschuss bei Entgeltumwandlung unter Voraussetzungen.
-- PKV: kein beitragsfreies Familienversicherungsmodell; eingeschränkte Rückkehr in die GKV, ab 55 i. d. R. kaum möglich.
+## Nicht verwendet (bewusst)
+- Beispielbeiträge von ergo.de (hängen von Alter, Beruf, Gesundheit ab).
+- Grenzwerte (JAEG, Beitragsbemessungsgrenzen) – ändern sich jährlich; werden im Gespräch genannt.
+- Rechtsschutz, Schutzbrief, Pflege, Grundfähigkeit: allgemeine Erklärung ohne Tarifnamen (keine Quellprüfung erfolgt).
 
-## Rechner – Annahmen (auf der Website offen ausgewiesen)
-- Rentenlücke: Renteneintritt 67, Inflation 2 % p. a., Ziel 60–100 % des Nettos (Standard 80 %),
-  Voreinstellung gesetzliche Rente = 45 % des Nettos (grobe Annahme, anpassbar). Steuern/Sozialabgaben nicht berücksichtigt.
-- Kinder-Sparziel: Szenarien 0 / 2 / 5 % p. a. vor Kosten und Steuern; keine Aussage über ein Produkt.
-- Arbeitskraft: Netto × 12 × Jahre bis 67, ohne Gehaltsentwicklung.
-
-## Bildrechte & Schriften
-- Portrait: vom Projektverantwortlichen bereitgestelltes eigenes Foto (nur interne Vorschau).
-- Schriften: Manrope, Cormorant Garamond, IBM Plex Sans Arabic – SIL Open Font License, lokal gebündelt via @fontsource.
-- Icons: Lucide (ISC-Lizenz). Keine ERGO-/DKV-Logos verwendet.
+## Rechner – Annahmen (auf der Website ausgewiesen)
+Rentenlücke: Rente mit 67, Inflation 2 %, Ziel 80 % des Nettos, Voreinstellung gesetzl. Rente 45 % des Nettos (anpassbar).
+Kinder-Sparziel: Szenarien 0/2/5 % vor Kosten. Arbeitskraft: Netto × 12 × Jahre bis 67. Inflation: konstanter Satz.
+Versicherungs-Check: Faustregel nach Lebenssituation, keine Beratung.

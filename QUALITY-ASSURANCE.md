@@ -1,54 +1,42 @@
-# Qualitätssicherung – tatsächlich gemessene Ergebnisse
+# Qualitätssicherung – gemessene Ergebnisse (21.11.2026)
 
-Stand: interne Vorschau (PREVIEW), lokaler Produktionsbuild (`next build && next start`), Chromium.
+Lokaler Produktionsbuild im Vorschaumodus, Chromium.
 
-## Automatisierte Tests – 65 / 65 bestanden
-`npm run test:e2e` (Playwright 1.65 + @axe-core/playwright)
-- Alle **42 Seiten** (14 × DE/AR/EN): HTTP 200, `lang`/`dir` korrekt (AR = rtl), genau eine H1,
-  Titel, Canonical, hreflang für alle 3 Sprachen, `noindex` in der Vorschau,
-  **kein horizontales Scrollen bei 360 px**
-- Sprachweiterleitung `/` → Browsersprache
-- Sprachwechsel behält die Unterseite (DE ↔ AR ↔ EN)
-- Alle internen Links der Startseiten (3 Sprachen) liefern < 400
-- Mobile Navigation: öffnen, Escape schließt, Navigation funktioniert
-- Anliegen-Finder → Ergebnis → Formular mit vorausgewähltem Anliegen
-- Rentenlücke-Rechner reagiert auf Tastatureingabe
-- Formular DE/AR/EN: Pflichtfeld-Validierung mit Fehlermeldung, Testbetrieb deutlich gekennzeichnet
-- API: ungültige Daten → 400, zu schnelle (Bot-)Anfrage → 400
-- Tastatur: Skip-Link fokussierbar, springt zum Inhalt
-- Telefonnummer klickbar (`tel:`)
-- `robots.txt` sperrt die Vorschau; `/intern` ohne Zugangsdaten nicht erreichbar
-- **axe WCAG 2.0/2.1/2.2 A+AA**: keine schwerwiegenden/kritischen Verstöße auf 9 Schlüsselseiten
-  (DE/AR/EN-Start, Kontakt DE/AR, BU, bAV EN, Rechner, Erstinformation)
+## Automatisierte Tests: 105 / 105 bestanden
+`npm run test:e2e` (Playwright + axe-core)
+- Alle **76 Seiten** (17 Seitentypen + 2 Beraterseiten × DE/AR/EN/FR): Status 200, `lang`/`dir`, eine H1, Titel, Canonical, hreflang (4 Sprachen), `noindex` in der Vorschau, **kein horizontales Scrollen bei 360 px**
+- Sprachwechsel behält die Unterseite – auch auf Beraterseiten
+- Alle internen Links aus den vier Startseiten erreichbar
+- Mobile Navigation (öffnen, Escape, Navigation)
+- Anliegen-Finder → Formular mit vorausgewähltem Thema
+- Rechner reagiert auf Tastatur
+- Formular in allen 4 Sprachen: Validierung, ehrlich gekennzeichneter Testbetrieb
+- **Weg B:** Anfrage auf Alis Seite → Bestätigung nennt „Ali Ibrahim“
+- **Weg A:** Anfrage auf Französisch → automatisch Ali Ibrahim zugeordnet
+- Spam-Schutz (ungültige Daten, zu schnelle Bots), Rate-Limit (greift nachweislich)
+- Skip-Link, klickbare Telefonnummer, `robots.txt` gesperrt, `/intern` geschützt
+- **axe WCAG 2.2 AA:** keine schwerwiegenden Verstöße auf 12 Schlüsselseiten
 
-## Lighthouse 13.6 (lokal gemessen)
-| Seite | Gerät | Performance | Accessibility | Best Practices | SEO* | LCP | CLS |
-|---|---|---|---|---|---|---|---|
-| /de | mobil | 100 | 100 | 100 | 69 | 0,9 s | 0 |
-| /de | desktop | 100 | 100 | 100 | 69 | 0,7 s | 0,019 |
-| /ar | mobil | 97 | 100 | 100 | 69 | 0,9 s | 0,001 |
-| /ar | desktop | 99 | 100 | 100 | 69 | 0,8 s | 0,006 |
-| /en | mobil | 99 | 100 | 100 | 69 | 0,9 s | 0,023 |
-| /en | desktop | 100 | 100 | 100 | 69 | 0,7 s | 0 |
-| /de/kontakt | mobil | 97 | 100 | 100 | 66 | 0,8 s | 0 |
-| /de/berufsunfaehigkeitsversicherung | mobil | 99 | 100 | 100 | 66 | 0,9 s | 0 |
+Zusätzlich `node scripts/check-overflow.mjs 1440` und `… 360`: 76/76 Seiten ohne Überlauf.
 
-\* Einziger SEO-Abzug: „Page is blocked from indexing“ – **gewollt** in der Vorschau.
-Im Produktionsmodus entfällt `noindex`. Lokale Messung; auf echtem Hosting erneut messen.
+## Lighthouse 13.6
+| Seite | Gerät | Perf. | A11y | Best Pr. | SEO* |
+|---|---|---|---|---|---|
+| /de | Desktop | 100 | 100 | 100 | 69 |
+| /de | Mobil | 86–95 (Schwankung zwischen identischen Läufen) | 100 | 100 | 69 |
+| /ar | Desktop / Mobil | 99 / 85 | 100 | 100 | 69 |
+| /fr | Desktop / Mobil | 100 / 95 | 100 | 100 | 69 |
+| /en | Mobil | 96 | 100 | 100 | 69 |
+| /de/team/ali-ibrahim | Desktop / Mobil | 100 / 95 | 100 | 100 | 69 |
+| /de/orientierung | Mobil | 97 | 100 | 100 | 66 |
+| /de/altersvorsorge | Mobil | 90 | 100 | 100 | 66 |
 
-## Visuelle Prüfung
-Screenshots in `docs/screenshots/`: 1440 / 1280 / 768 / 390 / 360 px × DE/AR/EN,
-ganze Startseiten (Desktop + Smartphone) und Unterseiten. Manuell geprüft und behoben:
-- Desktop-Navigation brach um → Hauptnavigation auf 5 Kernpunkte, `nowrap`
-- Überlauf bei 390 px durch „Berufsunfähigkeitsversicherung“ → Silbentrennung + `min-width: 0`
-- Header zu breit bei 360 px → Telefon-Icon erst ab 640 px (mobile Leiste hat Anrufen)
-- Mediävalziffern in Beträgen → Lining-Ziffern
-- Arabischer Ortsname in lateinischer Schrift → lokalisiert
-- Mobile Kontaktleiste transparent → deckend
-- Kontaktseite mobil: Formular jetzt vor den Kontaktkarten
+\* Einziger SEO-Abzug: gewollte Indexsperre der Vorschau. Mobile LCP schwankt in der gedrosselten Messumgebung zwischen 0,9 s und 3,4 s; Blocking Time ca. 200–280 ms durch die interaktiven Elemente.
 
-## Nicht getestet / offen
-- Tatsächliche E-Mail-Zustellung (kein SMTP-Zugang vorhanden; Produktionsmodus gesperrt)
-- Safari/iOS und Firefox (nur Chromium verfügbar) – vor Go-live auf echten Geräten prüfen
-- Screenreader-Praxistest (NVDA/VoiceOver) – empfohlen
-- 200 %-Zoom: Layout ist fluid/rem-basiert; manueller Test empfohlen
+## Visuelle Prüfung & behobene Fehler
+Screenshots: `docs/screenshots/` (5 Breiten × 4 Sprachen + Unterseiten).
+Behoben: Überlauf der Zusatz-Kacheln, Adresskarte über Portrait, Umbruch der mobilen Leiste (FR), schmale Einzelkarte,
+Beschriftung des Sprachmenüs (WCAG 2.5.3), Überschriftenhierarchie der Tool-Seite, Lazy-Loading in Screenshots.
+
+## Nicht getestet
+Echte E-Mail-Zustellung (kein SMTP), Safari/iOS, Firefox, Screenreader-Praxistest.

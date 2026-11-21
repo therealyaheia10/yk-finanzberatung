@@ -24,7 +24,18 @@ if (!process.execArgv.includes("--experimental-strip-types")) {
   process.exit(r.status ?? 1);
 }
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const { advisor, fullName } = await import(pathToFileURL(path.join(root, "src/config/advisor.ts")).href);
+const { company } = await import(pathToFileURL(path.join(root, "src/config/company.ts")).href);
+const { activeAdvisors } = await import(pathToFileURL(path.join(root, "src/config/advisors.ts")).href);
+// Marketing-Materialien zeigen die Marke + den Hauptansprechpartner (erster aktiver Berater)
+const lead = activeAdvisors()[0];
+const fullName = company.name;
+const advisor = {
+  brandName: company.name.toUpperCase(), initials: company.shortName, nameAr: company.name,
+  firstName: lead.firstName, lastName: lead.lastName, phone: company.phone, phoneDisplay: company.phoneDisplay, email: company.email,
+  office: company.office, siteUrl: company.siteUrl, brandTagline: company.tagline,
+  jobTitle: null, neutralJobTitle: { de: company.tagline.de },
+  images: { portraitMain: lead.portrait },
+};
 
 const OUT = path.join(root, "marketing");
 const ED = path.join(OUT, "editable");
@@ -86,23 +97,23 @@ const assets = {
   // ---------------- WhatsApp-Status ----------------
   "whatsapp-status-1-de": base(1080, 1920, `<div class="navy" style="position:relative;height:100%;padding:120px 80px">
     ${mono}
-    <p class="label" style="margin-top:110px"><span class="rule"></span>Neu: meine Website</p>
+    <p class="label" style="margin-top:110px"><span class="rule"></span>Neu: unsere Website</p>
     <h1 class="serif" style="font-size:118px;margin-top:40px">Vorsorge,<br>die man<br><em style="color:#C9B286">versteht.</em></h1>
-    <p style="font-size:40px;line-height:1.5;margin-top:60px;color:#D9CDB4;max-width:860px">Kinder, Einkommen, Gesundheit, Ruhestand – ich erkläre es Ihnen persönlich. Auf Deutsch, Arabisch und Englisch.</p>
+    <p style="font-size:40px;line-height:1.5;margin-top:60px;color:#D9CDB4;max-width:860px">Kinder, Einkommen, Gesundheit, Ruhestand – wir erklären es Ihnen persönlich. Auf Deutsch, Arabisch, Englisch und Französisch.</p>
     <p style="margin-top:60px"><span class="pill" style="background:#C9B286;color:#0B1E31">Termin anfragen</span></p>
     ${footer()}</div>`),
   "whatsapp-status-2-ar": base(1080, 1920, `<div class="navy" style="position:relative;height:100%;padding:120px 80px;text-align:right">
     <div style="display:flex;justify-content:flex-start">${mono}</div>
-    <p class="label" style="margin-top:110px;font-family:Plex;letter-spacing:0;font-size:34px">موقعي الجديد أصبح جاهزاً</p>
+    <p class="label" style="margin-top:110px;font-family:Plex;letter-spacing:0;font-size:34px">موقعنا الجديد أصبح جاهزاً</p>
     <h1 class="ar" style="font-size:104px;margin-top:40px">مستقبلك يستحق<br><span style="color:#C9B286">اهتماماً شخصياً.</span></h1>
-    <p class="ar" style="font-size:42px;font-weight:500;line-height:1.7;margin-top:50px;color:#D9CDB4">التأمين الصحي، حماية الدخل، الادخار للأطفال والتقاعد… أشرحها لك بالعربية وبكلام واضح.</p>
+    <p class="ar" style="font-size:42px;font-weight:500;line-height:1.7;margin-top:50px;color:#D9CDB4">التأمين الصحي، حماية الدخل، الادخار للأطفال والتقاعد… نشرحها لك بالعربية وبكلام واضح.</p>
     <p style="margin-top:60px"><span class="pill ar" style="background:#C9B286;color:#0B1E31;font-size:38px">احجز موعداً للاستشارة</span></p>
     ${footer("rtl")}</div>`, "rtl"),
   "whatsapp-status-3-en": base(1080, 1920, `<div class="navy" style="position:relative;height:100%;padding:120px 80px">
     ${mono}
     <p class="label" style="margin-top:110px"><span class="rule"></span>New in Düsseldorf?</p>
     <h1 class="serif" style="font-size:112px;margin-top:40px">German insurance,<br><em style="color:#C9B286">explained in<br>plain English.</em></h1>
-    <p style="font-size:40px;line-height:1.5;margin-top:60px;color:#D9CDB4;max-width:880px">Health insurance, income protection, pensions – personal advice for internationals in Germany.</p>
+    <p style="font-size:40px;line-height:1.5;margin-top:60px;color:#D9CDB4;max-width:880px">Health insurance, income protection, pensions – personal advice in English, French, German and Arabic.</p>
     <p style="margin-top:60px"><span class="pill" style="background:#C9B286;color:#0B1E31">Book a consultation</span></p>
     ${footer()}</div>`),
 
@@ -144,7 +155,7 @@ const assets = {
     <div style="padding:90px 60px 90px 80px;display:flex;flex-direction:column;justify-content:space-between">
       <div><p class="label" style="color:#7A5F2E;font-size:22px"><span class="rule" style="width:46px"></span>Düsseldorf</p>
       <h1 class="serif" style="font-size:86px;margin-top:40px">Vorsorge, die man versteht.</h1>
-      <p style="font-size:30px;line-height:1.55;margin-top:36px;color:#4A5563">Ich bin ${name}. Persönliche Beratung zu Absicherung und Vorsorge – auf Deutsch, Arabisch und Englisch.</p></div>
+      <p style="font-size:30px;line-height:1.55;margin-top:36px;color:#4A5563">Wir sind ${name}: persönliche Beratung zu Absicherung und Vorsorge – auf Deutsch, Arabisch, Englisch und Französisch.</p></div>
       <div style="font-size:24px;font-weight:700;letter-spacing:.22em">${advisor.brandName}</div>
     </div>
     ${photo(540, 1350)}
@@ -185,12 +196,12 @@ for (const f of readdirSync(ED).filter((x) => x.endsWith(".html"))) {
 await browser.close();
 
 // ---------- Kontaktdatei (.vcf) ----------
-const vcf = ["BEGIN:VCARD", "VERSION:3.0", `N:${advisor.lastName};${advisor.firstName};;;`, `FN:${name}`,
-  `TITLE:${(advisor.jobTitle || advisor.neutralJobTitle).de}`,
+const vcf = ["BEGIN:VCARD", "VERSION:3.0", `N:;;;;`, `FN:${name}`, `ORG:${company.name}`,
+  
   advisor.phone ? `TEL;TYPE=WORK,VOICE:${advisor.phone}` : "", advisor.email ? `EMAIL;TYPE=WORK:${advisor.email}` : "",
   `ADR;TYPE=WORK:;;${advisor.office.street};${advisor.office.city};;${advisor.office.postalCode || ""};Deutschland`,
   urlValid ? `URL:${url}` : "", "END:VCARD"].filter(Boolean).join("\r\n");
-writeFileSync(path.join(OUT, `${advisor.firstName}-${advisor.lastName}.vcf`.toLowerCase()), vcf);
+writeFileSync(path.join(OUT, "international-finance-consulting.vcf"), vcf);
 
 // ---------- Digitale Visitenkarte ----------
 writeFileSync(path.join(OUT, "digitale-visitenkarte.html"), `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${name} – Digitale Visitenkarte</title><style>${fontCss}
@@ -204,7 +215,7 @@ a.b{display:flex;align-items:center;justify-content:center;min-height:52px;borde
 <div class="n">${name}</div><div class="t">${advisor.brandTagline.de} · Deutsch · العربية · English</div>
 ${advisor.phone ? `<a class="b p" href="tel:${advisor.phone}">Anrufen · ${phone}</a>` : ""}
 ${urlValid ? `<a class="b g" href="${url}/de/kontakt">Beratungstermin anfragen</a>` : `<a class="b g" href="#">Beratungstermin anfragen (Link nach Domain-Freigabe)</a>`}
-<a class="b g" href="${advisor.firstName.toLowerCase()}-${advisor.lastName.toLowerCase()}.vcf" download>Kontakt speichern</a>
+<a class="b g" href="international-finance-consulting.vcf" download>Kontakt speichern</a>
 <p class="s">${advisor.office.street}, ${advisor.office.postalCode ? advisor.office.postalCode + " " : ""}${advisor.office.city}</p></div></div></body></html>`);
 
 // ---------- E-Mail-Signatur ----------

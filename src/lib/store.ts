@@ -13,7 +13,7 @@ const DIR = process.env.DATA_DIR || path.join(process.cwd(), "data");
 const LEADS = path.join(DIR, "leads.json");
 const METRICS = path.join(DIR, "metrics.json");
 
-export const leadStatuses = ["neu", "kontaktiert", "qualifiziert", "nicht_qualifiziert", "termin", "abgeschlossen"] as const;
+export const leadStatuses = ["neu", "kontaktiert", "qualifiziert", "nicht_qualifiziert", "termin", "stattgefunden", "abgeschlossen"] as const;
 export type LeadStatus = (typeof leadStatuses)[number];
 
 export type StoredLead = {
@@ -31,6 +31,11 @@ export type StoredLead = {
   message: string;
   pageLocale: string;
   source: string;
+  /** Zugeordneter Berater (Slug) und Grund der Zuordnung */
+  advisor: string;
+  assignReason: string;
+  /** Kampagnenherkunft, z. B. utm_source=instagram */
+  campaign: Record<string, string>;
   note: string;
   delivered: boolean;
 };

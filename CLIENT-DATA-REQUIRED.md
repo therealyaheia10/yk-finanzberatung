@@ -1,45 +1,32 @@
-# Benötigte Kundendaten (Checkliste für das Termin-Gespräch)
+# Noch fehlende Angaben für die öffentliche Freigabe
 
-Alles wird in `src/config/advisor.ts` eingetragen (Anleitung: `docs/KUNDENDATEN-WECHSEL.md`).
+`npm run release-check:prod` listet jederzeit den aktuellen Stand.
 
-## Identität & Marke
-- [ ] Vollständiger Name (wie im Gewerbe-/Vermittlerregister)
-- [ ] Arabische Schreibweise des Namens (vom Auftraggeber selbst geschrieben/bestätigt)
-- [ ] Gewünschte Initialen für das Monogramm
-- [ ] Berufsbezeichnung exakt laut Erlaubnis/Registrierung
-- [ ] Kurze Vorstellung + 2–3 Absätze Vita (nur belegbare Angaben), bevorzugte Ansprache
-- [ ] Beruflicher Hintergrund (Stationen, Qualifikationen mit Nachweis)
+## Unternehmen (`src/config/company.ts`)
+- [ ] Rechtsform und Rechtsträger (z. B. „Kaswan & Ibrahim GbR“) – für Impressum (§ 5 DDG)
+- [ ] Zentrale E-Mail-Adresse (Impressumspflicht) und Empfänger für Anfragen
+- [ ] Inhaltlich verantwortliche Person, Datenschutz-Kontakt
+- [ ] Hosting-Entscheidung (kommerzielle Nutzung erlaubt) + AV-Vertrag
+- [ ] Schriftliche Bestätigung: Nennung von ERGO erlaubt / Erlaubnis für eigenen Internetauftritt
+- [ ] Domain
+- [ ] Optional: Erreichbarkeit/Öffnungszeiten, WhatsApp-Business-Nummer, Social-Media-Profile, Kalender-Link
+- [ ] Ist das Erstgespräch kostenfrei? (erst dann „kostenlos“ bewerben)
 
-## Fotos (siehe `docs/FOTOANLEITUNG.md`)
-- [ ] Hauptportrait · [ ] Portrait im Büro · [ ] Beratungssituation (nur mit Einwilligung aller Abgebildeten) · [ ] optional Team
-- [ ] Schriftliche Bestätigung der Nutzungsrechte
+## Je Berater (`src/config/advisors.ts`) – Pflicht nach § 15 VersVermV
+| | Yaheia Kaswan | Ali Ibrahim |
+|---|---|---|
+| Vermittlerstatus (§ 34d Abs. 1 / Abs. 7 GewO) | offen | offen |
+| Registernummer (D-…) | offen | offen |
+| Zuständige IHK | offen | offen |
+| Vermittelte Versicherer (exakte Firmennamen) | offen | offen |
+| Art der Vergütung | offen | offen |
+| Beteiligungen ≥ 10 % (oder „keine“) | offen | offen |
+| Bestätigte Position/Berufsbezeichnung | offen (neutral angezeigt) | offen (neutral angezeigt) |
+| Eigene E-Mail / Telefon | Telefon vorhanden | offen (zentrale Nummer wird gezeigt) |
+| Fachliche Schwerpunkte bestätigen | angenommen: alle Kernthemen | angenommen: Altersvorsorge, Kinder, allgemein |
+| Gesprochene Beratungssprachen | DE, AR, EN | DE, EN, FR, AR (laut About Me) |
 
-## Kontakt
-- [ ] Telefonnummer (beruflich) · [ ] E-Mail-Adresse · [ ] Postleitzahl Sybelstraße 21
-- [ ] Erreichbarkeit/Öffnungszeiten oder „nach Vereinbarung“
-- [ ] Beratungswege: Büro ✔ · Telefon ✔ · Video? · Hausbesuch?
-- [ ] Ist das Erstgespräch kostenfrei? (nur dann „kostenloses Erstgespräch“ verwenden)
-- [ ] WhatsApp Business gewünscht? (nur nach Datenschutzprüfung)
-- [ ] Terminbuchungstool gewünscht? (nur nach Datenschutzprüfung / AV-Vertrag)
-- [ ] Social-Media-Profile (LinkedIn, Instagram, Google-Unternehmensprofil)
-
-## Regulatorisch (Pflicht vor Veröffentlichung)
-- [ ] Vermittlerstatus (Vertreter § 34d Abs. 1 / gebundener Vertreter § 34d Abs. 7 / anderer)
-- [ ] Registrierungsnummer (D-…)
-- [ ] Zuständige IHK inkl. Anschrift
-- [ ] Liste der vertretenen Versicherungsunternehmen (exakte Firmennamen)
-- [ ] Beteiligungen ≥ 10 % (oder „keine“)
-- [ ] Art der Vergütung
-- [ ] **Schriftliche Erlaubnis von ERGO für den eigenen Internetauftritt** inkl. Bedingungen
-- [ ] Marken-/Logofreigabe ERGO/DKV (sonst ohne Logos)
-- [ ] Prozess: Wie wird die Erstinformation beim ersten Kontakt in Textform übergeben?
-
-## Rechtlich / Unternehmen
-- [ ] Rechtsform, ladungsfähige Anschrift, USt-IdNr. (falls vorhanden), inhaltlich Verantwortlicher
-- [ ] Datenschutz-Kontakt, Hosting-Entscheidung, AV-Verträge (Hosting, E-Mail)
-
-## Leads & Testphase
-- [ ] E-Mail-Empfänger für Anfragen + SMTP-Zugang (Postfach des Auftraggebers)
-- [ ] Bestätigung der Definition „qualifizierte Anfrage“ (Unterschrift/Mail)
-- [ ] Startdatum der Testphase (erst nach Go-live)
-- [ ] Freigegebene Kundenbewertungen (mit dokumentierter Einwilligung) – optional
+## Freigaben
+- [ ] Übersetzungen AR und FR von Muttersprachlern gegengelesen (Ali kann FR/AR prüfen)
+- [ ] Produktangaben kurz vor Launch erneut mit ergo.de abgeglichen
+- [ ] Definition „qualifizierte Anfrage“ bestätigt

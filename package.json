@@ -10,7 +10,8 @@
     "release-check": "node scripts/release-check.mjs",
     "test:e2e": "playwright test --trace off",
     "screenshots": "node scripts/screenshots.mjs",
-    "marketing": "node scripts/marketing-assets.mjs"
+    "marketing": "node scripts/marketing-assets.mjs",
+    "release-check:prod": "SITE_MODE=production node scripts/release-check.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",

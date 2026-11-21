@@ -9,9 +9,9 @@ const OPTIONS = [
   { key: "kids", icon: Baby, route: "kids", topic: "kids" },
   { key: "income", icon: Briefcase, route: "bu", topic: "bu" },
   { key: "health", icon: HeartPulse, route: "pkv", topic: "pkv" },
-  { key: "retirement", icon: Sunset, route: "kids", topic: "retirement" },
-  { key: "team", icon: Users, route: "business", topic: "benefits" },
-  { key: "orient", icon: Compass, route: "private", topic: "general" },
+  { key: "retirement", icon: Sunset, route: "retirement", topic: "retirement" },
+  { key: "team", icon: Users, route: "business", topic: "bav" },
+  { key: "orient", icon: Compass, route: "solutions", topic: "general" },
 ] as const;
 
 type FinderT = {

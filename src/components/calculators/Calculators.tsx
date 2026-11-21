@@ -6,13 +6,9 @@ import { ArrowRight } from "lucide-react";
 import { href, type Locale } from "@/lib/i18n";
 import { fill } from "@/lib/format";
 import { CalcShell, Slider, eur, num } from "./shared";
+import type { Dict } from "@/content";
 
-type CalcT = {
-  disclaimer: string; assumptions: string; perMonth: string; discuss: string;
-  pension: { title: string; intro: string; age: string; net: string; pension: string; pensionHint: string; need: string; needHint: string; result: string; resultFuture: string; none: string; assumptionsText: string; years: string };
-  kids: { title: string; intro: string; age: string; monthly: string; until: string; paid: string; scenarios: string; s0: string; s2: string; s5: string; assumptionsText: string };
-  income: { title: string; intro: string; age: string; net: string; result: string; compare: string; assumptionsText: string };
-};
+type CalcT = Dict["calc"];
 
 const RETIRE = 67;
 

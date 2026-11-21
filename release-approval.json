@@ -1,10 +1,8 @@
 {
-  "Rechtstexte (Impressum, Datenschutz, Erstinformation) durch Fachperson geprüft": false,
-  "Übersetzungen DE/AR/EN fachlich und sprachlich geprüft": false,
-  "Produktaussagen gegen aktuelle ERGO/DKV-Unterlagen geprüft (PRODUCT-SOURCES.md)": false,
-  "Marken- und Logonutzung schriftlich freigegeben bzw. nicht verwendet": false,
-  "Portraitfotos des Auftraggebers mit Nutzungsrecht vorhanden": false,
+  "Rechtstexte (Impressum, Datenschutz, Erstinformation) geprüft": false,
+  "Übersetzungen DE/AR/EN/FR fachlich und sprachlich geprüft": false,
+  "Produktangaben vor Launch erneut mit ergo.de abgeglichen (PRODUCT-SOURCES.md)": false,
   "Formularzustellung im Produktionsmodus getestet (echte Testmail angekommen)": false,
-  "Definition qualifizierte Anfrage mit Auftraggeber bestätigt": false,
-  "Hosting mit kommerzieller Nutzung erlaubt und AV-Vertrag abgeschlossen": false
+  "Definition qualifizierte Anfrage bestätigt": false,
+  "Hosting mit kommerzieller Nutzung und AV-Vertrag": false
 }

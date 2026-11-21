@@ -9,22 +9,27 @@ const STATUS: { k: StoredLead["status"]; label: string; cls: string }[] = [
   { k: "qualifiziert", label: "Qualifiziert", cls: "bg-emerald-100 text-emerald-900" },
   { k: "nicht_qualifiziert", label: "Nicht qualifiziert", cls: "bg-stone-200 text-stone-800" },
   { k: "termin", label: "Termin vereinbart", cls: "bg-amber-100 text-amber-900" },
+  { k: "stattgefunden", label: "Termin stattgefunden", cls: "bg-teal-100 text-teal-900" },
   { k: "abgeschlossen", label: "Abgeschlossen", cls: "bg-navy text-white" },
 ];
-const QUALIFIED = new Set(["qualifiziert", "termin", "abgeschlossen"]);
-const TOPIC: Record<string, string> = { kids: "Kinder", bu: "BU", pkv: "PKV", retirement: "Altersvorsorge", benefits: "bAV/bKV", general: "Allgemein" };
+const QUALIFIED = new Set(["qualifiziert", "termin", "stattgefunden", "abgeschlossen"]);
+const MEETING = new Set(["termin", "stattgefunden", "abgeschlossen"]);
+const TOPIC: Record<string, string> = { retirement: "Altersvorsorge", kids: "Kinder", bu: "BU", pkv: "PKV", bav: "bAV", bkv: "bKV", extras: "Weitere", general: "Allgemein" };
 
-export function Dashboard({ leads: initial, metrics, trial, advisorName, preview, store }: {
-  leads: StoredLead[]; metrics: Metrics; trial: { start: string | null; days: number; goal: number; price: number };
-  advisorName: string; preview: boolean; store: boolean;
+export function Dashboard({ leads: initial, metrics, trial, brand, advisors, preview, store }: {
+  leads: StoredLead[]; metrics: Metrics; trial: { start: string | null; days: number; goal: number };
+  brand: string; advisors: { slug: string; name: string }[]; preview: boolean; store: boolean;
 }) {
   const [leads, setLeads] = useState(initial);
   const [showTest, setShowTest] = useState(preview);
   const [visits, setVisits] = useState<string>(metrics.manualVisits?.toString() ?? "");
 
-  const real = leads.filter((l) => showTest || !l.test);
+  const [who, setWho] = useState<string>("all");
+  const real = leads.filter((l) => (showTest || !l.test) && (who === "all" || l.advisor === who));
+  const advName = (slug: string) => advisors.find((a) => a.slug === slug)?.name ?? slug ?? "–";
   const qualified = real.filter((l) => QUALIFIED.has(l.status)).length;
-  const meetings = real.filter((l) => l.status === "termin" || l.status === "abgeschlossen").length;
+  const meetings = real.filter((l) => MEETING.has(l.status)).length;
+  const held = real.filter((l) => l.status === "stattgefunden" || l.status === "abgeschlossen").length;
   const pv = Object.values(metrics.pageviews).reduce((a, b) => a + b, 0);
   const ctaClicks = Object.entries(metrics.clicks).filter(([k]) => k.startsWith("cta_") || k.startsWith("call_")).reduce((a, [, b]) => a + b, 0);
 
@@ -49,8 +54,8 @@ export function Dashboard({ leads: initial, metrics, trial, advisorName, preview
     await fetch("/api/intern/leads", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "visits", visits: visits === "" ? null : Number(visits) }) });
   }
   function exportCsv() {
-    const head = ["Datum", "Test", "Status", "Anliegen", "Beratungsweg", "Name", "Telefon", "E-Mail", "Sprache", "Zeitfenster", "Seite", "Notiz"];
-    const rows = real.map((l) => [l.createdAt, l.test ? "ja" : "nein", l.status, TOPIC[l.topic] ?? l.topic, l.mode, l.name, l.phone, l.email, l.language, l.time, l.source, l.note]);
+    const head = ["Datum", "Test", "Status", "Berater", "Zuordnung", "Anliegen", "Beratungsweg", "Name", "Telefon", "E-Mail", "Sprache", "Zeitfenster", "Seite", "Kampagne", "Notiz"];
+    const rows = real.map((l) => [l.createdAt, l.test ? "ja" : "nein", l.status, advName(l.advisor), l.assignReason, TOPIC[l.topic] ?? l.topic, l.mode, l.name, l.phone, l.email, l.language, l.time, l.source, Object.entries(l.campaign ?? {}).map(([k, v]) => `${k}=${v}`).join(" "), l.note]);
     const csv = [head, ...rows].map((r) => r.map((c) => `"${String(c ?? "").replace(/"/g, '""')}"`).join(";")).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }));
@@ -66,9 +71,13 @@ export function Dashboard({ leads: initial, metrics, trial, advisorName, preview
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="tracking-label text-[0.75rem] font-semibold text-brass">Intern · nicht öffentlich</p>
-          <h1 className="display text-4xl text-navy">Testphase – {advisorName}</h1>
+          <h1 className="display text-4xl text-navy">Anfragen – {brand}</h1>
         </div>
         <div className="flex flex-wrap gap-2">
+          <select aria-label="Berater filtern" value={who} onChange={(e) => setWho(e.target.value)} className="min-h-11 rounded-full border border-line bg-paper px-4 text-[0.95rem]">
+            <option value="all">Alle Berater</option>
+            {advisors.map((a) => <option key={a.slug} value={a.slug}>{a.name}</option>)}
+          </select>
           <label className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-paper px-4 text-[0.95rem]">
             <input type="checkbox" checked={showTest} onChange={(e) => setShowTest(e.target.checked)} /> Testanfragen anzeigen
           </label>
@@ -79,11 +88,11 @@ export function Dashboard({ leads: initial, metrics, trial, advisorName, preview
       {!store && <p className="mt-4 rounded-md bg-sand p-3 text-[0.95rem]">Dateispeicher deaktiviert (LEAD_STORE=none). Bitte Anfragen aus dem E-Mail-Postfach in marketing/lead-tracking.xlsx erfassen.</p>}
 
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Kpi label="Zielerreichung" value={`${qualified} von ${trial.goal}`} sub={`qualifizierte Anfragen · Preis ${trial.price.toLocaleString("de-DE")} €`} highlight>
+        <Kpi label="Zielerreichung" value={`${qualified} von ${trial.goal}`} sub="qualifizierte Anfragen" highlight>
           <div className="mt-3 h-2 rounded-full bg-white/20"><div className="h-2 rounded-full bg-champagne-light" style={{ width: `${pct}%` }} /></div>
         </Kpi>
         <Kpi label="Zeitraum" value={dates ? `${dates.left} Tage übrig` : "nicht gestartet"} sub={dates ? `${fmt(dates.s)} – ${fmt(dates.e)}` : "Start erst nach freigegebener Veröffentlichung (TRIAL_START)"} />
-        <Kpi label="Eingegangene Anfragen" value={String(real.length)} sub={`davon Termine: ${meetings}`} />
+        <Kpi label="Eingegangene Anfragen" value={String(real.length)} sub={`Termine: ${meetings} · stattgefunden: ${held}`} />
         <Kpi label="Website-Besuche" value={visits || String(pv)} sub={`Seitenaufrufe (anonym): ${pv} · CTA/Anruf-Klicks: ${ctaClicks}`}>
           <div className="mt-2 flex gap-2">
             <input aria-label="Besuche manuell (z. B. aus Hosting-Statistik)" inputMode="numeric" value={visits} onChange={(e) => setVisits(e.target.value.replace(/\D/g, ""))} placeholder="manuell" className="w-24 rounded border border-line bg-paper px-2 py-1 text-[0.9rem]" />
@@ -95,14 +104,15 @@ export function Dashboard({ leads: initial, metrics, trial, advisorName, preview
       <section className="mt-10 overflow-x-auto rounded-[var(--radius-soft)] border border-line bg-paper">
         <table className="w-full min-w-[900px] text-start text-[0.95rem]">
           <thead className="bg-sand text-start text-navy">
-            <tr>{["Eingang", "Anliegen", "Kontakt", "Sprache / Weg", "Status", "Notiz", ""].map((h) => <th key={h} className="p-3 text-start font-semibold">{h}</th>)}</tr>
+            <tr>{["Eingang", "Berater", "Anliegen", "Kontakt", "Sprache / Weg", "Status", "Notiz", ""].map((h) => <th key={h} className="p-3 text-start font-semibold">{h}</th>)}</tr>
           </thead>
           <tbody>
-            {real.length === 0 && <tr><td colSpan={7} className="p-8 text-center text-muted">Noch keine Anfragen.</td></tr>}
+            {real.length === 0 && <tr><td colSpan={8} className="p-8 text-center text-muted">Noch keine Anfragen.</td></tr>}
             {real.map((l) => (
               <tr key={l.id} className="border-t border-line align-top">
                 <td className="p-3">{new Date(l.createdAt).toLocaleString("de-DE")}{l.test && <span className="ms-2 rounded bg-amber-200 px-1.5 text-[0.75rem] font-bold">TEST</span>}</td>
-                <td className="p-3 font-semibold">{TOPIC[l.topic] ?? l.topic}</td>
+                <td className="p-3"><strong>{advName(l.advisor)}</strong><br /><span className="text-[0.8rem] text-muted">{l.assignReason === "requested" ? "vom Kunden gewählt" : "automatisch"}</span></td>
+                <td className="p-3 font-semibold">{TOPIC[l.topic] ?? l.topic}{l.campaign && Object.keys(l.campaign).length > 0 && <span className="mt-1 block text-[0.8rem] font-normal text-muted">{Object.entries(l.campaign).map(([k, v]) => `${k.replace("utm_", "")}: ${v}`).join(" · ")}</span>}</td>
                 <td className="p-3"><strong>{l.name}</strong><br />{l.phone && <a className="link" href={`tel:${l.phone}`}>{l.phone}</a>}{l.phone && l.email && <br />}{l.email && <a className="link" href={`mailto:${l.email}`}>{l.email}</a>}{l.message && <p className="mt-1 text-muted">„{l.message}“</p>}</td>
                 <td className="p-3">{l.language.toUpperCase()} · {l.mode}<br /><span className="text-muted">{l.time}</span></td>
                 <td className="p-3">
@@ -128,8 +138,9 @@ export function Dashboard({ leads: initial, metrics, trial, advisorName, preview
             <li>ausdrücklicher Wunsch nach Beratung/Kontakt</li>
             <li>nachvollziehbar über die Website entstanden</li>
             <li>kein Spam, keine Test- oder Doppelanfrage</li>
+            <li>Ein Vertragsabschluss ist keine Voraussetzung.</li>
           </ul>
-          <p className="mt-3 text-[0.9rem] text-muted">Status „Qualifiziert“, „Termin vereinbart“ und „Abgeschlossen“ zählen zur Zielerreichung.</p>
+          <p className="mt-3 text-[0.9rem] text-muted">„Qualifiziert“, „Termin vereinbart“, „Termin stattgefunden“ und „Abgeschlossen“ zählen zur Zielerreichung.</p>
         </div>
         <div className="rounded-[var(--radius-soft)] border border-line bg-paper p-6">
           <h2 className="font-bold text-navy">Klicks (anonym)</h2>

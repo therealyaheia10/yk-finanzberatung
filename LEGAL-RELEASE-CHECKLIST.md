@@ -9,7 +9,7 @@ Die Website kann technisch erst im Produktionsmodus gebaut werden, wenn
 
 ## A. Vermittlerrecht
 - [ ] Status nach § 34d GewO geklärt und korrekt bezeichnet (kein „unabhängiger Makler“, wenn nicht zutreffend)
-- [ ] Registernummer, IHK, vertretene Versicherer in `advisor.ts`
+- [ ] Je Berater: Status, Registernummer, IHK, vertretene Versicherer, Vergütung, Beteiligungen in `src/config/advisors.ts`
 - [ ] Erstinformation (§ 15 VersVermV): Name, Anschrift, Status, Register, Beteiligungen, Vergütung, Schlichtungsstellen
 - [ ] **Übergabe der Erstinformation in Textform beim ersten Geschäftskontakt** organisatorisch geregelt
       (z. B. PDF per E-Mail nach Anfrage, Ausdruck im Termin). Ein Footer-Link allein genügt nicht.
@@ -30,7 +30,7 @@ Die Website kann technisch erst im Produktionsmodus gebaut werden, wenn
 ## C. Inhalte
 - [ ] Alle Personendaten echt und belegt, `previewIdentity: false`
 - [ ] Echte Portraits mit Nutzungsrecht
-- [ ] Übersetzungen AR/EN von geeigneter Person fachlich geprüft
+- [ ] Übersetzungen AR/EN/FR von geeigneter Person fachlich geprüft
 - [ ] Keine Garantie-, Rendite-, Steuer- oder Ersparnisversprechen
 - [ ] „Kostenloses Erstgespräch“ nur, wenn bestätigt (`freeInitialConsultation`)
 - [ ] Bewertungen nur echt und mit dokumentierter Einwilligung

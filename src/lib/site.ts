@@ -1,18 +1,8 @@
-import { advisor } from "@/config/advisor";
+import { company } from "@/config/company";
 
-/**
- * Betriebsmodus. Standard ist IMMER "preview" – Produktion muss bewusst
- * gesetzt werden (SITE_MODE=production) und besteht nur den Build, wenn
- * scripts/release-check.mjs keine offenen Punkte findet.
- */
+/** Betriebsmodus: Standard ist "preview". Produktion nur mit SITE_MODE=production + bestandenem Release-Check. */
 export type SiteMode = "preview" | "production";
-
-export const siteMode: SiteMode =
-  process.env.SITE_MODE === "production" ? "production" : "preview";
-
+export const siteMode: SiteMode = process.env.SITE_MODE === "production" ? "production" : "preview";
 export const isPreview = siteMode === "preview";
-
-export const siteUrl = (process.env.SITE_URL || advisor.siteUrl).replace(/\/$/, "");
-
-/** Analyse (eigene, cookielose Zählung) aktiv? */
+export const siteUrl = (process.env.SITE_URL || company.siteUrl).replace(/\/$/, "");
 export const analyticsEnabled = process.env.ANALYTICS === "first-party";

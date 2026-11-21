@@ -1,8 +1,10 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { routes, locales, href, routeKeys } from "../src/lib/i18n";
+import { routes, locales, href, routeKeys, teamHref } from "../src/lib/i18n";
 
-const allPages = locales.flatMap((l) => routeKeys.map((k) => ({ l, k, path: href(l, k) })));
+const team = ["yaheia-kaswan", "ali-ibrahim"];
+
+const allPages = locales.flatMap((l) => [...routeKeys.map((k) => ({ l, k: k as string, path: href(l, k) })), ...team.map((slug) => ({ l, k: slug, path: teamHref(l, slug) }))]);
 
 test.describe("Alle Seiten in allen Sprachen", () => {
   for (const p of allPages) {
@@ -27,18 +29,21 @@ test.describe("Alle Seiten in allen Sprachen", () => {
 
 test("Startseite leitet nach Sprache weiter", async ({ page }) => {
   await page.goto("/");
-  await expect(page).toHaveURL(/\/(de|en|ar)$/);
+  await expect(page).toHaveURL(/\/(de|en|ar|fr)$/);
 });
 
-test("Sprachwechsel behält die Unterseite", async ({ page }) => {
-  await page.goto("/de/berufsunfaehigkeitsversicherung");
+test("Sprachwechsel behält die Unterseite (auch Beraterseiten)", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.getByRole("link", { name: "العربية" }).first().click();
-  await expect(page).toHaveURL(/\/ar\/income-protection$/);
-  await page.getByRole("link", { name: "English" }).first().click();
-  await expect(page).toHaveURL(/\/en\/income-protection$/);
-  await page.getByRole("link", { name: "Deutsch" }).first().click();
-  await expect(page).toHaveURL(/\/de\/berufsunfaehigkeitsversicherung$/);
+  const sw = async (name: string) => {
+    await page.getByRole("button", { name: /Sprache|language|langue|اللغة/i }).click();
+    await page.getByRole("link", { name }).first().click();
+  };
+  await page.goto("/de/berufsunfaehigkeitsversicherung");
+  await sw("العربية"); await expect(page).toHaveURL(/\/ar\/income-protection$/);
+  await sw("Français"); await expect(page).toHaveURL(/\/fr\/incapacite-de-travail$/);
+  await sw("English"); await expect(page).toHaveURL(/\/en\/income-protection$/);
+  await page.goto("/de/team/ali-ibrahim");
+  await sw("Français"); await expect(page).toHaveURL(/\/fr\/team\/ali-ibrahim$/);
 });
 
 test("Alle internen Links funktionieren (DE/AR/EN)", async ({ page, request }) => {
@@ -77,7 +82,7 @@ test("Anliegen-Finder zeigt passende Themen und führt zum Formular", async ({ p
 });
 
 test("Rentenlücke-Rechner reagiert auf Eingaben", async ({ page }) => {
-  await page.goto("/de/vorsorge-rechner");
+  await page.goto("/de/orientierung");
   const out = page.locator("#rentenluecke [aria-live]");
   const before = await out.innerText();
   const slider = page.locator("#rentenluecke input[type=range]").nth(1);
@@ -104,9 +109,29 @@ for (const l of locales) {
     const status = page.getByRole("status");
     await expect(status).toBeVisible();
     // Vorschau: deutlich als Test gekennzeichnet – keine simulierte echte Zustellung
-    await expect(status).toContainText(l === "ar" ? "وضع تجريبي" : l === "en" ? "Test mode" : "Testbetrieb");
+    await expect(status).toContainText(({ ar: "وضع تجريبي", en: "Test mode", fr: "Mode test", de: "Testbetrieb" } as const)[l]);
   });
 }
+
+test("Beraterseite: Anfrage geht direkt an den gewählten Berater (Weg B)", async ({ page }) => {
+  await page.goto("/de/team/ali-ibrahim#termin");
+  const form = page.locator("form").first();
+  await expect(form).toContainText("Ali Ibrahim");
+  await form.locator("label").first().click();
+  await expect(form.locator("input[name$='-mode']").first()).toBeAttached();
+  await form.locator("label").first().click();
+  await form.locator("input[name=name]").fill("Test Person");
+  await form.locator("input[name=email]").fill("test@example.com");
+  await page.waitForTimeout(2600);
+  await form.locator("button[type=submit]").click();
+  await expect(page.getByRole("status")).toContainText("Ali Ibrahim");
+});
+
+test("Automatische Zuordnung (Weg A): Französisch → Ali Ibrahim", async ({ request }) => {
+  const r = await request.post("/api/lead", { data: { topic: "retirement", mode: "phone", name: "Marie Test", phone: "0211 123456", language: "fr", pageLocale: "fr", elapsedMs: 5000 } });
+  expect(r.status()).toBe(200);
+  expect((await r.json()).advisorName).toBe("Ali Ibrahim");
+});
 
 test("API lehnt ungültige und Spam-Anfragen ab", async ({ request }) => {
   const bad = await request.post("/api/lead", { data: { topic: "x" } });
@@ -138,7 +163,7 @@ test("Dashboard ist nicht öffentlich", async ({ request }) => {
   expect([401, 404]).toContain(r.status());
 });
 
-const axePages = ["/de", "/ar", "/en", "/de/kontakt", "/ar/contact", "/de/berufsunfaehigkeitsversicherung", "/en/company-pension", "/de/vorsorge-rechner", "/de/erstinformation"];
+const axePages = ["/de", "/ar", "/en", "/fr", "/de/kontakt", "/ar/contact", "/de/berufsunfaehigkeitsversicherung", "/en/company-pension", "/de/orientierung", "/fr/team/ali-ibrahim", "/de/erstinformation", "/fr/autres-protections"];
 for (const path of axePages) {
   test(`axe WCAG 2.2 AA: ${path}`, async ({ page }) => {
     // Endzustand messen (Einblend-Animationen deaktiviert)

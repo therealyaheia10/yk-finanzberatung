@@ -3,7 +3,7 @@ import "server-only";
 import crypto from "crypto";
 const hits = new Map<string, number[]>();
 
-export function rateLimit(ip: string, limit = 5, windowMs = 10 * 60 * 1000) {
+export function rateLimit(ip: string, limit = Number(process.env.RATE_LIMIT || 5), windowMs = 10 * 60 * 1000) {
   const key = crypto.createHash("sha256").update(ip + (process.env.RATE_SALT || "yk")).digest("hex").slice(0, 16);
   const now = Date.now();
   const arr = (hits.get(key) || []).filter((t) => now - t < windowMs);

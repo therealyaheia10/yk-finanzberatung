@@ -1,6 +1,15 @@
-# Project Brief
+# Project Brief – International Finance Consulting
 
-## Ziel
+## Stand 21.11.2026 – wichtigste Entscheidungen
+- **Unternehmensmarke statt Personenmarke:** „International Finance Consulting“ mit Globus-Bildmarke (skaliert auf beliebig viele Berater). Berater sind das Gesicht, nicht die Marke.
+- **Menschen im Hero:** Portraits von Yaheia Kaswan und Ali Ibrahim direkt neben der Headline „Ihre Zukunft in Deutschland. In Ihrer Sprache geplant.“
+- **Vier Sprachen** (DE/AR/EN/FR), Sprach-Chips im Hero, Abschnitt „wer spricht was“.
+- **Zwei Anfragewege:** allgemein mit automatischer Zuordnung nach Sprache + Thema, oder direkt über die Beraterseite.
+- **Tools nach Vorbild der Referenzseite, aber seriöser:** Versicherungs-Check, Ankommens-Checkliste, Rentenlücke, Kinder-Sparziel, Arbeitskraft, Inflation – mit realistischen Annahmen.
+- **Verifizierte Produktfakten** von ergo.de mit Quelle und Datum auf jeder Produktseite.
+- Kernprodukte (AV, Kidspolice, BU, PKV, bAV, bKV) prominent; Rechtsschutz, Schutzbrief, Pflege, Grundfähigkeit als ergänzende Absicherungen.
+
+## Ursprüngliches Ziel
 Persönliche digitale Marke für einen Versicherungsvermittler in Düsseldorf (ERGO-Vertriebspartner),
 die Vertrauen aufbaut, Versicherungsthemen verständlich macht und Besucher in **qualifizierte
 Beratungsanfragen** überführt.

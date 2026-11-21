@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
-  Baby, Briefcase, HeartPulse, Sunset, Users, Compass, Building2, Phone, Video, PhoneIncoming,
-  ArrowLeft, ArrowRight, Check, Clock, ShieldCheck, AlertTriangle, Loader2,
+  Baby, Briefcase, HeartPulse, Sunset, Users, Compass, Building2, Phone, Video, PhoneIncoming, Stethoscope, Scale,
+  ArrowLeft, ArrowRight, Check, Clock, ShieldCheck, AlertTriangle, Loader2, UserRound,
 } from "lucide-react";
 import { href, languageNames, locales, topicKeys, type Locale, type TopicKey } from "@/lib/i18n";
 import { fill } from "@/lib/format";
-import { send } from "@/components/layout/Track";
+import { send, getCampaign } from "@/components/layout/Track";
 import type { Dict } from "@/content";
 
 type FormT = Dict["form"];
@@ -16,15 +16,18 @@ type Mode = "office" | "phone" | "video" | "callback";
 type Time = "any" | "morning" | "afternoon" | "evening";
 
 const topicIcons: Record<TopicKey, typeof Baby> = {
-  kids: Baby, bu: Briefcase, pkv: HeartPulse, retirement: Sunset, benefits: Users, general: Compass,
+  retirement: Sunset, kids: Baby, bu: Briefcase, pkv: HeartPulse, bav: Users, bkv: Stethoscope, extras: Scale, general: Compass,
 };
 const modeIcons: Record<Mode, typeof Phone> = { office: Building2, phone: Phone, video: Video, callback: PhoneIncoming };
 
 export function LeadForm({
-  locale, t, modes, isPreview, phone, phoneDisplay, backLabel, idPrefix = "lead",
+  locale, t, modes, isPreview, phone, phoneDisplay, backLabel, idPrefix = "lead", advisor = null, presetTopic = null,
 }: {
   locale: Locale; t: FormT; backLabel: string; modes: Mode[]; isPreview: boolean;
   phone: string | null; phoneDisplay: string | null; idPrefix?: string;
+  /** Weg B: Anfrage direkt an diesen Berater */
+  advisor?: { slug: string; name: string } | null;
+  presetTopic?: TopicKey | null;
 }) {
   const [step, setStep] = useState(1);
   const [topic, setTopic] = useState<TopicKey | null>(null);
@@ -40,6 +43,7 @@ export function LeadForm({
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [serverError, setServerError] = useState<string>("");
   const [isTest, setIsTest] = useState(false);
+  const [assigned, setAssigned] = useState<string>("");
   const startedAt = useRef<number>(Date.now());
   const started = useRef(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -48,13 +52,13 @@ export function LeadForm({
 
   // Anliegen aus URL übernehmen (?topic=kids) – z. B. vom Finder oder einer Leistungsseite
   useEffect(() => {
-    const q = new URLSearchParams(window.location.search).get("topic");
+    const q = presetTopic ?? new URLSearchParams(window.location.search).get("topic");
     if (q && (topicKeys as readonly string[]).includes(q)) {
       setTopic(q as TopicKey);
       setStep(2);
     }
     startedAt.current = Date.now();
-  }, []);
+  }, [presetTopic]);
 
   const markStart = () => {
     if (!started.current) { started.current = true; send({ type: "click", name: "form_start", path: window.location.pathname }); }
@@ -94,12 +98,14 @@ export function LeadForm({
         body: JSON.stringify({
           topic, mode, name, phone: tel, email, language, time, message,
           pageLocale: locale, source: window.location.pathname, website,
+          advisor: advisor?.slug ?? null, campaign: getCampaign(),
           elapsedMs: Date.now() - startedAt.current,
         }),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; test?: boolean; error?: string };
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; test?: boolean; error?: string; advisorName?: string };
       if (res.ok && data.ok) {
         setIsTest(Boolean(data.test));
+        setAssigned(data.advisorName ?? "");
         setStatus("success");
         send({ type: "click", name: data.test ? "form_success_test" : "form_success", path: window.location.pathname });
         requestAnimationFrame(() => successRef.current?.focus());
@@ -126,6 +132,7 @@ export function LeadForm({
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-success/10 text-success"><Check size={30} aria-hidden="true" /></span>
         <h3 ref={successRef} tabIndex={-1} className="display mt-5 text-[2.2rem] text-navy outline-none">{t.success.title}</h3>
         <p className="mt-3 text-muted">{t.success.text}</p>
+        {assigned && <p className="mt-4 flex items-center gap-2 font-semibold text-navy"><UserRound size={18} className="text-brass" aria-hidden="true" /> {fill(t.success.withAdvisor, { name: assigned })}</p>}
         <h4 className="mt-8 font-semibold text-navy">{t.success.next}</h4>
         <ol className="mt-4 space-y-3">
           {t.success.steps.map((s, i) => (
@@ -162,7 +169,12 @@ export function LeadForm({
         {[1, 2, 3].map((n) => <span key={n} className={`h-1 flex-1 rounded-full ${n <= step ? "bg-navy" : "bg-line"}`} />)}
       </div>
 
-      <h3 ref={headingRef} tabIndex={-1} className="display mt-7 text-[1.9rem] leading-tight text-navy outline-none sm:text-[2.3rem]">{stepTitle}</h3>
+      <p className="mt-5 flex items-center gap-2 rounded-md bg-sand px-3 py-2 text-[0.92rem] text-navy">
+        <UserRound size={17} className="shrink-0 text-brass" aria-hidden="true" />
+        {advisor ? fill(t.toAdvisor, { name: advisor.name }) : t.autoAssign}
+      </p>
+
+      <h3 ref={headingRef} tabIndex={-1} className="display mt-6 text-[1.9rem] leading-tight text-navy outline-none sm:text-[2.3rem]">{stepTitle}</h3>
 
       {step === 1 && (
         <fieldset className="mt-6">

@@ -2,7 +2,7 @@ import "../globals.css";
 import type { ReactNode } from "react";
 import type { Viewport } from "next";
 import { notFound } from "next/navigation";
-import { advisor } from "@/config/advisor";
+import { company } from "@/config/company";
 import { dir, isLocale, locales } from "@/lib/i18n";
 import { getDict } from "@/content";
 import { Header } from "@/components/layout/Header";
@@ -30,8 +30,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         <Header
           locale={locale}
           nav={{ ...t.nav }}
-          phone={advisor.phone}
-          phoneDisplay={advisor.phoneDisplay}
+          phone={company.phone}
+          phoneDisplay={company.phoneDisplay}
         />
         <main id="main" tabIndex={-1} className="outline-none">{children}</main>
         <Footer locale={locale} t={t} />
