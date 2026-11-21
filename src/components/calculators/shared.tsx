@@ -47,10 +47,10 @@ export function CalcShell({
   id: string; title: string; intro: string; children: React.ReactNode; result: React.ReactNode; footer: React.ReactNode;
 }) {
   return (
-    <div id={id} className="scroll-mt-28 overflow-hidden rounded-[var(--radius-soft)] border border-line bg-paper">
+    <div id={id} className="scroll-mt-24 overflow-hidden rounded-2xl border border-line bg-paper">
       <div className="grid lg:grid-cols-[1.1fr_1fr]">
         <div className="p-6 sm:p-10">
-          <h3 className="display text-[2rem] text-navy sm:text-[2.4rem]">{title}</h3>
+          <h3 className="display text-[1.4rem] text-navy sm:text-[1.75rem]">{title}</h3>
           <p className="mt-2 text-muted">{intro}</p>
           <div className="mt-6 space-y-2">{children}</div>
         </div>

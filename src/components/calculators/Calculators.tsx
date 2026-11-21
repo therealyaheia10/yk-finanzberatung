@@ -52,7 +52,7 @@ export function PensionGap({ locale, t, compact = false }: { locale: Locale; t: 
           <p className="text-mist">{p.result}</p>
           {gap > 0 ? (
             <>
-              <p className="display mt-2 text-[3.4rem] leading-none text-white sm:text-[4.2rem]">
+              <p className="display mt-2 text-[2.6rem] leading-none text-white sm:text-[3.2rem]">
                 <span className="ltr-nums">{eur(locale, gap)}</span>
               </p>
               <p className="mt-1 text-champagne-light">{t.perMonth}</p>
@@ -120,7 +120,7 @@ export function KidsSavings({ locale, t }: { locale: Locale; t: CalcT }) {
               <li key={r.label}>
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="text-mist">{r.label}</span>
-                  <strong className="ltr-nums display text-[2rem] text-white">{eur(locale, r.v)}</strong>
+                  <strong className="ltr-nums display text-[1.6rem] text-white">{eur(locale, r.v)}</strong>
                 </div>
                 <div className="mt-1 h-2 rounded-full bg-white/10" aria-hidden="true">
                   <div className="h-2 rounded-full bg-champagne-light" style={{ width: `${(r.v / max) * 100}%` }} />
@@ -154,7 +154,7 @@ export function IncomeValue({ locale, t }: { locale: Locale; t: CalcT }) {
       result={
         <>
           <p className="text-mist">{i.result}</p>
-          <p className="display mt-2 text-[3.2rem] leading-none text-white sm:text-[4rem]"><span className="ltr-nums">{eur(locale, total)}</span></p>
+          <p className="display mt-2 text-[2.6rem] leading-none text-white sm:text-[3.2rem]"><span className="ltr-nums">{eur(locale, total)}</span></p>
           <p className="mt-6 text-mist">{i.compare}</p>
           <DiscussLink locale={locale} label={t.discuss} topic="bu" />
         </>

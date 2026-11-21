@@ -52,8 +52,8 @@ function LanguageMenu({ locale, label }: { locale: Locale; label: string }) {
   return (
     <div ref={ref} className="relative">
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="true" aria-label={`${languageNames[locale].short} – ${label}`}
-        className="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 font-semibold text-navy hover:bg-sand">
-        <Globe size={18} aria-hidden="true" /> {languageNames[locale].short} <ChevronDown size={16} aria-hidden="true" />
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-white/20 px-3 text-[0.95rem] font-semibold text-white hover:border-white/50">
+        <Globe size={17} aria-hidden="true" /> {languageNames[locale].short} <ChevronDown size={15} aria-hidden="true" />
       </button>
       {open && (
         <ul className="absolute end-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-[var(--radius-soft)] border border-line bg-paper py-1 shadow-[0_20px_40px_-20px_rgba(16,42,67,.4)]">
@@ -125,17 +125,17 @@ export function Header({ locale, nav, phone, phoneDisplay }: { locale: Locale; n
   const isActive = (k: RouteKey) => key === k || (k === "about" && key === "team");
 
   return (
-    <header className={`sticky top-0 z-50 bg-ivory/95 transition-shadow duration-300 ${scrolled ? "shadow-[0_1px_0_var(--color-line)]" : ""}`}>
-      <div className="mx-auto flex h-20 w-full max-w-[1320px] items-center justify-between gap-4 px-5 sm:px-8 lg:h-24 lg:px-10">
-        <Link href={href(locale, "home")} className="shrink-0 rounded"><Logo /><span className="sr-only">{nav.home}</span></Link>
+    <header className={`sticky top-0 z-50 bg-navy-deep text-white transition-shadow duration-300 ${scrolled ? "shadow-[0_1px_0_var(--color-line-dark)]" : ""}`}>
+      <div className="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-3 px-4 sm:h-20 sm:px-8 lg:px-10">
+        <Link href={href(locale, "home")} className="shrink-0 rounded"><Logo light /><span className="sr-only">{nav.home}</span></Link>
 
         <nav aria-label={nav.mainNav} className="hidden xl:block">
           <ul className="flex items-center">
             {items.map((i) => (
               <li key={i.k}>
                 <Link href={href(locale, i.k)} aria-current={isActive(i.k) ? "page" : undefined}
-                  className={`relative inline-flex min-h-11 items-center whitespace-nowrap px-2.5 text-[0.98rem] font-medium transition-colors hover:text-navy 2xl:px-3.5 ${
-                    isActive(i.k) ? "text-navy after:absolute after:inset-x-2.5 after:bottom-1.5 after:h-px after:bg-champagne" : "text-muted"}`}>
+                  className={`relative inline-flex min-h-11 items-center whitespace-nowrap px-2.5 text-[0.95rem] font-medium transition-colors hover:text-white ${
+                    isActive(i.k) ? "text-white after:absolute after:inset-x-2.5 after:bottom-1.5 after:h-0.5 after:rounded after:bg-champagne-light" : "text-mist"}`}>
                   {i.label}
                 </Link>
               </li>
@@ -145,19 +145,15 @@ export function Header({ locale, nav, phone, phoneDisplay }: { locale: Locale; n
 
         <div className="hidden items-center gap-2 xl:flex">
           <LanguageMenu locale={locale} label={nav.language} />
-          <Link href={href(locale, "contact")} className="btn btn-primary !min-h-12 whitespace-nowrap !px-5 !text-base" data-track="cta_header">
+          <Link href={href(locale, "contact")} className="btn btn-gold !min-h-11 whitespace-nowrap !px-5 !text-[0.95rem]" data-track="cta_header">
             {nav.cta}
           </Link>
         </div>
 
-        <div className="flex items-center gap-1 xl:hidden">
-          {phone && (
-            <a href={`tel:${phone}`} className="hidden h-12 w-12 items-center justify-center rounded-full text-navy hover:bg-sand sm:inline-flex" aria-label={phoneDisplay ?? ""} data-track="call_header">
-              <Phone size={22} aria-hidden="true" />
-            </a>
-          )}
+        <div className="flex items-center gap-1.5 xl:hidden">
+          <LanguageMenu locale={locale} label={nav.language} />
           <button ref={toggleRef} type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-menu"
-            className="inline-flex h-12 min-w-12 items-center justify-center gap-2 rounded-full px-3 font-semibold text-navy hover:bg-sand sm:px-4">
+            className="inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-full px-2.5 font-semibold text-white hover:bg-white/10 sm:px-3">
             {open ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
             <span className="sr-only text-base sm:not-sr-only">{open ? nav.close : nav.menu}</span>
           </button>
@@ -165,13 +161,13 @@ export function Header({ locale, nav, phone, phoneDisplay }: { locale: Locale; n
       </div>
 
       {open && (
-        <div id="mobile-menu" ref={panelRef} className="fixed inset-x-0 bottom-0 top-20 z-40 overflow-y-auto bg-ivory xl:hidden">
+        <div id="mobile-menu" ref={panelRef} className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-ivory text-ink sm:top-20 xl:hidden">
           <div className="mx-auto flex max-w-xl flex-col gap-8 px-6 pb-12 pt-6">
             <nav aria-label={nav.mainNav}>
               <ul className="divide-y divide-line border-y border-line">
                 {[{ k: "home" as RouteKey, label: nav.home }, ...items].map((i) => (
                   <li key={i.k}>
-                    <Link href={href(locale, i.k)} aria-current={isActive(i.k) ? "page" : undefined} className="display flex min-h-16 items-center justify-between py-3 text-[1.8rem] text-navy">
+                    <Link href={href(locale, i.k)} aria-current={isActive(i.k) ? "page" : undefined} className="display flex min-h-14 items-center justify-between py-2 text-[1.35rem] text-navy">
                       {i.label}
                       {isActive(i.k) && <span className="h-2 w-2 rounded-full bg-champagne" aria-hidden="true" />}
                     </Link>
@@ -179,10 +175,10 @@ export function Header({ locale, nav, phone, phoneDisplay }: { locale: Locale; n
                 ))}
               </ul>
             </nav>
-            <LanguageList locale={locale} label={nav.language} />
             <div className="flex flex-col gap-3">
               <Link href={href(locale, "contact")} className="btn btn-primary w-full" data-track="cta_menu"><CalendarCheck size={20} aria-hidden="true" /> {nav.cta}</Link>
               {phone && <a href={`tel:${phone}`} className="btn btn-ghost w-full" data-track="call_menu"><Phone size={20} aria-hidden="true" /> <span className="ltr-nums">{phoneDisplay}</span></a>}
+              <LanguageList locale={locale} label={nav.language} />
             </div>
           </div>
         </div>

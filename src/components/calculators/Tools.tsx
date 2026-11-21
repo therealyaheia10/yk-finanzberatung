@@ -74,7 +74,7 @@ export function InsuranceCheck({ locale, t, discuss }: { locale: Locale; t: T2; 
     <div id="versicherungs-check" className="scroll-mt-28 overflow-hidden rounded-[var(--radius-soft)] border border-line bg-paper">
       <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
         <div className="border-b border-line p-6 sm:p-10 lg:border-b-0 lg:border-e">
-          <h3 className="display text-[2rem] text-navy sm:text-[2.4rem]">{c.title}</h3>
+          <h3 className="display text-[1.4rem] text-navy sm:text-[1.75rem]">{c.title}</h3>
           <p className="mt-2 text-muted">{c.intro}</p>
           <div className="mt-6 space-y-3">
             <Choice name="ic-family" legend={c.q.family} value={family} onChange={setFamily} options={[{ v: "single", label: c.a.single }, { v: "couple", label: c.a.couple }, { v: "kids", label: c.a.kids }]} />
@@ -137,7 +137,7 @@ export function ArrivalChecklist({ locale, t, discuss }: { locale: Locale; t: T2
       <div className="p-6 sm:p-10">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h3 className="display text-[2rem] text-navy sm:text-[2.4rem]">{a.title}</h3>
+            <h3 className="display text-[1.4rem] text-navy sm:text-[1.75rem]">{a.title}</h3>
             <p className="mt-2 text-muted">{a.intro}</p>
           </div>
           <p className="font-semibold text-navy" aria-live="polite">{fill(a.progress, { done: done.size, total: all.length })}</p>
@@ -192,7 +192,7 @@ export function InflationCalc({ locale, t, discuss, disclaimer }: { locale: Loca
       result={
         <>
           <p className="text-mist">{fill(f.worth, { years })}</p>
-          <p className="display mt-2 text-[3.2rem] leading-none text-white sm:text-[4rem]"><span className="ltr-nums">{eur(locale, amount / factor)}</span></p>
+          <p className="display mt-2 text-[2.6rem] leading-none text-white sm:text-[3.2rem]"><span className="ltr-nums">{eur(locale, amount / factor)}</span></p>
           <p className="mt-6 text-mist">{f.need}: <strong className="ltr-nums text-white">{eur(locale, amount * factor)}</strong></p>
           <Link href={href(locale, "contact", { topic: "retirement" })} className="btn btn-gold mt-8 self-start" data-track="cta_tool_inflation">
             {discuss} <ArrowRight size={18} className="rtl:rotate-180" aria-hidden="true" />

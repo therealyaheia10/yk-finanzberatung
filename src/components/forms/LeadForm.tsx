@@ -52,8 +52,14 @@ export function LeadForm({
 
   // Anliegen aus URL übernehmen (?topic=kids) – z. B. vom Finder oder einer Leistungsseite
   useEffect(() => {
-    const q = presetTopic ?? new URLSearchParams(window.location.search).get("topic");
-    if (q && (topicKeys as readonly string[]).includes(q)) {
+    const params = new URLSearchParams(window.location.search);
+    const q = presetTopic ?? params.get("topic");
+    if (params.get("mode") === "callback") {
+      // Rückruf-Direkteinstieg: nur noch Name + Telefon
+      setTopic(q && (topicKeys as readonly string[]).includes(q) ? (q as TopicKey) : "general");
+      setMode("callback");
+      setStep(3);
+    } else if (q && (topicKeys as readonly string[]).includes(q)) {
       setTopic(q as TopicKey);
       setStep(2);
     }
@@ -130,7 +136,7 @@ export function LeadForm({
           </div>
         )}
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-success/10 text-success"><Check size={30} aria-hidden="true" /></span>
-        <h3 ref={successRef} tabIndex={-1} className="display mt-5 text-[2.2rem] text-navy outline-none">{t.success.title}</h3>
+        <h3 ref={successRef} tabIndex={-1} className="display mt-5 text-[1.7rem] text-navy outline-none">{t.success.title}</h3>
         <p className="mt-3 text-muted">{t.success.text}</p>
         {assigned && <p className="mt-4 flex items-center gap-2 font-semibold text-navy"><UserRound size={18} className="text-brass" aria-hidden="true" /> {fill(t.success.withAdvisor, { name: assigned })}</p>}
         <h4 className="mt-8 font-semibold text-navy">{t.success.next}</h4>
@@ -154,7 +160,7 @@ export function LeadForm({
   const errorList = Object.values(errors);
 
   return (
-    <form onSubmit={submit} noValidate onFocus={markStart} className="rounded-[var(--radius-soft)] border border-line bg-paper p-6 shadow-[0_30px_60px_-40px_rgba(16,42,67,.35)] sm:p-10" aria-describedby={`${idPrefix}-duration`}>
+    <form onSubmit={submit} noValidate onFocus={markStart} className="rounded-2xl border border-line bg-paper p-5 shadow-[0_30px_60px_-40px_rgba(14,24,34,.35)] sm:p-8" aria-describedby={`${idPrefix}-duration`}>
       {isPreview && (
         <p className="mb-6 flex items-center gap-2 rounded-md border border-dashed border-amber-600 bg-amber-50 px-3 py-2 text-[0.88rem] font-semibold text-amber-950">
           <AlertTriangle size={18} aria-hidden="true" /> {t.testNotice}
@@ -174,7 +180,7 @@ export function LeadForm({
         {advisor ? fill(t.toAdvisor, { name: advisor.name }) : t.autoAssign}
       </p>
 
-      <h3 ref={headingRef} tabIndex={-1} className="display mt-6 text-[1.9rem] leading-tight text-navy outline-none sm:text-[2.3rem]">{stepTitle}</h3>
+      <h3 ref={headingRef} tabIndex={-1} className="display mt-5 text-[1.45rem] leading-tight text-navy outline-none sm:text-[1.8rem]">{stepTitle}</h3>
 
       {step === 1 && (
         <fieldset className="mt-6">

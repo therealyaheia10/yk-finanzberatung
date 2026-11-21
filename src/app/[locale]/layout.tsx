@@ -8,7 +8,6 @@ import { getDict } from "@/content";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileContactBar } from "@/components/layout/MobileContactBar";
-import { PreviewBanner } from "@/components/layout/PreviewBanner";
 import { Track } from "@/components/layout/Track";
 import { analyticsEnabled } from "@/lib/site";
 
@@ -26,7 +25,6 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     <html lang={locale} dir={dir(locale)}>
       <body>
         <a href="#main" className="skip-link">{t.nav.skip}</a>
-        <PreviewBanner text={t.common.previewBanner} />
         <Header
           locale={locale}
           nav={{ ...t.nav }}

@@ -1,4 +1,9 @@
-# Qualitätssicherung – gemessene Ergebnisse (21.11.2026)
+# Qualitätssicherung – gemessene Ergebnisse (Redesign 21.11.2026)
+
+**Redesign:** 108/108 Tests bestanden (inkl. neuer Tests: Startseite mobil ≤ 7 Bildschirmhöhen, erster Bildschirm zeigt Headline/Termin-Button/Sprachwahl, Rückruf-Direkteinstieg, Tool-Hub). Kein Überlauf bei 360 und 1440 px (76/76 Seiten). Lighthouse Startseite: Desktop 100/100/100 (Perf./A11y/Best Practices), mobil Performance 86–99 (schwankend), A11y 100.
+
+---
+
 
 Lokaler Produktionsbuild im Vorschaumodus, Chromium.
 

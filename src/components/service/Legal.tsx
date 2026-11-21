@@ -10,7 +10,7 @@ function Shell({ title, t, children }: { title: string; t: Dict; children: React
   return (
     <section className="bg-ivory">
       <Container className="max-w-[880px] pb-24 pt-12">
-        <h1 className="display text-[2.8rem] text-navy sm:text-[3.6rem]">{title}</h1>
+        <h1 className="display text-[2rem] text-navy sm:text-[2.6rem]">{title}</h1>
         {isPreview && <p className="mt-6 rounded-md border-2 border-dashed border-amber-600 bg-amber-50 p-4 text-[0.95rem] font-semibold text-amber-950">{t.legal.draftNotice}</p>}
         <div className="mt-10 space-y-10 [&_h2]:text-[1.35rem] [&_h2]:font-bold [&_h2]:text-navy [&_h3]:font-bold [&_h3]:text-navy [&_p]:mt-3">{children}</div>
       </Container>
@@ -73,7 +73,7 @@ export function FirstInfoPage({ locale, t }: { locale: Locale; t: Dict }) {
       <p className="text-[1.1rem]">{f.intro}</p>
       {activeAdvisors().map((a) => (
         <article key={a.id} id={a.slug} className="scroll-mt-28 rounded-[var(--radius-soft)] border border-line bg-paper p-6 sm:p-8">
-          <h2 className="display !text-[2rem] !font-medium">{advisorName(a, locale)}</h2>
+          <h2 className="display !text-[1.5rem]">{advisorName(a, locale)}</h2>
           <div className="mt-4 space-y-6">
             <div><h3>{f.name}</h3><p>{a.firstName} {a.lastName}<br />{company.office.street}, {company.office.postalCode} {company.office.city}</p></div>
             <div><h3>{f.status}</h3><p>{a.intermediaryStatus ? f.statusMap[a.intermediaryStatus] : <Missing label={`${f.status} (§ 34d GewO)`} />}</p></div>

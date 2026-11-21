@@ -72,17 +72,40 @@ test("Mobile Navigation öffnet, ist per Tastatur schließbar", async ({ page })
   await expect(page).toHaveURL(/\/de\/unternehmen$/);
 });
 
-test("Anliegen-Finder zeigt passende Themen und führt zum Formular", async ({ page }) => {
+test("Startseite: Privat/Unternehmen-Auswahl und Lösungen führen zu Unterseiten", async ({ page }) => {
   await page.goto("/de");
-  await page.getByRole("button", { name: /Mein Einkommen/ }).click();
-  await expect(page.locator("#finder-result")).toContainText("Berufsunfähigkeitsversicherung");
-  await page.locator("#finder-result").getByRole("link", { name: "Meine Absicherung besprechen" }).click();
-  await expect(page).toHaveURL(/kontakt\?topic=bu/);
-  await expect(page.getByRole("heading", { name: "Wie möchten Sie beraten werden?" })).toBeVisible();
+  await page.getByRole("link", { name: /Für mein Unternehmen/ }).click();
+  await expect(page).toHaveURL(/\/de\/unternehmen$/);
+  await page.goto("/de");
+  await page.getByRole("link", { name: /Private Krankenversicherung/ }).first().click();
+  await expect(page).toHaveURL(/\/de\/private-krankenversicherung$/);
+});
+
+test("Startseite ist kompakt (mobil höchstens 7 Bildschirmhöhen)", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const l of ["de", "ar", "en", "fr"]) {
+    await page.goto(`/${l}`);
+    const h = await page.evaluate(() => document.documentElement.scrollHeight);
+    expect(h / 844, l).toBeLessThanOrEqual(7);
+  }
+});
+
+test("Erster Bildschirm mobil: Headline, Termin-Button und Sprachwechsel sichtbar", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/de");
+  await expect(page.locator("h1")).toBeInViewport();
+  await expect(page.getByRole("link", { name: "Beratung vereinbaren" }).first()).toBeInViewport();
+  await expect(page.getByRole("button", { name: /Sprache wählen/ })).toBeInViewport();
+});
+
+test("Rückruf-Direkteinstieg springt direkt zu den Kontaktdaten", async ({ page }) => {
+  await page.goto("/de/kontakt?mode=callback");
+  await expect(page.getByRole("heading", { name: "Wie erreichen wir Sie?" })).toBeVisible();
 });
 
 test("Rentenlücke-Rechner reagiert auf Eingaben", async ({ page }) => {
   await page.goto("/de/orientierung");
+  await page.getByRole("button", { name: /Rentenlücke-Rechner/ }).click();
   const out = page.locator("#rentenluecke [aria-live]");
   const before = await out.innerText();
   const slider = page.locator("#rentenluecke input[type=range]").nth(1);

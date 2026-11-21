@@ -1,47 +1,34 @@
-# Design-System
+# Design-System v2 – „Ink & Sand“ (Redesign 21.11.2026)
 
-## Markenidee
-Ruhige, redaktionelle Eleganz: Privatbank-Anmutung ohne Luxus-Klischees. Viel Weißraum,
-feine Messinglinien, große serifenbetonte Überschriften, gut lesbarer Fließtext.
+Maßstab: iberian-finance-consulting.de (dunkler Rahmen, helle Inhaltsflächen, ein warmer Akzent, eine Grotesk-Schrift,
+kompakte Listen, Tool-Hub). Eigenständig umgesetzt – keine Texte, Bilder oder Logos übernommen.
 
-## Farben (WCAG-geprüft)
-| Token | Hex | Einsatz | Kontrast |
-|---|---|---|---|
-| navy | `#102A43` | Text, Buttons, dunkle Flächen | 13,4:1 auf Ivory |
-| navy-deep | `#0B1E31` | Vorschau-Leiste, Akzente | – |
-| ivory | `#F7F5EF` | Seitenhintergrund | – |
-| sand | `#EFEADF` | Wechselflächen | – |
-| champagne | `#B49A68` | **nur Dekor** auf hell (Linien, Rahmen); Text nur auf Navy | 5,4:1 auf Navy |
-| champagne-light | `#C9B286` | Akzent-Text & Gold-Button auf Navy | 7,1:1 auf Navy |
-| brass | `#7A5F2E` | Akzent-Text auf hell (Labels, kursive Headline) | 5,5:1 auf Ivory |
-| muted | `#4A5563` | Sekundärtext | 6,95:1 auf Ivory |
-| mist | `#AAB6C3` | Sekundärtext auf Navy | 7,1:1 |
+## Farben (WCAG 2.2 AA geprüft)
+| Token | Hex | Einsatz |
+|---|---|---|
+| navy-deep | `#0E1822` | Header, Hero, Abschluss, Footer |
+| navy / ink | `#132130` | Text, Icon-Kacheln, aktive Zustände (14,7:1 auf Ivory) |
+| ivory | `#F4F3EF` | Seitenhintergrund |
+| sand | `#EBE8E1` | Alternativflächen, Hinweise |
+| paper | `#FFFFFF` | Karten |
+| champagne-light | `#D6BE93` | Hauptbutton & Akzentwörter auf dunkel (9,9:1) |
+| brass | `#7A5F2E` | Akzenttext auf hell (5,4:1) |
+| mist | `#AEB7C1` | Sekundärtext auf dunkel (8,8:1) |
 
-Anpassung gegenüber Briefing: Champagne `#B49A68` erreicht auf Ivory nur 2,5:1 und wird deshalb
-nie für Text auf hellem Grund genutzt – dafür das dunklere **Brass**.
-
-## Typografie (lokal gehostet, SIL Open Font License)
-- **Cormorant Garamond** 500/600 + Kursiv – lateinische Überschriften (Lining-Ziffern erzwungen)
-- **Manrope** (variabel) – Fließtext, UI
-- **IBM Plex Sans Arabic** 400–700 – gesamte arabische Version (Überschriften 600, größere Zeilenhöhe 1,9)
-- Fließtext 18 px (mobil) / 19 px (Desktop), Zeilenhöhe 1,7; Arabisch 19 px
-- Deutsche Silbentrennung für lange Komposita (`hyphens: auto`)
+## Typografie
+Figtree (variabel) für alles, Überschriften 600 mit enger Laufweite; IBM Plex Sans Arabic für Arabisch.
+Fließtext 17 px mobil / 18 px Desktop. Keine Serifen mehr – ruhiger, moderner, besser lesbar auf dem Smartphone.
 
 ## Komponenten
-Buttons (52 px hoch, Pille): Primary Navy · Gold (auf Navy) · Ghost · Ghost-Light.
-Alle Bedienelemente ≥ 44 × 44 px. Fokus: 3 px Champagne-Rahmen, immer sichtbar.
-Karten mit 8 px Radius, Haarlinien `#DDD5C4`, keine Glaseffekte.
-Nummerierte Editorial-Listen (01–05) statt Kartenraster.
-
-## Bewegung
-Nur ein dezentes Einblenden im Hero (0,9 s). Bei `prefers-reduced-motion` komplett aus.
-Keine Autoplay-Animationen, keine Parallax-Hintergründe.
-
-## RTL
-Logische CSS-Eigenschaften (`ps-`, `ms-`, `start-`), Pfeile werden gespiegelt (`rtl:rotate-180`),
-Telefonnummern und Beträge als isolierte LTR-Inseln (`.ltr-nums`), westliche Ziffern auch im Arabischen.
+- Buttons: Pille, 50 px hoch. **Ein** Hauptbutton-Text überall: „Beratung vereinbaren“ (EN „Book a consultation“, FR „Prendre rendez-vous“, AR „احجز استشارة“). Sekundär: „Anrufen“ / „Rückruf anfordern“.
+- Karten: weiß, 16 px Radius, feine Linie, dezenter Hover-Schatten.
+- Icon-Kacheln: dunkle Quadrate mit Sand-Icon (Lösungen), helle Quadrate mit Messing-Icon (Sekundäres).
+- Tool-Hub: Auswahlliste + ein aktives Tool (statt sechs Rechner untereinander).
 
 ## Logo
-Bildmarke: minimalistischer Globus aus feinen Navy-Linien mit einem Messing-Bogen (Begleitung/Verbindung) –
-international, ruhig, ohne Flaggen und unabhängig von einzelnen Beratern. Wortmarke zweizeilig:
-„INTERNATIONAL“ (Manrope, gesperrt, Messing) über „Finance Consulting“ (Cormorant Garamond). Komponente: `src/components/ui/Logo.tsx`; Favicon: `src/app/icon.tsx`.
+Globus (Kreis, Meridian, Äquator) mit Sand-Orbit; Wortmarke „INTERNATIONAL“ / „FINANCE CONSULTING“ in Figtree.
+Mobil 32 px Bildmarke. Dateien: `src/components/ui/Logo.tsx`, Favicon `src/app/icon.tsx`.
+
+## Startseite (6 Abschnitte)
+Hero → Wobei können wir helfen (Privat/Unternehmen) → 6 Lösungen → Team → So einfach geht es → Abschluss/Kontakt → Footer.
+Mobil 6,0 Bildschirmhöhen (vorher 21,4), Desktop 4,0 (vorher 12,9).
