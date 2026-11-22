@@ -45,3 +45,10 @@ Beschriftung des Sprachmenüs (WCAG 2.5.3), Überschriftenhierarchie der Tool-Se
 
 ## Nicht getestet
 Echte E-Mail-Zustellung (kein SMTP), Safari/iOS, Firefox, Screenreader-Praxistest.
+
+## Prüflauf Startseiten-Update v3 (22.11.2026)
+- Playwright: 108/108 Tests grün (inkl. axe auf 12 Seiten, Mobilmenü, Weg A/B der Anfrage-Zuordnung).
+- Kein horizontaler Überlauf bei 360 px und 1440 px (80 Seiten).
+- Mobile Startseite: DE 6,6 · AR 6,4 · EN 6,5 · FR 6,6 Bildschirmhöhen (Ziel ≤ 7). Desktop ≈ 4,5.
+- Gefundener und behobener Fehler: Mobilmenü war durch `backdrop-blur` im Header unsichtbar.
+- Lighthouse in diesem Lauf nicht ausgeführt.

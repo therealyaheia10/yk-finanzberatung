@@ -68,13 +68,14 @@ test("Mobile Navigation öffnet, ist per Tastatur schließbar", async ({ page })
   await page.keyboard.press("Escape");
   await expect(page.locator("#mobile-menu")).toHaveCount(0);
   await btn.click();
-  await page.locator("#mobile-menu").getByRole("link", { name: "Unternehmen" }).click();
+  await page.locator("#mobile-menu").getByRole("button", { name: "Unternehmen" }).click();
+  await page.locator('#mobile-menu a[href="/de/unternehmen"]').first().click();
   await expect(page).toHaveURL(/\/de\/unternehmen$/);
 });
 
 test("Startseite: Privat/Unternehmen-Auswahl und Lösungen führen zu Unterseiten", async ({ page }) => {
   await page.goto("/de");
-  await page.getByRole("link", { name: /Für mein Unternehmen/ }).click();
+  await page.getByRole("link", { name: /Für Ihr Unternehmen/ }).click();
   await expect(page).toHaveURL(/\/de\/unternehmen$/);
   await page.goto("/de");
   await page.getByRole("link", { name: /Private Krankenversicherung/ }).first().click();
@@ -94,7 +95,7 @@ test("Erster Bildschirm mobil: Headline, Termin-Button und Sprachwechsel sichtba
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto("/de");
   await expect(page.locator("h1")).toBeInViewport();
-  await expect(page.getByRole("link", { name: "Beratung vereinbaren" }).first()).toBeInViewport();
+  await expect(page.getByRole("link", { name: /Kostenlose Beratung vereinbaren/ }).first()).toBeInViewport();
   await expect(page.getByRole("button", { name: /Sprache wählen/ })).toBeInViewport();
 });
 

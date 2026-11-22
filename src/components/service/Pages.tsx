@@ -158,7 +158,7 @@ export function ServicePage({ locale, t, k }: { locale: Locale; t: Dict; k: Serv
       </Section>
 
       {/* Verifizierte Produktinformationen */}
-      <Section tone={split ? "paper" : "ivory"} compact>
+      <Section id="produkt" tone={split ? "paper" : "ivory"} compact>
         <div className="grid gap-6 rounded-2xl border border-line bg-paper p-5 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
           <div>
             <p className="flex items-center gap-2 text-[0.85rem] font-semibold text-success"><BadgeCheck size={17} aria-hidden="true" /> {t.service.provider}</p>

@@ -30,3 +30,14 @@
 - [ ] Übersetzungen AR und FR von Muttersprachlern gegengelesen (Ali kann FR/AR prüfen)
 - [ ] Produktangaben kurz vor Launch erneut mit ergo.de abgeglichen
 - [ ] Definition „qualifizierte Anfrage“ bestätigt
+
+## Neu seit Startseiten-Update (Team-Foto, Ismael Palanga)
+| Angabe | Status | Wo eintragen |
+|---|---|---|
+| Ismael Palanga: Beratungssprachen | **angenommen: nur Deutsch** – bitte bestätigen | `src/config/advisors.ts` → `languages` |
+| Ismael Palanga: Schwerpunkte | **angenommen: allgemein** – bitte bestätigen | `src/config/advisors.ts` → `focus` |
+| Ismael Palanga: Kurztext / About Me (DE/AR/EN/FR) | neutraler Platzhalter | `src/config/advisors.ts` → `short`, `bio` |
+| Ismael Palanga: Registrierung § 34d, IHK | offen | `advisors.ts` / Impressum |
+| Echte Kundenbewertungen (mit dokumentierter Einwilligung) | keine – Bereich ist öffentlich ausgeblendet, in der Vorschau Platzhalter | `src/config/company.ts` → `reviews` |
+| Fotos für „Fragen, die Sie sich stellen“ (Familie / Unternehmer) | gestaltete Grafik als Ersatz | `public/images/…` + `company.issueImages` |
+| WhatsApp-Nummer | +49 179 7216990 (wie Telefon) – bitte bestätigen | `company.whatsapp` |

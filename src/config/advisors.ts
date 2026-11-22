@@ -193,6 +193,47 @@ export const advisors: Advisor[] = [
     shareholdings: null,
     remuneration: null,
   },
+  {
+    id: "ip",
+    slug: "ismael-palanga",
+    active: true,
+    order: 3,
+    firstName: "Ismael",
+    lastName: "Palanga",
+    nameAr: "إسماعيل بالانغا",
+    portrait: "/images/team/ismael-palanga.webp",
+    position: null,
+    /* Texte folgen – bis dahin bewusst neutral, keine erfundenen Angaben */
+    short: {
+      de: "Teil des Teams von International Finance Consulting in Düsseldorf. Seine persönliche Vorstellung folgt in Kürze.",
+      en: "Part of the International Finance Consulting team in Düsseldorf. His personal introduction is coming soon.",
+      fr: "Membre de l’équipe International Finance Consulting à Düsseldorf. Sa présentation personnelle arrive bientôt.",
+      ar: "عضو في فريق International Finance Consulting في دوسلدورف. تعريفه الشخصي قريباً.",
+    },
+    bio: {
+      de: ["Ismael Palanga ist Teil unseres Beratungsteams in Düsseldorf. Seine ausführliche Vorstellung ergänzen wir in Kürze."],
+      en: ["Ismael Palanga is part of our advisory team in Düsseldorf. We'll add his full introduction shortly."],
+      fr: ["Ismael Palanga fait partie de notre équipe de conseil à Düsseldorf. Nous ajouterons très bientôt sa présentation complète."],
+      ar: ["إسماعيل بالانغا عضو في فريق الاستشارات لدينا في دوسلدورف، وسنضيف تعريفه الكامل قريباً."],
+    },
+    quote: null,
+    background: { de: ["Team International Finance Consulting, Düsseldorf"], en: ["International Finance Consulting team, Düsseldorf"], fr: ["Équipe International Finance Consulting, Düsseldorf"], ar: ["فريق International Finance Consulting، دوسلدورف"] },
+    /* BITTE BESTÄTIGEN: tatsächliche Beratungssprachen und Schwerpunkte */
+    languages: ["de"],
+    focus: ["general"],
+    phone: null,
+    phoneDisplay: null,
+    email: null,
+    bookingUrl: null,
+    location: "Düsseldorf",
+    social: { linkedin: null, instagram: null },
+    intermediaryStatus: null,
+    registerNumber: null,
+    supervisoryAuthority: null,
+    insurers: [],
+    shareholdings: null,
+    remuneration: null,
+  },
 ];
 
 export const activeAdvisors = () => advisors.filter((a) => a.active).sort((a, b) => a.order - b.order);

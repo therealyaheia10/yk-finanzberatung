@@ -3,64 +3,56 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, Phone, CalendarCheck, Globe, ChevronDown, Check } from "lucide-react";
-import { href, languageNames, locales, routeKeyFromSlug, TEAM_SEGMENT, teamHref, type Locale, type RouteKey } from "@/lib/i18n";
+import { Menu, X, CalendarCheck, Globe, ChevronDown, Check, ArrowRight } from "lucide-react";
+import { href, languageNames, locales, routeKeyFromSlug, TEAM_SEGMENT, teamHref, type Locale } from "@/lib/i18n";
 import { Logo } from "@/components/ui/Logo";
+import { LangFlag } from "@/components/ui/Icons";
 
-type NavLabels = {
-  home: string; about: string; private: string; business: string; solutions: string; tools: string; contact: string;
-  cta: string; menu: string; close: string; language: string; mainNav: string;
-};
+export type NavGroup = { id: string; label: string; items: { label: string; href: string }[]; all?: { label: string; href: string } };
+export type NavLabels = { home: string; cta: string; menu: string; close: string; language: string; mainNav: string; contact: string };
 
-/** Aktuelle Seite → gleiche Seite in anderer Sprache */
 function useAltHref() {
   const pathname = usePathname() || "/";
   const parts = pathname.split("/").filter(Boolean);
   const locale = (parts[0] ?? "de") as Locale;
   return (target: Locale) => {
     if (parts[1] === TEAM_SEGMENT && parts[2]) return teamHref(target, parts[2]);
-    const key = routeKeyFromSlug(locale, parts[1] ?? "") ?? "home";
-    return href(target, key);
+    return href(target, routeKeyFromSlug(locale, parts[1] ?? "") ?? "home");
   };
 }
 
-export function useRouteKey(locale: Locale): RouteKey | "team" {
-  const pathname = usePathname() || "/";
-  const parts = pathname.split("/").filter(Boolean);
-  if (parts[1] === TEAM_SEGMENT) return "team";
-  return routeKeyFromSlug(locale, parts[1] ?? "") ?? "home";
-}
+/** Next.js meldet Anker-Wechsel auf derselben Seite nicht – Tool-Hub & Co. informieren */
+const pingHash = () => setTimeout(() => window.dispatchEvent(new HashChangeEvent("hashchange")), 60);
 
 function LangLabel({ l }: { l: Locale }) {
-  return <span lang={l} style={l === "ar" ? { fontFamily: "var(--font-arabic)" } : undefined}>{languageNames[l].native}</span>;
+  return <span lang={l} className="inline-flex items-center gap-2" style={l === "ar" ? { fontFamily: "var(--font-arabic)" } : undefined}><LangFlag l={l} />{languageNames[l].native}</span>;
 }
 
-/** Kompaktes Sprachmenü (Desktop) */
+function useOutside(open: boolean, close: () => void, ref: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: MouseEvent | KeyboardEvent) => { if (e instanceof KeyboardEvent ? e.key === "Escape" : !ref.current?.contains(e.target as Node)) close(); };
+    document.addEventListener("mousedown", h); document.addEventListener("keydown", h);
+    return () => { document.removeEventListener("mousedown", h); document.removeEventListener("keydown", h); };
+  }, [open, close, ref]);
+}
+
 function LanguageMenu({ locale, label }: { locale: Locale; label: string }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const alt = useAltHref();
-  useEffect(() => {
-    if (!open) return;
-    const close = (e: MouseEvent | KeyboardEvent) => {
-      if (e instanceof KeyboardEvent ? e.key === "Escape" : !ref.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", close);
-    document.addEventListener("keydown", close);
-    return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", close); };
-  }, [open]);
+  useOutside(open, () => setOpen(false), ref);
   return (
     <div ref={ref} className="relative">
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="true" aria-label={`${languageNames[locale].short} – ${label}`}
-        className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-white/20 px-3 text-[0.95rem] font-semibold text-white hover:border-white/50">
-        <Globe size={17} aria-hidden="true" /> {languageNames[locale].short} <ChevronDown size={15} aria-hidden="true" />
+        className="inline-flex min-h-11 items-center gap-1 rounded-full border border-white/20 px-2.5 text-[0.95rem] sm:gap-1.5 sm:px-3 font-semibold text-white hover:border-white/50">
+        <LangFlag l={locale} size={17} /> {languageNames[locale].short} <ChevronDown size={15} aria-hidden="true" />
       </button>
       {open && (
-        <ul className="absolute end-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-[var(--radius-soft)] border border-line bg-paper py-1 shadow-[0_20px_40px_-20px_rgba(16,42,67,.4)]">
+        <ul className="dropdown-panel absolute end-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-xl border border-line bg-paper py-1 text-ink shadow-[0_20px_40px_-20px_rgba(17,21,25,.45)]">
           {locales.map((l) => (
             <li key={l}>
-              <Link href={alt(l)} hrefLang={l} aria-current={l === locale ? "true" : undefined} onClick={() => setOpen(false)} data-track={`lang_${l}`}
-                className="flex min-h-11 items-center justify-between px-4 text-navy hover:bg-sand">
+              <Link href={alt(l)} hrefLang={l} aria-current={l === locale ? "true" : undefined} onClick={() => setOpen(false)} data-track={`lang_${l}`} className="flex min-h-11 items-center justify-between px-4 hover:bg-ivory">
                 <LangLabel l={l} /> {l === locale && <Check size={16} className="text-brass" aria-hidden="true" />}
               </Link>
             </li>
@@ -71,40 +63,55 @@ function LanguageMenu({ locale, label }: { locale: Locale; label: string }) {
   );
 }
 
-/** Sprachleiste (Mobilmenü) */
-export function LanguageList({ locale, label }: { locale: Locale; label: string }) {
-  const alt = useAltHref();
+/** Aufklappmenü: öffnet bei Hover (Desktop) und bei Klick/Tastatur */
+function NavDropdown({ g }: { g: NavGroup }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useOutside(open, () => setOpen(false), ref);
+  const enter = () => { if (timer.current) clearTimeout(timer.current); setOpen(true); };
+  const leave = () => { timer.current = setTimeout(() => setOpen(false), 140); };
   return (
-    <nav aria-label={label}>
-      <ul className="grid grid-cols-2 gap-2">
-        {locales.map((l) => (
-          <li key={l}>
-            <Link href={alt(l)} hrefLang={l} aria-current={l === locale ? "true" : undefined} data-track={`lang_${l}`}
-              className={`flex min-h-12 items-center justify-center rounded-full border font-semibold ${l === locale ? "border-navy bg-navy text-white" : "border-line text-navy"}`}>
-              <LangLabel l={l} />
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <li ref={ref} className="relative" onMouseEnter={enter} onMouseLeave={leave}>
+      <button type="button" aria-expanded={open} aria-controls={`nav-${g.id}`} onClick={() => setOpen((o) => !o)}
+        className={`inline-flex min-h-11 items-center gap-1 whitespace-nowrap px-2.5 text-[0.95rem] font-medium transition-colors hover:text-white ${open ? "text-white" : "text-mist"}`}>
+        {g.label} <ChevronDown size={15} className={`transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+      </button>
+      {open && (
+        <div id={`nav-${g.id}`} className="dropdown-panel absolute start-0 top-full z-50 pt-2">
+          <ul className="min-w-64 overflow-hidden rounded-xl border border-line bg-paper p-1.5 text-ink shadow-[0_24px_48px_-24px_rgba(17,21,25,.5)]">
+            {g.items.map((i) => (
+              <li key={i.href + i.label}>
+                <Link href={i.href} onClick={() => { setOpen(false); pingHash(); }} className="flex min-h-11 items-center rounded-lg px-3 text-[0.95rem] font-medium hover:bg-ivory">{i.label}</Link>
+              </li>
+            ))}
+            {g.all && (
+              <li className="mt-1 border-t border-line pt-1">
+                <Link href={g.all.href} onClick={() => setOpen(false)} className="flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-[0.9rem] font-semibold text-brass hover:bg-ivory">{g.all.label} <ArrowRight size={15} className="rtl:rotate-180" aria-hidden="true" /></Link>
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+    </li>
   );
 }
 
-export function Header({ locale, nav, phone, phoneDisplay }: { locale: Locale; nav: NavLabels; phone: string | null; phoneDisplay: string | null }) {
+export function Header({ locale, nav, groups, links }: { locale: Locale; nav: NavLabels; groups: NavGroup[]; links: { label: string; href: string }[] }) {
   const [open, setOpen] = useState(false);
+  const [section, setSection] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const key = useRouteKey(locale);
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => { setOpen(false); setSection(null); }, [pathname]);
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
@@ -114,40 +121,23 @@ export function Header({ locale, nav, phone, phoneDisplay }: { locale: Locale; n
     return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
   }, [open]);
 
-  const items: { k: RouteKey; label: string }[] = [
-    { k: "private", label: nav.private },
-    { k: "business", label: nav.business },
-    { k: "solutions", label: nav.solutions },
-    { k: "tools", label: nav.tools },
-    { k: "about", label: nav.about },
-    { k: "contact", label: nav.contact },
-  ];
-  const isActive = (k: RouteKey) => key === k || (k === "about" && key === "team");
-
   return (
-    <header className={`sticky top-0 z-50 bg-navy-deep text-white transition-shadow duration-300 ${scrolled ? "shadow-[0_1px_0_var(--color-line-dark)]" : ""}`}>
-      <div className="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between gap-3 px-4 sm:h-20 sm:px-8 lg:px-10">
+    <header className={`sticky top-0 z-50 bg-navy-deep text-white transition-[box-shadow] duration-300 ${scrolled ? "shadow-[0_8px_24px_-16px_rgba(0,0,0,.6)]" : ""}`}>
+      <div className={`mx-auto flex w-full max-w-[1240px] items-center justify-between gap-2 px-4 transition-[height] duration-300 sm:px-8 lg:px-10 ${scrolled ? "h-16" : "h-16 sm:h-20"}`}>
         <Link href={href(locale, "home")} className="shrink-0 rounded"><Logo light /><span className="sr-only">{nav.home}</span></Link>
 
         <nav aria-label={nav.mainNav} className="hidden xl:block">
           <ul className="flex items-center">
-            {items.map((i) => (
-              <li key={i.k}>
-                <Link href={href(locale, i.k)} aria-current={isActive(i.k) ? "page" : undefined}
-                  className={`relative inline-flex min-h-11 items-center whitespace-nowrap px-2.5 text-[0.95rem] font-medium transition-colors hover:text-white ${
-                    isActive(i.k) ? "text-white after:absolute after:inset-x-2.5 after:bottom-1.5 after:h-0.5 after:rounded after:bg-champagne-light" : "text-mist"}`}>
-                  {i.label}
-                </Link>
-              </li>
+            {groups.map((g) => <NavDropdown key={g.id} g={g} />)}
+            {links.map((l) => (
+              <li key={l.href}><Link href={l.href} className="inline-flex min-h-11 items-center whitespace-nowrap px-2.5 text-[0.95rem] font-medium text-mist hover:text-white">{l.label}</Link></li>
             ))}
           </ul>
         </nav>
 
         <div className="hidden items-center gap-2 xl:flex">
           <LanguageMenu locale={locale} label={nav.language} />
-          <Link href={href(locale, "contact")} className="btn btn-gold !min-h-11 whitespace-nowrap !px-5 !text-[0.95rem]" data-track="cta_header">
-            {nav.cta}
-          </Link>
+          <Link href={href(locale, "contact")} className="btn btn-gold !min-h-11 whitespace-nowrap !px-5 !text-[0.95rem]" data-track="cta_header">{nav.cta}</Link>
         </div>
 
         <div className="flex items-center gap-1.5 xl:hidden">
@@ -162,25 +152,28 @@ export function Header({ locale, nav, phone, phoneDisplay }: { locale: Locale; n
 
       {open && (
         <div id="mobile-menu" ref={panelRef} className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-ivory text-ink sm:top-20 xl:hidden">
-          <div className="mx-auto flex max-w-xl flex-col gap-8 px-6 pb-12 pt-6">
-            <nav aria-label={nav.mainNav}>
-              <ul className="divide-y divide-line border-y border-line">
-                {[{ k: "home" as RouteKey, label: nav.home }, ...items].map((i) => (
-                  <li key={i.k}>
-                    <Link href={href(locale, i.k)} aria-current={isActive(i.k) ? "page" : undefined} className="display flex min-h-14 items-center justify-between py-2 text-[1.35rem] text-navy">
-                      {i.label}
-                      {isActive(i.k) && <span className="h-2 w-2 rounded-full bg-champagne" aria-hidden="true" />}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <div className="flex flex-col gap-3">
-              <Link href={href(locale, "contact")} className="btn btn-primary w-full" data-track="cta_menu"><CalendarCheck size={20} aria-hidden="true" /> {nav.cta}</Link>
-              {phone && <a href={`tel:${phone}`} className="btn btn-ghost w-full" data-track="call_menu"><Phone size={20} aria-hidden="true" /> <span className="ltr-nums">{phoneDisplay}</span></a>}
-              <LanguageList locale={locale} label={nav.language} />
-            </div>
-          </div>
+          <nav aria-label={nav.mainNav} className="mx-auto max-w-xl px-5 pb-12 pt-4">
+            <ul className="divide-y divide-line border-b border-line">
+              {groups.map((g) => (
+                <li key={g.id}>
+                  <button type="button" aria-expanded={section === g.id} onClick={() => setSection((s) => (s === g.id ? null : g.id))}
+                    className="flex min-h-14 w-full items-center justify-between py-2 text-start text-[1.2rem] font-semibold text-navy">
+                    {g.label} <ChevronDown size={20} className={`transition-transform ${section === g.id ? "rotate-180" : ""}`} aria-hidden="true" />
+                  </button>
+                  {section === g.id && (
+                    <ul className="dropdown-panel pb-3">
+                      {g.items.map((i) => <li key={i.href + i.label}><Link href={i.href} onClick={pingHash} className="flex min-h-11 items-center ps-3 text-[1.02rem] text-muted hover:text-navy">{i.label}</Link></li>)}
+                      {g.all && <li><Link href={g.all.href} className="flex min-h-11 items-center gap-1.5 ps-3 font-semibold text-brass">{g.all.label} <ArrowRight size={15} className="rtl:rotate-180" aria-hidden="true" /></Link></li>}
+                    </ul>
+                  )}
+                </li>
+              ))}
+              {[...links, { label: nav.contact, href: href(locale, "contact") }].map((l) => (
+                <li key={l.href}><Link href={l.href} className="flex min-h-14 items-center text-[1.2rem] font-semibold text-navy">{l.label}</Link></li>
+              ))}
+            </ul>
+            <Link href={href(locale, "contact")} className="btn btn-gold mt-6 w-full" data-track="cta_menu"><CalendarCheck size={20} aria-hidden="true" /> {nav.cta}</Link>
+          </nav>
         </div>
       )}
     </header>

@@ -35,3 +35,8 @@ Berater vorübergehend ausblenden: `active: false`.
 ## Unternehmensdaten
 Marke, Adresse, zentrale Telefonnummer, Rechtsangaben: **`src/config/company.ts`**.
 Verifizierte Produktangaben: **`src/config/products.ts`** (Quelle + Abrufdatum).
+
+## Beispiel: Ismael Palanga (hinzugefügt)
+Eintrag `ip` in `src/config/advisors.ts`, Foto `public/images/team/ismael-palanga.webp`.
+Sprachen (`["de"]`) und Schwerpunkt (`["general"]`) sind Annahmen und mit „BITTE BESTÄTIGEN“ markiert.
+Reihenfolge auf dem Team-Foto: `company.teamPhotoOrder` in `src/config/company.ts`.

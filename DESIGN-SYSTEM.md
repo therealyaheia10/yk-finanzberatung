@@ -32,3 +32,10 @@ Mobil 32 px Bildmarke. Dateien: `src/components/ui/Logo.tsx`, Favicon `src/app/i
 ## Startseite (6 Abschnitte)
 Hero → Wobei können wir helfen (Privat/Unternehmen) → 6 Lösungen → Team → So einfach geht es → Abschluss/Kontakt → Footer.
 Mobil 6,0 Bildschirmhöhen (vorher 21,4), Desktop 4,0 (vorher 12,9).
+
+## v3 – Startseite nach Kundenpräsentation
+- **Hero:** Mission als H1 (ohne automatische Silbentrennung), Team-Foto mit Namen, Büro-Adresse, CTA „Kostenlose Beratung vereinbaren“ + WhatsApp (#25d366, Text #0b2e17 für Kontrast).
+- **Navigation:** Aufklappmenüs (Hover + Klick + Tastatur/Escape) für Vorsorge & Vermögen, Versicherungen, Unternehmen, Tools; mobil als Akkordeon. Sprachwahl mit Flaggen (Arabisch: „ع“-Badge statt Landesflagge, da die Sprache viele Länder umfasst).
+- **Bewegung:** `data-reveal` (sanftes Einblenden beim Scrollen, gestaffelt über `--d`), `.lift` (Karten heben sich), `.zoom-img` (Fotos zoomen langsam), Bewertungs-Laufband (pausiert bei Hover/Fokus). Alles abgeschaltet bei `prefers-reduced-motion`.
+- **Header ohne `backdrop-filter`:** ein Blur-Filter würde das fixierte Mobilmenü an den Header binden und unsichtbar machen.
+- **Footer:** Telefonnummer entfernt, Karte als 2-Klick-Lösung (Google lädt erst nach Klick).

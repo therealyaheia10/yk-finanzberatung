@@ -10,8 +10,13 @@ export type ToolId = keyof typeof icons;
 export function ToolHub({ tools, chooseLabel }: { tools: { id: ToolId; title: string; desc: string; node: ReactNode }[]; chooseLabel: string }) {
   const [active, setActive] = useState<ToolId>(tools[0].id);
   useEffect(() => {
-    const h = window.location.hash.slice(1) as ToolId;
-    if (tools.some((t) => t.id === h)) setActive(h);
+    const sync = () => {
+      const h = window.location.hash.slice(1) as ToolId;
+      if (tools.some((t) => t.id === h)) setActive(h);
+    };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
   }, [tools]);
   const pick = (id: ToolId) => {
     setActive(id);
