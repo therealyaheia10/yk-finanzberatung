@@ -104,15 +104,33 @@ test("Rückruf-Direkteinstieg springt direkt zu den Kontaktdaten", async ({ page
   await expect(page.getByRole("heading", { name: "Wie erreichen wir Sie?" })).toBeVisible();
 });
 
-test("Rentenlücke-Rechner reagiert auf Eingaben", async ({ page }) => {
+test("Tool-Seite zeigt genau die drei Haupt-Tools", async ({ page }) => {
   await page.goto("/de/orientierung");
-  await page.getByRole("button", { name: /Rentenlücke-Rechner/ }).click();
-  const out = page.locator("#rentenluecke [aria-live]");
-  const before = await out.innerText();
-  const slider = page.locator("#rentenluecke input[type=range]").nth(1);
-  await slider.focus();
-  for (let i = 0; i < 10; i++) await page.keyboard.press("ArrowRight");
-  expect(await out.innerText()).not.toBe(before);
+  await expect(page.locator("button[aria-controls=tool-panel]")).toHaveCount(3);
+});
+
+test("Versicherungs-Checkliste: Antworten steuern die Liste, Abhaken zählt mit", async ({ page }) => {
+  await page.goto("/de/orientierung#versicherungs-check");
+  const panel = page.locator("#tool-panel");
+  await panel.getByText("Mit Kindern", { exact: true }).click();
+  await panel.getByText("Selbstständig", { exact: true }).click();
+  await panel.getByRole("button", { name: /Meine Versicherungs-Checkliste anzeigen/ }).click();
+  for (const n of ["Berufsunfähigkeitsversicherung", "Risikolebensversicherung", "Private Krankenversicherung (PKV) – Vergleich", "Vermögensaufbau für Ihre Kinder"]) await expect(panel.getByRole("heading", { name: n })).toBeVisible();
+  await expect(panel.getByRole("heading", { name: "Kfz-Haftpflichtversicherung" })).toHaveCount(0);
+  await panel.getByRole("checkbox", { name: /Berufsunfähigkeitsversicherung – habe ich/ }).check();
+  await expect(panel.getByText(/^1 bereits abgesichert/)).toBeVisible();
+  await panel.getByRole("link", { name: /kostenlose Beratung buchen/ }).click();
+  await expect(page).toHaveURL(/\/de\/kontakt$/);
+});
+
+test("Vermögensrechner: Formel wie im gelieferten Tool, Kinder-Modus", async ({ page }) => {
+  await page.goto("/de/orientierung#vermoegensaufbau");
+  const panel = page.locator("#tool-panel");
+  // 200 €/Monat, 20 Jahre (30 → 50), 10 % p. a. → 143.652 € (Formel des Originals)
+  await expect(panel.getByText("143.652 €").first()).toBeVisible();
+  await panel.getByRole("tab", { name: "Für meine Kinder" }).click();
+  await expect(panel.getByText("13 Jahre Anlagezeit")).toBeVisible();
+  await expect(panel.getByRole("heading", { name: /Zukunft Ihres Kindes mit 18 Jahren/ })).toBeVisible();
 });
 
 for (const l of locales) {

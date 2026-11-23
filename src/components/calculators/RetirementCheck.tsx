@@ -61,7 +61,7 @@ export function RetirementCheck({ locale }: { locale: Locale }) {
     <div className="card overflow-hidden">
       <header className="navy-surface on-dark px-5 py-6 text-white sm:px-8 sm:py-8">
         <p className="tracking-label text-[0.72rem] font-bold text-champagne-light">{t.eyebrow}</p>
-        <h2 className="display mt-2 text-[1.8rem] sm:text-[2.4rem]">{t.title}<span className="text-champagne-light">.</span></h2>
+        <h2 className="display mt-2 text-[1.8rem] hyphens-manual! sm:text-[2.4rem]">{t.title}<span className="text-champagne-light">.</span></h2>
         <p className="mt-2 max-w-2xl text-mist">{t.intro}</p>
       </header>
 

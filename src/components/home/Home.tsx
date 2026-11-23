@@ -157,7 +157,7 @@ type Bubble = { label: string; href: string; icon: typeof Sunset };
 function bubbleGroups(locale: Locale, t: Dict): { title: string; items: Bubble[] }[] {
   const s = (k: ServiceKey): Bubble => ({ label: t.services.items[k].title, href: href(locale, k), icon: serviceIcons[k] });
   return [
-    { title: t.v3.groupInvest, items: [s("retirement"), s("kids"), { label: t.v3.wealth, href: href(locale, "retirement", undefined, "produkt"), icon: TrendingUp }] },
+    { title: t.v3.groupInvest, items: [s("retirement"), s("kids"), { label: t.v3.wealth, href: href(locale, "tools", undefined, "vermoegensaufbau"), icon: TrendingUp }] },
     { title: t.v3.groupInsure, items: [s("bu"), s("pkv"), ...extraKeys.map((k) => ({ label: t.extras.items[k].title, href: href(locale, "extras", undefined, k), icon: extraIcons[k] }))] },
     { title: t.v3.groupBusiness, items: [s("bav"), s("bkv")] },
   ];

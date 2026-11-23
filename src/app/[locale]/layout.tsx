@@ -6,10 +6,13 @@ import { company } from "@/config/company";
 import { dir, isLocale, locales } from "@/lib/i18n";
 import { getDict } from "@/content";
 import { retirementCheckTitle } from "@/components/calculators/retirementCheckText";
+import { insuranceChecklistTitle } from "@/components/calculators/insuranceChecklistText";
+import { wealthBuilderTitle } from "@/components/calculators/wealthBuilderText";
 import { Header, type NavGroup } from "@/components/layout/Header";
 import { extraKeys, href } from "@/lib/i18n";
 import { Footer } from "@/components/layout/Footer";
 import { MobileContactBar } from "@/components/layout/MobileContactBar";
+import { FloatingCta } from "@/components/layout/FloatingCta";
 import { Track } from "@/components/layout/Track";
 import { RevealObserver } from "@/components/layout/Reveal";
 import { analyticsEnabled } from "@/lib/site";
@@ -21,12 +24,12 @@ export function generateStaticParams() {
 }
 
 function navGroups(locale: Parameters<typeof href>[0], t: ReturnType<typeof getDict>): NavGroup[] {
-  const tools: [string, string][] = [["renten-check", retirementCheckTitle(locale)], ["versicherungs-check", t.tools2.check.title], ["rentenluecke", t.calc.pension.title], ["kinder-sparziel", t.calc.kids.title], ["arbeitskraft", t.calc.income.title], ["inflation", t.tools2.inflation.title], ["ankommen", t.tools2.arrival.title]];
+  const tools: [string, string][] = [["renten-check", retirementCheckTitle(locale)], ["versicherungs-check", insuranceChecklistTitle(locale)], ["vermoegensaufbau", wealthBuilderTitle(locale)]];
   return [
     { id: "invest", label: t.v3.navInvest, items: [
       { label: t.services.items.retirement.title, href: href(locale, "retirement") },
       { label: t.services.items.kids.title, href: href(locale, "kids") },
-      { label: t.v3.wealth, href: href(locale, "retirement", undefined, "produkt") },
+      { label: t.v3.wealth, href: href(locale, "tools", undefined, "vermoegensaufbau") },
     ] },
     { id: "insure", label: t.v3.navInsure, items: [
       { label: t.services.items.bu.title, href: href(locale, "bu") },
@@ -60,7 +63,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         />
         <main id="main" tabIndex={-1} className="outline-none">{children}</main>
         <Footer locale={locale} t={t} />
-        <MobileContactBar locale={locale} callLabel={t.v3.whatsapp} bookLabel={t.v3.freeShort} waMessage={t.v3.waMessage} />
+        <FloatingCta label={t.v3.freeBook} contactHref={href(locale, "contact")} />
+        <MobileContactBar locale={locale} callLabel={t.v3.whatsapp} bookLabel={t.v3.freeBook} waMessage={t.v3.waMessage} />
         <Track enabled={analyticsEnabled} />
         <RevealObserver />
       </body>

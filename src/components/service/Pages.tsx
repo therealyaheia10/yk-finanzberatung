@@ -11,8 +11,10 @@ import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { Portrait } from "@/components/ui/Portrait";
 import { AdvisorCard, ContactBlock, ExtrasStrip, Faq, LangChips, SectionHead, SolutionsGrid, TeamSection, extraIcons, formModes, initials } from "@/components/home/Home";
 import { LeadForm } from "@/components/forms/LeadForm";
-import { IncomeValue, KidsSavings, PensionGap } from "@/components/calculators/Calculators";
-import { ArrivalChecklist, InflationCalc, InsuranceCheck } from "@/components/calculators/Tools";
+import { InsuranceChecklist } from "@/components/calculators/InsuranceChecklist";
+import { WealthBuilder } from "@/components/calculators/WealthBuilder";
+import { insuranceChecklistIntro, insuranceChecklistTitle } from "@/components/calculators/insuranceChecklistText";
+import { wealthBuilderIntro, wealthBuilderTitle } from "@/components/calculators/wealthBuilderText";
 import { ToolHub } from "@/components/calculators/ToolHub";
 import { RetirementCheck } from "@/components/calculators/RetirementCheck";
 import { retirementCheckIntro, retirementCheckTitle } from "@/components/calculators/retirementCheckText";
@@ -92,7 +94,7 @@ export function ServicePage({ locale, t, k }: { locale: Locale; t: Dict; k: Serv
   const split = "split" in s ? (s as typeof t.servicePages.bav).split : null;
   const prod = products[k];
   const experts = activeAdvisors().filter((a) => a.focus.includes(topicFor[k]));
-  const calc = k === "kids" ? <KidsSavings locale={locale} t={t.calc} /> : k === "retirement" ? <PensionGap locale={locale} t={t.calc} /> : k === "bu" ? <IncomeValue locale={locale} t={t.calc} /> : null;
+  const calc = k === "kids" ? <WealthBuilder locale={locale} initialMode="child" /> : k === "retirement" ? <RetirementCheck locale={locale} /> : null;
 
   return (
     <>
@@ -378,10 +380,12 @@ export function TeamMemberPage({ locale, t, a }: { locale: Locale; t: Dict; a: A
               <h2 className="font-semibold text-navy">{t.team.background}</h2>
               <ul className="mt-2 space-y-2 text-[0.95rem]">{a.background[locale].map((b) => <li key={b} className="flex gap-2"><Check size={17} className="mt-0.5 shrink-0 text-brass" aria-hidden="true" />{b}</li>)}</ul>
             </div>
-            <div className="rounded-2xl bg-ivory p-5">
-              <h2 className="font-semibold text-navy">{t.team.focus}</h2>
-              <p className="mt-1 text-[0.95rem] text-muted">{focus.map((f) => t.services.items[f].title).join(" · ")}</p>
-            </div>
+            {focus.length > 0 && (
+              <div className="rounded-2xl bg-ivory p-5">
+                <h2 className="font-semibold text-navy">{t.team.focus}</h2>
+                <p className="mt-1 text-[0.95rem] text-muted">{focus.map((f) => t.services.items[f].title).join(" · ")}</p>
+              </div>
+            )}
             <div className="rounded-2xl border border-line p-5 text-[0.95rem]">
               <h2 className="font-semibold text-navy">{t.team.contactTitle}</h2>
               <ul className="mt-2 space-y-1.5">
@@ -473,12 +477,8 @@ export function ToolsPage({ locale, t }: { locale: Locale; t: Dict }) {
         <h2 className="sr-only">{chooseLabel[locale]}</h2>
         <ToolHub chooseLabel={chooseLabel[locale]} tools={[
           { id: "renten-check", title: retirementCheckTitle(locale), desc: retirementCheckIntro(locale), node: <RetirementCheck locale={locale} /> },
-          { id: "versicherungs-check", title: t.tools2.check.title, desc: t.tools2.check.intro, node: <InsuranceCheck locale={locale} t={t.tools2} discuss={t.calc.discuss} /> },
-          { id: "rentenluecke", title: t.calc.pension.title, desc: t.calc.pension.intro, node: <PensionGap locale={locale} t={t.calc} /> },
-          { id: "kinder-sparziel", title: t.calc.kids.title, desc: t.calc.kids.intro, node: <KidsSavings locale={locale} t={t.calc} /> },
-          { id: "arbeitskraft", title: t.calc.income.title, desc: t.calc.income.intro, node: <IncomeValue locale={locale} t={t.calc} /> },
-          { id: "inflation", title: t.tools2.inflation.title, desc: t.tools2.inflation.intro, node: <InflationCalc locale={locale} t={t.tools2} discuss={t.calc.discuss} disclaimer={t.calc.disclaimer} /> },
-          { id: "ankommen", title: t.tools2.arrival.title, desc: t.tools2.arrival.intro, node: <ArrivalChecklist locale={locale} t={t.tools2} discuss={t.calc.discuss} /> },
+          { id: "versicherungs-check", title: insuranceChecklistTitle(locale), desc: insuranceChecklistIntro(locale), node: <InsuranceChecklist locale={locale} /> },
+          { id: "vermoegensaufbau", title: wealthBuilderTitle(locale), desc: wealthBuilderIntro(locale), node: <WealthBuilder locale={locale} /> },
         ]} />
       </Section>
       <CtaBand locale={locale} t={t} title={t.home.closingTitle} text={t.home.closingText} topic="general" />

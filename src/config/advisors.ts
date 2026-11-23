@@ -203,23 +203,44 @@ export const advisors: Advisor[] = [
     nameAr: "إسماعيل بالانغا",
     portrait: "/images/team/ismael-palanga.webp",
     position: null,
-    /* Texte folgen – bis dahin bewusst neutral, keine erfundenen Angaben */
+    /* Text von Ismael (DE), leicht ergänzt und übersetzt – wird später noch verfeinert */
     short: {
-      de: "Teil des Teams von International Finance Consulting in Düsseldorf. Seine persönliche Vorstellung folgt in Kürze.",
-      en: "Part of the International Finance Consulting team in Düsseldorf. His personal introduction is coming soon.",
-      fr: "Membre de l’équipe International Finance Consulting à Düsseldorf. Sa présentation personnelle arrive bientôt.",
-      ar: "عضو في فريق International Finance Consulting في دوسلدورف. تعريفه الشخصي قريباً.",
+      de: "Für ihn steht nicht das Produkt im Vordergrund, sondern der Mensch dahinter – ehrlich, transparent und auf Augenhöhe.",
+      en: "For him, it's never about the product – it's about the person behind it. Honest, transparent and on equal footing.",
+      fr: "Pour lui, ce n’est pas le produit qui compte, mais la personne derrière – avec honnêteté, transparence et d’égal à égal.",
+      ar: "بالنسبة له، الأهم مش المنتج، بل الإنسان اللي وراه – بصدق ووضوح ومن ندّ لندّ.",
     },
     bio: {
-      de: ["Ismael Palanga ist Teil unseres Beratungsteams in Düsseldorf. Seine ausführliche Vorstellung ergänzen wir in Kürze."],
-      en: ["Ismael Palanga is part of our advisory team in Düsseldorf. We'll add his full introduction shortly."],
-      fr: ["Ismael Palanga fait partie de notre équipe de conseil à Düsseldorf. Nous ajouterons très bientôt sa présentation complète."],
-      ar: ["إسماعيل بالانغا عضو في فريق الاستشارات لدينا في دوسلدورف، وسنضيف تعريفه الكامل قريباً."],
+      de: [
+        "Mir ist es besonders wichtig, Menschen einen echten Mehrwert zu bieten. Ich möchte verstehen, was sie bewegt, welche Ziele sie haben und was sie sich für ihre Zukunft wünschen.",
+        "Darauf aufbauend möchte ich sie ehrlich, transparent und auf Augenhöhe begleiten und gemeinsam passende finanzielle Lösungen finden. Denn für mich steht nicht das Produkt im Vordergrund, sondern immer der Mensch dahinter.",
+        "Im Gespräch nehme ich mir Zeit, höre zuerst zu und erkläre alles so, dass Sie es wirklich verstehen – auf Deutsch, Englisch oder Französisch.",
+      ],
+      en: [
+        "What matters most to me is offering people real value. I want to understand what moves them, what goals they have and what they wish for their future.",
+        "Building on that, I want to support them honestly, transparently and on equal footing, and find the right financial solutions together. Because for me, it's never about the product – it's always about the person behind it.",
+        "In our conversations I take my time, listen first and explain everything so that you truly understand it – in German, English or French.",
+      ],
+      fr: [
+        "Ce qui compte le plus pour moi, c’est d’apporter une vraie valeur aux personnes que j’accompagne. Je veux comprendre ce qui les anime, quels sont leurs objectifs et ce qu’elles souhaitent pour leur avenir.",
+        "Sur cette base, je veux les accompagner avec honnêteté, transparence et d’égal à égal, et trouver ensemble les solutions financières qui leur conviennent. Car pour moi, ce n’est jamais le produit qui compte, mais toujours la personne derrière.",
+        "En rendez-vous, je prends le temps, j’écoute d’abord et j’explique tout pour que vous compreniez vraiment – en allemand, en anglais ou en français.",
+      ],
+      ar: [
+        "أهم شي عندي إني أقدّم للناس فائدة حقيقية. بدي أفهم شو اللي بيشغل بالهم، شو أهدافهم، وشو بيتمنوا لمستقبلهم.",
+        "وعلى هذا الأساس بدي أرافقهم بصدق ووضوح ومن ندّ لندّ، ونلاقي سوا الحلول المالية المناسبة إلهم. لأنه بالنسبة إلي، الأهم مش المنتج، بل دايماً الإنسان اللي وراه.",
+        "بالجلسة باخد وقتي، بسمع أول شي، وبشرح كل شي بطريقة واضحة – بالألمانية أو الإنجليزية أو الفرنسية.",
+      ],
     },
-    quote: null,
+    quote: {
+      de: "Für mich steht nicht das Produkt im Vordergrund, sondern immer der Mensch dahinter.",
+      en: "For me, it's never about the product – it's always about the person behind it.",
+      fr: "Pour moi, ce n’est jamais le produit qui compte, mais toujours la personne derrière.",
+      ar: "بالنسبة إلي، الأهم مش المنتج، بل دايماً الإنسان اللي وراه.",
+    },
     background: { de: ["Team International Finance Consulting, Düsseldorf"], en: ["International Finance Consulting team, Düsseldorf"], fr: ["Équipe International Finance Consulting, Düsseldorf"], ar: ["فريق International Finance Consulting، دوسلدورف"] },
-    /* BITTE BESTÄTIGEN: tatsächliche Beratungssprachen und Schwerpunkte */
-    languages: ["de"],
+    /* Sprachen bestätigt (DE, EN, FR); Schwerpunkte bitte noch bestätigen */
+    languages: ["de", "en", "fr"],
     focus: ["general"],
     phone: null,
     phoneDisplay: null,

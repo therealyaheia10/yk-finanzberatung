@@ -34,9 +34,9 @@
 ## Neu seit Startseiten-Update (Team-Foto, Ismael Palanga)
 | Angabe | Status | Wo eintragen |
 |---|---|---|
-| Ismael Palanga: Beratungssprachen | **angenommen: nur Deutsch** – bitte bestätigen | `src/config/advisors.ts` → `languages` |
+| Ismael Palanga: Beratungssprachen | bestätigt: Deutsch, Englisch, Französisch | `src/config/advisors.ts` → `languages` |
 | Ismael Palanga: Schwerpunkte | **angenommen: allgemein** – bitte bestätigen | `src/config/advisors.ts` → `focus` |
-| Ismael Palanga: Kurztext / About Me (DE/AR/EN/FR) | neutraler Platzhalter | `src/config/advisors.ts` → `short`, `bio` |
+| Ismael Palanga: Kurztext / About Me (DE/AR/EN/FR) | eigener Text eingebaut, wird später verfeinert | `src/config/advisors.ts` → `short`, `bio` |
 | Ismael Palanga: Registrierung § 34d, IHK | offen | `advisors.ts` / Impressum |
 | Echte Kundenbewertungen (mit dokumentierter Einwilligung) | keine – Bereich ist öffentlich ausgeblendet, in der Vorschau Platzhalter | `src/config/company.ts` → `reviews` |
 | Fotos für „Fragen, die Sie sich stellen“ (Familie / Unternehmer) | gestaltete Grafik als Ersatz | `public/images/…` + `company.issueImages` |
@@ -44,7 +44,8 @@
 
 ## Tools (Umbau auf 3 Haupt-Tools)
 - [x] Tool 1: „Retirement Reality Check“ (vom Kunden geliefert) – eingebaut als `renten-check`, Rechenlogik 1:1 übernommen, DE/AR/FR übersetzt
-- [ ] Tool 2 – folgt
-- [ ] Tool 3 – folgt
-- [ ] Danach: bisherige 6 Tools entfernen oder ausblenden (bis dahin bleiben sie unter dem neuen Tool sichtbar)
+- [x] Tool 2: „Insurance Checklist“ – eingebaut als `versicherungs-check`
+- [x] Tool 3: „Wealth Builder“ – eingebaut als `vermoegensaufbau` (Buchungs-Links führen zur Kontaktseite)
+- [x] Alte 6 Tools entfernt
+- [ ] Renditeannahme 10 % im Vermögensrechner fachlich/rechtlich freigeben (Anlage-Themen ggf. § 34f GewO)
 - [ ] Übersetzung des Renten-Checks (AR/FR) von Muttersprachlern gegenlesen
