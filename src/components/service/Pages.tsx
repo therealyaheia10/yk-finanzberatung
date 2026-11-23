@@ -14,6 +14,8 @@ import { LeadForm } from "@/components/forms/LeadForm";
 import { IncomeValue, KidsSavings, PensionGap } from "@/components/calculators/Calculators";
 import { ArrivalChecklist, InflationCalc, InsuranceCheck } from "@/components/calculators/Tools";
 import { ToolHub } from "@/components/calculators/ToolHub";
+import { RetirementCheck } from "@/components/calculators/RetirementCheck";
+import { retirementCheckIntro, retirementCheckTitle } from "@/components/calculators/retirementCheckText";
 
 const topicFor: Record<ServiceKey, TopicKey> = { retirement: "retirement", kids: "kids", bu: "bu", pkv: "pkv", bav: "bav", bkv: "bkv" };
 const arrow = "rtl:rotate-180";
@@ -470,6 +472,7 @@ export function ToolsPage({ locale, t }: { locale: Locale; t: Dict }) {
       <Section tone="ivory" compact>
         <h2 className="sr-only">{chooseLabel[locale]}</h2>
         <ToolHub chooseLabel={chooseLabel[locale]} tools={[
+          { id: "renten-check", title: retirementCheckTitle(locale), desc: retirementCheckIntro(locale), node: <RetirementCheck locale={locale} /> },
           { id: "versicherungs-check", title: t.tools2.check.title, desc: t.tools2.check.intro, node: <InsuranceCheck locale={locale} t={t.tools2} discuss={t.calc.discuss} /> },
           { id: "rentenluecke", title: t.calc.pension.title, desc: t.calc.pension.intro, node: <PensionGap locale={locale} t={t.calc} /> },
           { id: "kinder-sparziel", title: t.calc.kids.title, desc: t.calc.kids.intro, node: <KidsSavings locale={locale} t={t.calc} /> },

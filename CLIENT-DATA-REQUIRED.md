@@ -41,3 +41,10 @@
 | Echte Kundenbewertungen (mit dokumentierter Einwilligung) | keine – Bereich ist öffentlich ausgeblendet, in der Vorschau Platzhalter | `src/config/company.ts` → `reviews` |
 | Fotos für „Fragen, die Sie sich stellen“ (Familie / Unternehmer) | gestaltete Grafik als Ersatz | `public/images/…` + `company.issueImages` |
 | WhatsApp-Nummer | +49 179 7216990 (wie Telefon) – bitte bestätigen | `company.whatsapp` |
+
+## Tools (Umbau auf 3 Haupt-Tools)
+- [x] Tool 1: „Retirement Reality Check“ (vom Kunden geliefert) – eingebaut als `renten-check`, Rechenlogik 1:1 übernommen, DE/AR/FR übersetzt
+- [ ] Tool 2 – folgt
+- [ ] Tool 3 – folgt
+- [ ] Danach: bisherige 6 Tools entfernen oder ausblenden (bis dahin bleiben sie unter dem neuen Tool sichtbar)
+- [ ] Übersetzung des Renten-Checks (AR/FR) von Muttersprachlern gegenlesen

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { ShieldCheck, Hourglass, Baby, Briefcase, TrendingDown, ListChecks } from "lucide-react";
+import { PiggyBank, ShieldCheck, Hourglass, Baby, Briefcase, TrendingDown, ListChecks } from "lucide-react";
 
-const icons = { "versicherungs-check": ShieldCheck, rentenluecke: Hourglass, "kinder-sparziel": Baby, arbeitskraft: Briefcase, inflation: TrendingDown, ankommen: ListChecks } as const;
+const icons = { "renten-check": PiggyBank, "versicherungs-check": ShieldCheck, rentenluecke: Hourglass, "kinder-sparziel": Baby, arbeitskraft: Briefcase, inflation: TrendingDown, ankommen: ListChecks } as const;
 export type ToolId = keyof typeof icons;
 
 /** Tool-Auswahl wie eine Liste – es wird immer nur ein Tool gezeigt (kurze Seite, klare Orientierung) */

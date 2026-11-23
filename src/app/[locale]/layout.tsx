@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { company } from "@/config/company";
 import { dir, isLocale, locales } from "@/lib/i18n";
 import { getDict } from "@/content";
+import { retirementCheckTitle } from "@/components/calculators/retirementCheckText";
 import { Header, type NavGroup } from "@/components/layout/Header";
 import { extraKeys, href } from "@/lib/i18n";
 import { Footer } from "@/components/layout/Footer";
@@ -20,7 +21,7 @@ export function generateStaticParams() {
 }
 
 function navGroups(locale: Parameters<typeof href>[0], t: ReturnType<typeof getDict>): NavGroup[] {
-  const tools: [string, string][] = [["versicherungs-check", t.tools2.check.title], ["rentenluecke", t.calc.pension.title], ["kinder-sparziel", t.calc.kids.title], ["arbeitskraft", t.calc.income.title], ["inflation", t.tools2.inflation.title], ["ankommen", t.tools2.arrival.title]];
+  const tools: [string, string][] = [["renten-check", retirementCheckTitle(locale)], ["versicherungs-check", t.tools2.check.title], ["rentenluecke", t.calc.pension.title], ["kinder-sparziel", t.calc.kids.title], ["arbeitskraft", t.calc.income.title], ["inflation", t.tools2.inflation.title], ["ankommen", t.tools2.arrival.title]];
   return [
     { id: "invest", label: t.v3.navInvest, items: [
       { label: t.services.items.retirement.title, href: href(locale, "retirement") },

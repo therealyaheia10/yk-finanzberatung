@@ -202,3 +202,21 @@ for (const path of axePages) {
 
 // unbenutzte Variable vermeiden
 void routes;
+
+test("Renten-Realitätscheck: drei Schritte, Rechenlogik wie im gelieferten Tool", async ({ page }) => {
+  await page.goto("/de/orientierung#renten-check");
+  const panel = page.locator("#tool-panel");
+  await panel.getByRole("button", { name: /Mein Ergebnis anzeigen/ }).click();
+  await expect(panel.getByText("Schritt 1 von 3")).toBeVisible();
+  await expect(panel.getByText("2.721 €").first()).toBeVisible();
+  await panel.getByRole("button", { name: /Es gibt einen Haken/ }).click();
+  await expect(panel.getByText("1.125 €").first()).toBeVisible();
+  await panel.getByRole("button", { name: /echte Rentenlücke/ }).click();
+  await expect(panel.getByText("− 1.375 €")).toBeVisible();
+  await panel.getByRole("button", { name: /Anderes Szenario/ }).click();
+  await expect(panel.getByText("Schritt 3 von 3")).toHaveCount(0);
+  // Ungültige Eingabe zeigt Fehlermeldung
+  await panel.getByLabel("Geplantes Rentenalter").fill("30");
+  await panel.getByRole("button", { name: /Mein Ergebnis anzeigen/ }).click();
+  await expect(panel.getByRole("alert")).toContainText("Rentenalter");
+});
