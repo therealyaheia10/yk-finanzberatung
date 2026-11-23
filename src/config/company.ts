@@ -41,6 +41,8 @@ export const company = {
   issueImages: { private: null as string | null, business: null as string | null },
   /** Reihenfolge der Personen auf dem Teamfoto (für Bildbeschreibung), von links */
   teamPhotoOrder: ["ismael-palanga", "yaheia-kaswan", "ali-ibrahim"],
+  /** Bild im Abschnitt „Was uns verbindet“ – eigenes Foto hier eintragen (public/images/…) */
+  whyImage: "/images/topics/advice.webp",
   email: null as string | null,
   /** Zentraler Terminbuchungslink (z. B. Kalender-Tool) – optional */
   bookingUrl: null as string | null,

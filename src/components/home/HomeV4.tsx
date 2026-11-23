@@ -183,7 +183,7 @@ function Why({ locale }: { locale: Locale }) {
       <Container className="grid items-center gap-9 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <div className="relative hidden sm:block" {...reveal()}>
           <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] shadow-[0_30px_60px_-36px_rgba(17,21,25,.55)]">
-            <Image src="/images/topics/advice.webp" alt={c.imgAlt} fill sizes="(min-width:1024px) 560px, 100vw" className="object-cover" />
+            <Image src={company.whyImage} alt={c.imgAlt} fill sizes="(min-width:1024px) 560px, 100vw" className="object-cover" />
           </div>
         </div>
         <div>

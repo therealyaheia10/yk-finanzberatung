@@ -16,6 +16,7 @@ import { MobileContactBar } from "@/components/layout/MobileContactBar";
 import { FloatingCta } from "@/components/layout/FloatingCta";
 import { Track } from "@/components/layout/Track";
 import { RevealObserver } from "@/components/layout/Reveal";
+import { ScrollReset } from "@/components/layout/ScrollReset";
 import { analyticsEnabled } from "@/lib/site";
 
 export const viewport: Viewport = { themeColor: "#111519", width: "device-width", initialScale: 1 };
@@ -70,6 +71,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         <MobileContactBar locale={locale} callLabel={t.v3.whatsapp} bookLabel={t.v3.freeBook} waMessage={t.v3.waMessage} />
         <Track enabled={analyticsEnabled} />
         <RevealObserver />
+        <ScrollReset />
       </body>
     </html>
   );

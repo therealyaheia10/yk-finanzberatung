@@ -253,3 +253,37 @@ test("Startseite: Rechner sind direkt eingebettet", async ({ page }) => {
   await tools.getByRole("button", { name: /Vermögen aufbauen/ }).click();
   await expect(tools.getByText("143.652 €").first()).toBeVisible();
 });
+
+test("Seitenwechsel von weit unten beginnt oben, Zurück-Taste stellt Position wieder her (Handy + Laptop)", async ({ page }) => {
+  for (const vp of [{ width: 390, height: 844 }, { width: 1366, height: 768 }]) {
+    await page.setViewportSize(vp);
+    await page.goto("/de");
+    const link = page.locator("#team article h3 a").first();
+    await link.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    await link.click();
+    await page.waitForURL(/\/de\/team\//);
+    await page.waitForTimeout(400);
+    expect(await page.evaluate(() => scrollY), `${vp.width}: neue Seite oben`).toBeLessThan(5);
+    const y = await page.evaluate(() => scrollY);
+    expect(y).toBeLessThan(5);
+    await page.goBack();
+    await page.waitForURL(/\/de$/);
+    await page.waitForTimeout(400);
+    expect(await page.evaluate(() => scrollY), `${vp.width}: zurück an alter Stelle`).toBeGreaterThan(1500);
+  }
+});
+
+test("Beim Scrollen bleiben keine Bereiche unsichtbar", async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.goto("/de");
+  for (let i = 0; i < 10; i++) {
+    await page.mouse.wheel(0, 900);
+    await page.waitForTimeout(50);
+    const invisible = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>("main *:not(svg):not(svg *)")].filter((e) => {
+      const r = e.getBoundingClientRect();
+      return r.height > 40 && r.bottom > 0 && r.top < innerHeight && Number(getComputedStyle(e).opacity) < 0.5;
+    }).length);
+    expect(invisible).toBe(0);
+  }
+});

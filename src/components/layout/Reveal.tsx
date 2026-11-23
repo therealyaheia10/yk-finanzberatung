@@ -17,12 +17,12 @@ export function RevealObserver() {
     if (!("IntersectionObserver" in window)) { els.forEach(show); return; }
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => { if (en.isIntersecting || en.boundingClientRect.top < 0) { show(en.target); io.unobserve(en.target); } });
-    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+    }, { rootMargin: "0px 0px 25% 0px", threshold: 0 }); // startet kurz bevor der Inhalt ins Bild kommt → keine leeren Stellen
     const sweep = () => {
       const vh = window.innerHeight;
-      document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)").forEach((e) => { if (e.getBoundingClientRect().top < vh) { show(e); io.unobserve(e); } });
+      document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)").forEach((e) => { if (e.getBoundingClientRect().top < vh * 1.25) { show(e); io.unobserve(e); } });
     };
-    els.forEach((e) => (e.getBoundingClientRect().top < window.innerHeight ? show(e) : io.observe(e)));
+    els.forEach((e) => (e.getBoundingClientRect().top < window.innerHeight * 1.25 ? show(e) : io.observe(e)));
     window.addEventListener("scroll", sweep, { passive: true });
     window.addEventListener("hashchange", sweep);
     return () => { io.disconnect(); window.removeEventListener("scroll", sweep); window.removeEventListener("hashchange", sweep); };

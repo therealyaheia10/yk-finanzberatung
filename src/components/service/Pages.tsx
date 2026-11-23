@@ -10,7 +10,8 @@ import { fill } from "@/lib/format";
 import { isPreview } from "@/lib/site";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { Portrait } from "@/components/ui/Portrait";
-import { AdvisorCard, ContactBlock, ExtrasStrip, Faq, LangChips, SectionHead, SolutionsGrid, TeamSection, extraIcons, formModes, initials } from "@/components/home/Home";
+import { LangFlag } from "@/components/ui/Icons";
+import { ContactBlock, ExtrasStrip, Faq, LangChips, SectionHead, SolutionsGrid, TeamSection, extraIcons, formModes, initials } from "@/components/home/Home";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { InsuranceChecklist } from "@/components/calculators/InsuranceChecklist";
 import { WealthBuilder } from "@/components/calculators/WealthBuilder";
@@ -422,7 +423,21 @@ export function TeamMemberPage({ locale, t, a }: { locale: Locale; t: Dict; a: A
       {others.length > 0 && (
         <Section tone="paper" compact>
           <SectionHead title={t.team.otherAdvisors} link={{ href: href(locale, "about"), label: t.home.teamLink }} />
-          <div className="grid max-w-xl grid-cols-2 gap-3 sm:gap-4">{others.map((o) => <AdvisorCard key={o.id} a={o} locale={locale} t={t} compact />)}</div>
+          <ul className="grid gap-4 md:grid-cols-2">
+            {others.map((o) => (
+              <li key={o.id}>
+                <Link href={teamHref(locale, o.slug)} className="card lift group flex h-full items-center gap-4 p-4" data-track={`other_advisor_${o.slug}`}>
+                  <Portrait src={o.portrait} alt="" initials={initials(o)} placeholderLabel="" className="h-24 w-24 shrink-0 rounded-xl" sizes="96px" />
+                  <span className="min-w-0 flex-1">
+                    <span className="display block text-[1.25rem] text-navy">{advisorName(o, locale)}</span>
+                    <span className="mt-1 line-clamp-2 block text-[0.95rem] leading-snug text-muted">{o.short[locale]}</span>
+                    <span className="mt-2 flex gap-1">{o.languages.map((l) => <LangFlag key={l} l={l} size={18} />)}</span>
+                  </span>
+                  <ChevronRight size={20} className={`shrink-0 text-navy/50 transition-transform group-hover:translate-x-1 ${arrow}`} aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Section>
       )}
     </>
