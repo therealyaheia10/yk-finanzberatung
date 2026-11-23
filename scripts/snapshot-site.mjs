@@ -40,9 +40,9 @@ for (const path of paths) {
   const dropdowns = [];
   const btns = page.locator("header nav[class*='xl:block'] li > button");
   for (let i = 0; i < await btns.count(); i++) {
-    await btns.nth(i).click(); await page.waitForTimeout(80);
+    await btns.nth(i).hover(); await page.waitForTimeout(120);
     dropdowns.push(await page.locator("header nav [id^='nav-']").first().evaluate((e) => e.outerHTML).catch(() => ""));
-    await page.keyboard.press("Escape"); await page.waitForTimeout(50);
+    await page.mouse.move(5, 600); await page.waitForTimeout(250);
   }
   const langBtn = page.locator("header div.hidden.xl\\:flex button").first();
   await langBtn.click(); await page.waitForTimeout(80);
