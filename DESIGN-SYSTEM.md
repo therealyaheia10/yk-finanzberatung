@@ -39,3 +39,13 @@ Mobil 6,0 Bildschirmhöhen (vorher 21,4), Desktop 4,0 (vorher 12,9).
 - **Bewegung:** `data-reveal` (sanftes Einblenden beim Scrollen, gestaffelt über `--d`), `.lift` (Karten heben sich), `.zoom-img` (Fotos zoomen langsam), Bewertungs-Laufband (pausiert bei Hover/Fokus). Alles abgeschaltet bei `prefers-reduced-motion`.
 - **Header ohne `backdrop-filter`:** ein Blur-Filter würde das fixierte Mobilmenü an den Header binden und unsichtbar machen.
 - **Footer:** Telefonnummer entfernt, Karte als 2-Klick-Lösung (Google lädt erst nach Klick).
+
+## v4 – Strategisches Redesign (Vertrauen · Klarheit · Anfrage)
+- **Marke:** Logo nach Kundenvorlage (Globus mit goldenem Wachstumspfeil + „IFC“, Inter). Auf dunklem Grund Globus in „Globe blue“.
+- **Farben = Logo-Palette:** Navy #14213D (Rahmen, Überschriften), Gold #E3B341 (nur für die Hauptaktion), Globe blue #22396B, Mist #EEF1F5 / #F5F7FA (helle Flächen). Alle Text-Kontraste ≥ 5,8 : 1.
+- **Typografie:** Überschriften Source Serif 4 (ruhig, hochwertig), Text Figtree 18 px mobil / 19 px Desktop (altersfreundlich), Logo Inter, Arabisch IBM Plex Sans Arabic.
+- **Hauptbutton:** „Beratungsgespräch buchen“ – Gold, 60 px hoch, mit Kalender-Symbol, an jeder wichtigen Stelle; mobil feste Leiste unten, ab Tablet schwebender Button.
+- **Startseite (7 Abschnitte):** Hero mit Team-Foto → „Welche Frage beschäftigt Sie?“ (6 Lebensthemen mit Fotos) → 6 Schwerpunkte + Ergänzungen → „Warum Kunden sich wohlfühlen“ → Ansprechpartner → 3 Tools → Abschluss mit 3 Schritten.
+- **Texte:** kurz, aus Sicht der Berater („wir“), keine Versprechen, keine erfundenen Kundenzitate. Arabisch in einfachem Hocharabisch.
+- **Bewertungen:** Bereich entfernt, bis echte, freigegebene Bewertungen vorliegen.
+- **Bilder:** thematisch passende Unsplash-Fotos (siehe docs/BILDQUELLEN.md).

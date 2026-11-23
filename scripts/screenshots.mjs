@@ -15,7 +15,7 @@ async function shot(path, file, w, h, full = false, scale = 2) {
   const p = await ctx.newPage();
   await p.goto(BASE + path, { waitUntil: "networkidle" });
   await p.waitForTimeout(1200); await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 120)); } window.scrollTo(0, 0); });
-  await p.waitForTimeout(600);
+  await p.evaluate(() => document.querySelectorAll('[data-reveal]').forEach((e) => e.classList.add('is-in'))); await p.waitForTimeout(600);
   if (full) await p.addStyleTag({ content: ".fixed{position:static!important}" });
   await p.screenshot({ path: `${OUT}/${file}`, fullPage: full, type: file.endsWith(".jpg") ? "jpeg" : "png", quality: file.endsWith(".jpg") ? 82 : undefined });
   await ctx.close();

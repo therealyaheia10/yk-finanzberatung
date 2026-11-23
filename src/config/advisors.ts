@@ -208,7 +208,7 @@ export const advisors: Advisor[] = [
       de: "Für ihn steht nicht das Produkt im Vordergrund, sondern der Mensch dahinter – ehrlich, transparent und auf Augenhöhe.",
       en: "For him, it's never about the product – it's about the person behind it. Honest, transparent and on equal footing.",
       fr: "Pour lui, ce n’est pas le produit qui compte, mais la personne derrière – avec honnêteté, transparence et d’égal à égal.",
-      ar: "بالنسبة له، الأهم مش المنتج، بل الإنسان اللي وراه – بصدق ووضوح ومن ندّ لندّ.",
+      ar: "بالنسبة له، الأهم ليس المنتج، بل الإنسان الذي يقف خلفه – بصدق ووضوح وعلى قدم المساواة.",
     },
     bio: {
       de: [
@@ -227,16 +227,16 @@ export const advisors: Advisor[] = [
         "En rendez-vous, je prends le temps, j’écoute d’abord et j’explique tout pour que vous compreniez vraiment – en allemand, en anglais ou en français.",
       ],
       ar: [
-        "أهم شي عندي إني أقدّم للناس فائدة حقيقية. بدي أفهم شو اللي بيشغل بالهم، شو أهدافهم، وشو بيتمنوا لمستقبلهم.",
-        "وعلى هذا الأساس بدي أرافقهم بصدق ووضوح ومن ندّ لندّ، ونلاقي سوا الحلول المالية المناسبة إلهم. لأنه بالنسبة إلي، الأهم مش المنتج، بل دايماً الإنسان اللي وراه.",
-        "بالجلسة باخد وقتي، بسمع أول شي، وبشرح كل شي بطريقة واضحة – بالألمانية أو الإنجليزية أو الفرنسية.",
+        "أهم ما يعنيني هو أن أقدّم للناس فائدة حقيقية. أريد أن أفهم ما يشغلهم، وما هي أهدافهم، وما الذي يتمنّونه لمستقبلهم.",
+        "وعلى هذا الأساس أرافقهم بصدق وشفافية وعلى قدم المساواة، لنجد معاً الحلول المالية المناسبة لهم. فبالنسبة لي، الأهم ليس المنتج، بل دائماً الإنسان الذي يقف خلفه.",
+        "في كل لقاء آخذ وقتي، أستمع أولاً، ثم أشرح كل شيء بطريقة واضحة – بالألمانية أو الإنجليزية أو الفرنسية.",
       ],
     },
     quote: {
       de: "Für mich steht nicht das Produkt im Vordergrund, sondern immer der Mensch dahinter.",
       en: "For me, it's never about the product – it's always about the person behind it.",
       fr: "Pour moi, ce n’est jamais le produit qui compte, mais toujours la personne derrière.",
-      ar: "بالنسبة إلي، الأهم مش المنتج، بل دايماً الإنسان اللي وراه.",
+      ar: "بالنسبة لي، الأهم ليس المنتج، بل دائماً الإنسان الذي يقف خلفه.",
     },
     background: { de: ["Team International Finance Consulting, Düsseldorf"], en: ["International Finance Consulting team, Düsseldorf"], fr: ["Équipe International Finance Consulting, Düsseldorf"], ar: ["فريق International Finance Consulting، دوسلدورف"] },
     /* Sprachen bestätigt (DE, EN, FR); Schwerpunkte bitte noch bestätigen */

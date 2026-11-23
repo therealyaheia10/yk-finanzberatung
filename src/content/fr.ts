@@ -22,12 +22,12 @@ const fr = (p: P): Dict => ({
   nav: {
     home: "Accueil", about: "Qui sommes-nous", private: "Particuliers", business: "Entreprises",
     solutions: "Solutions", tools: "Outils", contact: "Contact",
-    cta: "Conseil gratuit", menu: "Menu", close: "Fermer", skip: "Aller au contenu",
+    cta: "Prendre rendez-vous", menu: "Menu", close: "Fermer", skip: "Aller au contenu",
     language: "Choisir la langue", mainNav: "Navigation principale", team: "Équipe",
   },
 
   common: {
-    call: "Appeler", callNumber: "Appeler maintenant", book: "Réserver un conseil gratuit", callback: "Être rappelé",
+    call: "Appeler", callNumber: "Appeler maintenant", book: "Prendre rendez-vous", callback: "Être rappelé",
     learnMore: "En savoir plus", inPerson: "Au bureau", byPhone: "Par téléphone", byVideo: "En visio",
     location: `Bureau à ${p.city}`, byAppointment: "Sur rendez-vous",
     externalNote: "ouvre un site externe",
@@ -54,8 +54,8 @@ const fr = (p: P): Dict => ({
     titleA: "Planification financière, épargne et assurance\u00a0–",
     titleB: "accessibles à la communauté internationale d’Allemagne.",
     subtitle: "Un conseil financier professionnel en Rhénanie-du-Nord-Westphalie pour les particuliers, les familles et les entreprises.",
-    free: "Réserver un conseil gratuit",
-    freeBook: "Réserver un conseil gratuit", freeShort: "Conseil gratuit",
+    free: "Prendre rendez-vous",
+    freeBook: "Prendre rendez-vous", freeShort: "Prendre rendez-vous",
     whatsapp: "WhatsApp",
     waMessage: "Bonjour, je souhaite un premier conseil gratuit.",
     teamPhotoAlt: "L’équipe International Finance Consulting : Ismael Palanga, Yaheia Kaswan et Ali Ibrahim",

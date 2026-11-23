@@ -22,12 +22,12 @@ const de = (p: P) => ({
   nav: {
     home: "Startseite", about: "Über uns", private: "Privatkunden", business: "Unternehmen",
     solutions: "Lösungen", tools: "Orientierung", contact: "Kontakt",
-    cta: "Kostenlose Beratung", menu: "Menü", close: "Schließen", skip: "Zum Inhalt springen",
+    cta: "Beratung buchen", menu: "Menü", close: "Schließen", skip: "Zum Inhalt springen",
     language: "Sprache wählen", mainNav: "Hauptnavigation", team: "Team",
   },
 
   common: {
-    call: "Anrufen", callNumber: "Jetzt anrufen", book: "Kostenlose Beratung vereinbaren", callback: "Rückruf anfordern",
+    call: "Anrufen", callNumber: "Jetzt anrufen", book: "Beratungsgespräch buchen", callback: "Rückruf anfordern",
     learnMore: "Mehr erfahren", inPerson: "Persönlich im Büro", byPhone: "Telefonisch", byVideo: "Per Video",
     location: `Büro in ${p.city}`, byAppointment: "Termine nach Vereinbarung",
     externalNote: "öffnet eine externe Website",
@@ -43,7 +43,7 @@ const de = (p: P) => ({
     titleA: "Ihre Zukunft in Deutschland.",
     titleB: "In Ihrer Sprache geplant.",
     subtitle: "Wir sind ein persönliches Beratungsteam für Familien, Berufstätige und Unternehmen. Wir erklären Vorsorge und Absicherung so, dass Sie sie wirklich verstehen – ruhig, ehrlich und ohne Fachchinesisch.",
-    primary: "Beratung vereinbaren",
+    primary: "Beratungsgespräch buchen",
     secondary: "Was möchten Sie absichern?",
     trust: ["Feste persönliche Ansprechpartner", `Büro in ${p.city}`, "Kein Verkaufsdruck"],
     teamLabel: "Ihre Ansprechpartner",
@@ -54,8 +54,8 @@ const de = (p: P) => ({
     titleA: "Finanzplanung, Vorsorge und Versicherungen\u00a0–",
     titleB: "zugänglich für Deutschlands internationale Community.",
     subtitle: "Professionelle Finanzberatung in NRW für Privatpersonen, Familien und Unternehmen.",
-    free: "Kostenlose Beratung vereinbaren",
-    freeBook: "Kostenlose Beratung buchen", freeShort: "Kostenlose Beratung",
+    free: "Beratungsgespräch buchen",
+    freeBook: "Beratungsgespräch buchen", freeShort: "Beratung buchen",
     whatsapp: "WhatsApp",
     waMessage: "Hallo, ich interessiere mich für eine kostenlose Beratung.",
     teamPhotoAlt: "Das Team von International Finance Consulting: Ismael Palanga, Yaheia Kaswan und Ali Ibrahim",
@@ -112,7 +112,7 @@ const de = (p: P) => ({
     closingText: "Erzählen Sie uns kurz, worum es geht. Wir melden uns persönlich – meist innerhalb eines Werktags.",
     callback: "Rückruf anfordern",
     seeTools: "Erst selbst rechnen? Zu den Rechnern",
-    primary: "Beratung vereinbaren",
+    primary: "Beratungsgespräch buchen",
   },
 
   finder: {

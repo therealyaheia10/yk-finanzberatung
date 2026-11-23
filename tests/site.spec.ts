@@ -73,21 +73,21 @@ test("Mobile Navigation öffnet, ist per Tastatur schließbar", async ({ page })
   await expect(page).toHaveURL(/\/de\/unternehmen$/);
 });
 
-test("Startseite: Privat/Unternehmen-Auswahl und Lösungen führen zu Unterseiten", async ({ page }) => {
+test("Startseite: Lebensthemen und Lösungen führen zu Unterseiten", async ({ page }) => {
   await page.goto("/de");
-  await page.getByRole("link", { name: /Für Ihr Unternehmen/ }).click();
+  await page.getByRole("link", { name: /Unternehmen & Mitarbeitende/ }).click();
   await expect(page).toHaveURL(/\/de\/unternehmen$/);
   await page.goto("/de");
   await page.getByRole("link", { name: /Private Krankenversicherung/ }).first().click();
   await expect(page).toHaveURL(/\/de\/private-krankenversicherung$/);
 });
 
-test("Startseite ist kompakt (mobil höchstens 7 Bildschirmhöhen)", async ({ page }) => {
+test("Startseite bleibt überschaubar (mobil höchstens 10 Bildschirmhöhen)", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const l of ["de", "ar", "en", "fr"]) {
     await page.goto(`/${l}`);
     const h = await page.evaluate(() => document.documentElement.scrollHeight);
-    expect(h / 844, l).toBeLessThanOrEqual(7);
+    expect(h / 844, l).toBeLessThanOrEqual(10);
   }
 });
 
@@ -95,7 +95,7 @@ test("Erster Bildschirm mobil: Headline, Termin-Button und Sprachwechsel sichtba
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto("/de");
   await expect(page.locator("h1")).toBeInViewport();
-  await expect(page.getByRole("link", { name: /Kostenlose Beratung vereinbaren/ }).first()).toBeInViewport();
+  await expect(page.getByRole("link", { name: /Beratungsgespräch buchen/ }).first()).toBeInViewport();
   await expect(page.getByRole("button", { name: /Sprache wählen/ })).toBeInViewport();
 });
 

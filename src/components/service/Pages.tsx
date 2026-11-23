@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, Info, Phone, ChevronRight, Lightbulb, ExternalLink, BadgeCheck, Mail, MapPin, Quote, Users } from "lucide-react";
+import { ArrowRight, CalendarCheck, Check, Info, Phone, ChevronRight, Lightbulb, ExternalLink, BadgeCheck, Mail, MapPin, Quote, Users } from "lucide-react";
 import { company } from "@/config/company";
 import { activeAdvisors, advisorName, type Advisor, type TopicKey } from "@/config/advisors";
 import { products, productsCheckedAt } from "@/config/products";
@@ -40,21 +41,28 @@ export function Breadcrumb({ locale, t, items, light = false }: { locale: Locale
 }
 
 /** Dunkler Seitenkopf – konsistent mit Startseite */
-function PageHero({ locale, t, eyebrow, title, lead, crumbs, cta, topic }: {
-  locale: Locale; t: Dict; eyebrow: string; title: string; lead: string; crumbs: { label: string; href?: string }[]; cta?: string; topic?: string;
+function PageHero({ locale, t, eyebrow, title, lead, crumbs, cta, topic, image }: {
+  locale: Locale; t: Dict; eyebrow: string; title: string; lead: string; crumbs: { label: string; href?: string }[]; cta?: string; topic?: string; image?: string;
 }) {
   return (
-    <section className="navy-surface on-dark text-white">
+    <section className="navy-surface on-dark overflow-hidden text-white">
       <Container className="pb-10 pt-6 sm:pb-14 sm:pt-8 lg:pb-16">
         <Breadcrumb locale={locale} t={t} items={crumbs} light />
-        <div className="mt-6 max-w-3xl sm:mt-8">
-          <Eyebrow light>{eyebrow}</Eyebrow>
-          <h1 className="display reveal text-[1.95rem] sm:text-[2.8rem] lg:text-[3.2rem]">{title}</h1>
-          <p className="reveal reveal-delay-1 mt-4 text-[1.05rem] text-mist sm:text-[1.15rem]">{lead}</p>
-          {cta && (
-            <div className="reveal reveal-delay-2 mt-6 flex flex-col gap-2.5 sm:flex-row">
-              <Link href={href(locale, "contact", topic ? { topic } : undefined)} className="btn btn-gold" data-track={`cta_pagehero_${topic ?? "general"}`}>{cta} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
-              {company.phone && <a href={`tel:${company.phone}`} className="btn btn-ghost-light" data-track={`call_pagehero_${topic ?? "general"}`}><Phone size={18} aria-hidden="true" /> {t.home.call}</a>}
+        <div className={`mt-6 sm:mt-8 ${image ? "grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14" : ""}`}>
+          <div className="max-w-3xl">
+            <Eyebrow light>{eyebrow}</Eyebrow>
+            <h1 className="display reveal text-[2rem] leading-[1.15] sm:text-[2.8rem] lg:text-[3.1rem]">{title}</h1>
+            <p className="reveal reveal-delay-1 mt-4 text-[1.1rem] text-mist sm:text-[1.2rem]">{lead}</p>
+            {cta && (
+              <div className="reveal reveal-delay-2 mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link href={href(locale, "contact", topic ? { topic } : undefined)} className="btn btn-gold btn-lg" data-track={`cta_pagehero_${topic ?? "general"}`}><CalendarCheck size={20} aria-hidden="true" /> {t.v3.free} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
+                {company.phone && <a href={`tel:${company.phone}`} className="btn btn-ghost-light" data-track={`call_pagehero_${topic ?? "general"}`}><Phone size={18} aria-hidden="true" /> {t.home.call}</a>}
+              </div>
+            )}
+          </div>
+          {image && (
+            <div className="reveal reveal-delay-2 relative aspect-[16/9] overflow-hidden rounded-[1.4rem] shadow-[0_30px_60px_-30px_rgba(0,0,0,.7)] ring-1 ring-white/10 lg:aspect-[4/3]">
+              <Image src={`/images/topics/${image}.webp`} alt="" fill priority sizes="(min-width:1024px) 520px, 100vw" className="object-cover" />
             </div>
           )}
         </div>
@@ -69,9 +77,9 @@ function CtaBand({ locale, t, title, text, topic }: { locale: Locale; t: Dict; t
   return (
     <section className="navy-surface on-dark text-white">
       <Container className="flex flex-col gap-6 py-12 sm:py-16 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex items-center gap-5">
-          <span className="hidden shrink-0 -space-x-3 sm:flex rtl:space-x-reverse" aria-hidden="true">
-            {team.map((a) => <Portrait key={a.id} src={a.portrait} alt="" initials={initials(a)} placeholderLabel="" className="h-16 w-16 rounded-full ring-2 ring-navy-deep" sizes="64px" />)}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+          <span className="flex shrink-0 -space-x-3 rtl:space-x-reverse" aria-hidden="true">
+            {team.map((a) => <Portrait key={a.id} src={a.portrait} alt="" initials={initials(a)} placeholderLabel="" className="h-12 w-12 rounded-full ring-2 ring-navy-deep sm:h-16 sm:w-16" sizes="64px" />)}
           </span>
           <div>
             <h2 className="display text-[1.6rem] sm:text-[2.1rem]">{title}</h2>
@@ -79,7 +87,7 @@ function CtaBand({ locale, t, title, text, topic }: { locale: Locale; t: Dict; t
           </div>
         </div>
         <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row">
-          <Link href={href(locale, "contact", { topic })} className="btn btn-gold" data-track={`cta_band_${topic}`}>{t.home.primary} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
+          <Link href={href(locale, "contact", { topic })} className="btn btn-gold btn-lg" data-track={`cta_band_${topic}`}><CalendarCheck size={20} aria-hidden="true" /> {t.home.primary} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
           <Link href={href(locale, "contact", { topic, mode: "callback" })} className="btn btn-ghost-light" data-track={`callback_band_${topic}`}>{t.home.callback}</Link>
         </div>
       </Container>
@@ -88,6 +96,7 @@ function CtaBand({ locale, t, title, text, topic }: { locale: Locale; t: Dict; t
 }
 
 /* ================================================================ Produktseite */
+const heroImg: Record<ServiceKey, string> = { retirement: "retirement", kids: "kids", bu: "income", pkv: "health", bav: "business", bkv: "business" };
 export function ServicePage({ locale, t, k }: { locale: Locale; t: Dict; k: ServiceKey }) {
   const s = t.servicePages[k];
   const isBusiness = k === "bav" || k === "bkv";
@@ -98,7 +107,7 @@ export function ServicePage({ locale, t, k }: { locale: Locale; t: Dict; k: Serv
 
   return (
     <>
-      <PageHero locale={locale} t={t} eyebrow={s.eyebrow} title={s.title} lead={s.lead} cta={t.home.primary} topic={topicFor[k]}
+      <PageHero locale={locale} t={t} eyebrow={s.eyebrow} title={s.title} lead={s.lead} cta={t.home.primary} topic={topicFor[k]} image={heroImg[k]}
         crumbs={[{ label: isBusiness ? t.nav.business : t.nav.private, href: href(locale, isBusiness ? "business" : "private") }, { label: t.services.items[k].title }]} />
 
       {/* Auf einen Blick */}
@@ -218,7 +227,7 @@ export function PrivatePage({ locale, t }: { locale: Locale; t: Dict }) {
   const pg = t.pages.private;
   return (
     <>
-      <PageHero locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.private }]} cta={t.home.primary} topic="general" />
+      <PageHero image="family" locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.private }]} cta={t.home.primary} topic="general" />
       <Section tone="ivory" compact>
         <SectionHead title={pg.topicsTitle} />
         <SolutionsGrid locale={locale} t={t} keys={privateServices} />
@@ -238,7 +247,7 @@ export function BusinessPage({ locale, t }: { locale: Locale; t: Dict }) {
   const pg = t.pages.business;
   return (
     <>
-      <PageHero locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.business }]} cta={t.home.primary} topic="bav" />
+      <PageHero image="business" locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.business }]} cta={t.home.primary} topic="bav" />
       <Section tone="ivory" compact>
         <SectionHead title={pg.topicsTitle} />
         <SolutionsGrid locale={locale} t={t} keys={businessServices} />
@@ -287,7 +296,7 @@ export function SolutionsPage({ locale, t }: { locale: Locale; t: Dict }) {
   const pg = t.pages.solutions;
   return (
     <>
-      <PageHero locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.solutions }]} />
+      <PageHero image="family" locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.solutions }]} />
       <Section tone="paper" compact>
         <SectionHead title={t.services.privateLabel} />
         <SolutionsGrid locale={locale} t={t} keys={privateServices} />
@@ -303,7 +312,7 @@ export function SolutionsPage({ locale, t }: { locale: Locale; t: Dict }) {
 export function ExtrasPage({ locale, t }: { locale: Locale; t: Dict }) {
   return (
     <>
-      <PageHero locale={locale} t={t} eyebrow={t.extras.eyebrow} title={t.extras.title} lead={t.extras.lead} crumbs={[{ label: t.nav.solutions, href: href(locale, "solutions") }, { label: t.extras.eyebrow }]} cta={t.home.primary} topic="extras" />
+      <PageHero image="care" locale={locale} t={t} eyebrow={t.extras.eyebrow} title={t.extras.title} lead={t.extras.lead} crumbs={[{ label: t.nav.solutions, href: href(locale, "solutions") }, { label: t.extras.eyebrow }]} cta={t.home.primary} topic="extras" />
       <ExtrasSection locale={locale} t={t} />
       <CtaBand locale={locale} t={t} title={t.home.closingTitle} text={t.home.closingText} topic="extras" />
     </>
@@ -315,7 +324,7 @@ export function AboutPage({ locale, t }: { locale: Locale; t: Dict }) {
   const pg = t.pages.about;
   return (
     <>
-      <PageHero locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.about }]} />
+      <PageHero image="advice" locale={locale} t={t} eyebrow={pg.eyebrow} title={pg.title} lead={pg.lead} crumbs={[{ label: t.nav.about }]} />
       <TeamSection locale={locale} t={t} tone="paper" />
       <Section tone="ivory" compact>
         <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">

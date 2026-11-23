@@ -6,7 +6,7 @@ import { href, isLocale, languageNames, locales, ogLocale, routeKeyFromSlug, rou
 import { getDict } from "@/content";
 import { fill } from "@/lib/format";
 import { isPreview, siteUrl } from "@/lib/site";
-import { HomePage } from "@/components/home/Home";
+import { HomePageV4 as HomePage } from "@/components/home/HomeV4";
 import { AboutPage, BusinessPage, ContactPage, ExtrasPage, PrivatePage, ServicePage, SolutionsPage, TeamMemberPage, ToolsPage } from "@/components/service/Pages";
 import { FirstInfoPage, ImprintPage, PrivacyPage } from "@/components/service/Legal";
 

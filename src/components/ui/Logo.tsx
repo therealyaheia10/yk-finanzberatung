@@ -1,30 +1,41 @@
-import { company } from "@/config/company";
-
 /**
- * Logo v3: Sand-Kachel mit Globus aus feinen Linien und einem Verbindungsbogen –
- * wirkt auch klein (Header, Favicon, Social) klar und hochwertig.
+ * Logo „IFC“ (Vorlage: IFC-Logo.pdf): Globus mit goldenem Wachstumspfeil + Wortmarke.
+ * Farben laut Vorlage: Navy #14213D · Gold #E3B341 · Globe blue #22396B · Mist #EEF1F5.
+ * Auf dunklem Grund wird der Globus in „Globe blue“ gezeigt (wie in der dunklen Logo-Variante).
  */
-export function GlobeMark({ size = 40 }: { size?: number; light?: boolean }) {
+const GOLD = "#E3B341";
+
+export function GlobeMark({ dark = false, simple = false, className = "h-10 w-10 shrink-0 sm:h-11 sm:w-11" }: { dark?: boolean; simple?: boolean; className?: string; size?: number; light?: boolean }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true" focusable="false" className="h-9 w-9 shrink-0 sm:h-10 sm:w-10">
-      <rect x="1" y="1" width="46" height="46" rx="12" fill="#D6BE93" />
-      <circle cx="24" cy="24" r="13.5" fill="none" stroke="#111519" strokeWidth="2" />
-      <path d="M24 10.5 C 17.5 15.5, 17.5 32.5, 24 37.5 C 30.5 32.5, 30.5 15.5, 24 10.5 Z" fill="none" stroke="#111519" strokeWidth="1.6" />
-      <path d="M10.5 24 H 37.5 M12.6 17 H 35.4 M12.6 31 H 35.4" fill="none" stroke="#111519" strokeWidth="1.3" />
-      <path d="M7 33 C 15 40, 33 40, 41 28" fill="none" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" />
-      <circle cx="41" cy="28" r="2.6" fill="#FFFFFF" />
+    <svg viewBox="10 10 610 600" aria-hidden="true" focusable="false" className={className}>
+      <circle cx="305" cy="310" r="288" fill={dark ? "#22396B" : "#14213D"} />
+      {!simple && (
+        <g fill="none" stroke="#EEF1F5" strokeOpacity=".6" strokeWidth="10">
+          <line x1="305" y1="24" x2="305" y2="596" />
+          <ellipse cx="305" cy="310" rx="100" ry="288" />
+          <ellipse cx="305" cy="310" rx="222" ry="288" />
+          <ellipse cx="305" cy="310" rx="284" ry="60" />
+          <ellipse cx="305" cy="165" rx="245" ry="46" />
+          <ellipse cx="305" cy="455" rx="245" ry="46" />
+        </g>
+      )}
+      <polyline points="58,478 222,320 318,395 508,207" fill="none" stroke={GOLD} strokeWidth="40" strokeLinecap="round" strokeLinejoin="round" />
+      <polygon points="598,90 456,147 570,232" fill={GOLD} />
     </svg>
   );
 }
 
+/** Horizontales Logo: Globus + „IFC“ + Unterzeile (Unterzeile ab 400 px Breite) */
 export function Logo({ light = false, compact = false }: { light?: boolean; compact?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-2.5" dir="ltr">
-      <GlobeMark />
+    <span className="inline-flex items-center gap-2.5 sm:gap-3" dir="ltr">
+      <GlobeMark dark={light} />
       {!compact && (
-        <span className="flex flex-col leading-none" style={{ fontFamily: "var(--font-sans)" }}>
-          <span className={`text-[0.86rem] font-bold tracking-[0.12em] sm:text-[1rem] sm:tracking-[0.14em] ${light ? "text-white" : "text-navy"}`}>{company.wordmarkTop}</span>
-          <span className={`mt-[3px] text-[0.58rem] font-semibold tracking-[0.27em] sm:text-[0.65rem] sm:tracking-[0.3em] ${light ? "text-champagne-light" : "text-brass"}`}>{company.wordmarkBottom.toUpperCase()}</span>
+        <span className="flex flex-col leading-none" style={{ fontFamily: "var(--font-logo)" }}>
+          <span className={`text-[1.6rem] font-extrabold tracking-[-0.02em] sm:text-[1.85rem] ${light ? "text-white" : "text-navy"}`}>IFC</span>
+          <span className={`mt-[3px] hidden text-[0.5rem] font-medium tracking-[0.2em] min-[400px]:block sm:text-[0.56rem] sm:tracking-[0.24em] ${light ? "text-[#EEF1F5]" : "text-navy-soft"}`}>
+            INTERNATIONAL FINANCE CONSULTING
+          </span>
         </span>
       )}
     </span>

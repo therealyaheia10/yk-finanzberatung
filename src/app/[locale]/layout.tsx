@@ -17,7 +17,7 @@ import { Track } from "@/components/layout/Track";
 import { RevealObserver } from "@/components/layout/Reveal";
 import { analyticsEnabled } from "@/lib/site";
 
-export const viewport: Viewport = { themeColor: "#102A43", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#14213d", width: "device-width", initialScale: 1 };
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

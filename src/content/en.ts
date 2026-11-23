@@ -20,12 +20,12 @@ const en = (p: P): Dict => ({
   nav: {
     home: "Home", about: "About us", private: "Private clients", business: "Businesses",
     solutions: "Solutions", tools: "Tools", contact: "Contact",
-    cta: "Free consultation", menu: "Menu", close: "Close", skip: "Skip to content",
+    cta: "Book a consultation", menu: "Menu", close: "Close", skip: "Skip to content",
     language: "Choose language", mainNav: "Main navigation", team: "Team",
   },
 
   common: {
-    call: "Call", callNumber: "Call now", book: "Book a free consultation", callback: "Request a call back",
+    call: "Call", callNumber: "Call now", book: "Book a consultation", callback: "Request a call back",
     learnMore: "Learn more", inPerson: "In person at the office", byPhone: "By phone", byVideo: "By video",
     location: `Office in ${p.city}`, byAppointment: "By appointment",
     externalNote: "opens an external website",
@@ -52,8 +52,8 @@ const en = (p: P): Dict => ({
     titleA: "Financial planning, investing and insurance\u00a0–",
     titleB: "accessible to Germany’s international community.",
     subtitle: "Professional financial advice in NRW for individuals, families and businesses.",
-    free: "Book a free consultation",
-    freeBook: "Book a free consultation", freeShort: "Free consultation",
+    free: "Book a consultation",
+    freeBook: "Book a consultation", freeShort: "Book a consultation",
     whatsapp: "WhatsApp",
     waMessage: "Hello, I'm interested in a free consultation.",
     teamPhotoAlt: "The International Finance Consulting team: Ismael Palanga, Yaheia Kaswan and Ali Ibrahim",

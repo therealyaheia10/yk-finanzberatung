@@ -7,36 +7,41 @@
 @import "@fontsource/ibm-plex-sans-arabic/600.css";
 @import "@fontsource/ibm-plex-sans-arabic/700.css";
 
+@import "@fontsource-variable/source-serif-4/index.css";
+@import "@fontsource-variable/inter/index.css";
+
 /* ===================================================================
-   DESIGN TOKENS v2 – „Ink & Sand“
-   Dunkler Tinten-Ton als Rahmen (Header, Hero, Abschluss, Footer),
-   helle warme Grautöne für Inhalte, Sand als einziger Akzent.
-   Kontraste (WCAG 2.2 AA): sand/ink 9.9 · mist/ink 8.8 · ink/ivory 14.7 ·
-   brass/ivory 5.4 · muted/white 7.6
+   DESIGN TOKENS v4 – Markenfarben aus dem IFC-Logo
+   Navy #14213D (Rahmen, Überschriften) · Gold #E3B341 (EINE Hauptaktion:
+   Beratungsgespräch buchen) · Globe blue #22396B (Zweitfarbe) ·
+   Mist #EEF1F5 (helle Flächen). Kontraste (WCAG 2.2 AA, geprüft):
+   ink/Hintergrund 14.8 · navy/Hintergrund 14.9 · mist/navy 10.3 ·
+   Gold-Button-Text 8.2 · brass/Hintergrund 6.2 · muted/mist 6.7
    =================================================================== */
 @theme {
-  --color-ink: #161d25;          /* Text auf hell */
-  --color-navy: #161d25;         /* Primärfarbe (Graphit-Tinte) */
-  --color-navy-deep: #111519;    /* dunkle Flächen (warmes Graphit) */
-  --color-navy-soft: #1d2329;    /* Hover / Karten auf dunkel */
-  --color-ivory: #f4f3ef;        /* Seitenhintergrund */
-  --color-sand: #ebe8e1;         /* alternative helle Fläche */
+  --color-ink: #1a2233;          /* Fließtext auf hell */
+  --color-navy: #14213d;         /* Marken-Navy: Überschriften, Icons */
+  --color-navy-deep: #14213d;    /* dunkle Flächen: Header, Hero, Footer */
+  --color-navy-soft: #22396b;    /* Globe blue: Zweitfarbe, Hover */
+  --color-ivory: #f5f7fa;        /* Seitenhintergrund */
+  --color-sand: #eef1f5;         /* Marken-Mist: helle Flächen */
   --color-paper: #ffffff;
-  --color-champagne: #c9ad7c;    /* Akzent – Dekor */
-  --color-champagne-light: #d6be93; /* Akzent – Buttons & Text auf dunkel */
-  --color-brass: #7a5f2e;        /* Akzent-Text auf hell */
-  --color-muted: #4b5560;
-  --color-line: #e2ded5;
-  --color-line-dark: #2a3138;
-  --color-mist: #b3b9bf;
-  --color-success: #1f6b4a;
+  --color-champagne: #e3b341;    /* Marken-Gold – Linien, Dekor */
+  --color-champagne-light: #e3b341; /* Marken-Gold – Buttons & Akzent auf dunkel */
+  --color-brass: #7a5608;        /* Gold-Text auf hell (dunkler für Lesbarkeit) */
+  --color-muted: #4a5566;
+  --color-line: #dde2ea;
+  --color-line-dark: #2b3b5c;
+  --color-mist: #c8d0dd;
+  --color-success: #1d6a47;
   --color-error: #a3271f;
 
   --font-sans: "Figtree Variable", "Figtree", system-ui, sans-serif;
-  --font-serif: "Figtree Variable", "Figtree", system-ui, sans-serif;
+  --font-serif: "Source Serif 4 Variable", "Source Serif 4", Georgia, serif;
+  --font-logo: "Inter Variable", "Inter", system-ui, sans-serif;
   --font-arabic: "IBM Plex Sans Arabic", "Noto Sans Arabic", Tahoma, sans-serif;
 
-  --radius-soft: 1rem;
+  --radius-soft: 1.1rem;
   --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -45,12 +50,12 @@ body {
   background: var(--color-ivory);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 1.0625rem; /* 17px mobil */
-  line-height: 1.6;
+  font-size: 1.125rem; /* 18px mobil – gut lesbar, auch für ältere Menschen */
+  line-height: 1.65;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-@media (min-width: 1024px) { body { font-size: 1.125rem; } }
+@media (min-width: 1024px) { body { font-size: 1.1875rem; } }
 
 html[lang="ar"] body { font-family: var(--font-arabic); line-height: 1.85; }
 html[lang="ar"] .display { font-family: var(--font-arabic); font-weight: 600; letter-spacing: 0 !important; line-height: 1.4; }
@@ -58,10 +63,10 @@ html[lang="ar"] .tracking-label { letter-spacing: 0 !important; }
 
 /* Überschriften: eine Schrift, klare Gewichte, enge Laufweite */
 .display {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.12;
+  letter-spacing: -0.012em;
+  line-height: 1.15;
   text-wrap: balance;
   font-variant-numeric: lining-nums;
 }
@@ -80,17 +85,18 @@ main [class*="grid-cols"] > * { min-width: 0; }
 /* Buttons – 48–52 px hoch, Pille */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
-  min-height: 3.125rem; padding: 0.75rem 1.4rem; border-radius: 999px;
-  font-weight: 600; font-size: 1rem; line-height: 1.2; text-align: center;
+  min-height: 3.375rem; padding: 0.8rem 1.6rem; border-radius: 999px;
+  font-weight: 700; font-size: 1.0625rem; line-height: 1.2; text-align: center;
   transition: background-color .2s var(--ease-calm), color .2s var(--ease-calm), border-color .2s var(--ease-calm), transform .2s var(--ease-calm);
 }
 .btn-primary { background: var(--color-navy); color: #fff; }
 .btn-primary:hover { background: var(--color-navy-soft); }
-.btn-gold { background: var(--color-champagne-light); color: var(--color-navy-deep); }
-.btn-gold:hover { background: #e3cfa9; }
+.btn-gold { background: var(--color-champagne-light); color: var(--color-navy-deep); box-shadow: 0 10px 24px -12px rgba(227,179,65,.8), inset 0 -2px 0 rgba(0,0,0,.08); }
+.btn-gold:hover { background: #ebc25e; transform: translateY(-1px); }
+.btn-lg { min-height: 3.75rem; padding: 0.95rem 2rem; font-size: 1.125rem; }
 .btn-ghost { border: 1.5px solid var(--color-line); color: var(--color-navy); background: var(--color-paper); }
 .btn-ghost:hover { border-color: var(--color-navy); }
-.btn-ghost-light { border: 1.5px solid rgba(255,255,255,.28); color: #fff; }
+.btn-ghost-light { border: 1.5px solid rgba(255,255,255,.45); color: #fff; }
 .btn-ghost-light:hover { border-color: #fff; }
 .btn:active { transform: translateY(1px); }
 
@@ -136,7 +142,7 @@ details[open] .faq-icon { transform: rotate(45deg); }
 
 /* ---------- Bewegung: ruhig, funktional, abschaltbar ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease-calm), transform .7s var(--ease-calm); transition-delay: var(--d, 0s); }
+  .js [data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity .7s var(--ease-calm), transform .7s var(--ease-calm); transition-delay: var(--d, 0s); }
   .js [data-reveal].is-in { opacity: 1; transform: none; }
   .lift { transition: transform .35s var(--ease-calm), box-shadow .35s var(--ease-calm); }
   .lift:hover { transform: translateY(-3px); box-shadow: 0 18px 36px -24px rgba(17,21,25,.45); }
