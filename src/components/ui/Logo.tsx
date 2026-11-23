@@ -33,7 +33,7 @@ export function Logo({ light = false, compact = false }: { light?: boolean; comp
       {!compact && (
         <span className="flex flex-col leading-none" style={{ fontFamily: "var(--font-logo)" }}>
           <span className={`text-[1.6rem] font-extrabold tracking-[-0.02em] sm:text-[1.85rem] ${light ? "text-white" : "text-navy"}`}>IFC</span>
-          <span className={`mt-[3px] hidden text-[0.5rem] font-medium tracking-[0.2em] min-[400px]:block sm:text-[0.56rem] sm:tracking-[0.24em] ${light ? "text-[#EEF1F5]" : "text-navy-soft"}`}>
+          <span className={`mt-[3px] hidden text-[0.5rem] font-medium tracking-[0.2em] min-[400px]:block sm:text-[0.56rem] sm:tracking-[0.24em] xl:hidden min-[1440px]:block ${light ? "text-[#EEF1F5]" : "text-navy-soft"}`}>
             INTERNATIONAL FINANCE CONSULTING
           </span>
         </span>

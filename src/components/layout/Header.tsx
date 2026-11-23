@@ -44,9 +44,9 @@ function LanguageMenu({ locale, label }: { locale: Locale; label: string }) {
   useOutside(open, () => setOpen(false), ref);
   return (
     <div ref={ref} className="relative">
-      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="true" aria-label={`${languageNames[locale].short} – ${label}`}
+      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="true"
         className="inline-flex min-h-11 items-center gap-1 rounded-full border border-white/20 px-2.5 text-[0.95rem] sm:gap-1.5 sm:px-3 font-semibold text-white hover:border-white/50">
-        <LangFlag l={locale} size={17} /> {languageNames[locale].short} <ChevronDown size={15} aria-hidden="true" />
+        <LangFlag l={locale} size={17} /> {languageNames[locale].short}<span className="sr-only"> – {label}</span> <ChevronDown size={15} aria-hidden="true" />
       </button>
       {open && (
         <ul className="dropdown-panel absolute end-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-xl border border-line bg-paper py-1 text-ink shadow-[0_20px_40px_-20px_rgba(17,21,25,.45)]">
@@ -74,7 +74,7 @@ function NavDropdown({ g }: { g: NavGroup }) {
   return (
     <li ref={ref} className="relative" onMouseEnter={enter} onMouseLeave={leave}>
       <button type="button" aria-expanded={open} aria-controls={`nav-${g.id}`} onClick={() => setOpen((o) => !o)}
-        className={`inline-flex min-h-11 items-center gap-1 whitespace-nowrap px-2.5 text-[0.95rem] font-medium transition-colors hover:text-white ${open ? "text-white" : "text-mist"}`}>
+        className={`inline-flex min-h-11 items-center gap-1 whitespace-nowrap px-2 text-[0.94rem] font-medium transition-colors hover:text-white ${open ? "text-white" : "text-mist"}`}>
         {g.label} <ChevronDown size={15} className={`transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
       </button>
       {open && (
@@ -137,7 +137,7 @@ export function Header({ locale, nav, groups, links }: { locale: Locale; nav: Na
 
         <div className="hidden items-center gap-2 xl:flex">
           <LanguageMenu locale={locale} label={nav.language} />
-          <Link href={href(locale, "contact")} className="btn btn-gold !min-h-11 whitespace-nowrap !px-5 !text-[0.95rem]" data-track="cta_header">{nav.cta}</Link>
+          <Link href={href(locale, "contact")} className="btn btn-cta !min-h-11 whitespace-nowrap !px-4 !text-[0.95rem]" data-track="cta_header">{nav.cta}</Link>
         </div>
 
         <div className="flex items-center gap-1.5 xl:hidden">
@@ -172,7 +172,7 @@ export function Header({ locale, nav, groups, links }: { locale: Locale; nav: Na
                 <li key={l.href}><Link href={l.href} className="flex min-h-14 items-center text-[1.2rem] font-semibold text-navy">{l.label}</Link></li>
               ))}
             </ul>
-            <Link href={href(locale, "contact")} className="btn btn-gold mt-6 w-full" data-track="cta_menu"><CalendarCheck size={20} aria-hidden="true" /> {nav.cta}</Link>
+            <Link href={href(locale, "contact")} className="btn btn-cta mt-6 w-full" data-track="cta_menu"><CalendarCheck size={20} aria-hidden="true" /> {nav.cta}</Link>
           </nav>
         </div>
       )}

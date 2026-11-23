@@ -6,7 +6,6 @@ import type { Dict } from "@/content";
 import { fill } from "@/lib/format";
 import { Logo } from "@/components/ui/Logo";
 import { Container } from "@/components/ui/Section";
-import { MapEmbed } from "@/components/ui/MapEmbed";
 
 export function Footer({ locale, t }: { locale: Locale; t: Dict }) {
   const head = "mb-3 text-[0.78rem] font-bold uppercase tracking-[0.12em] text-champagne-light";
@@ -15,7 +14,7 @@ export function Footer({ locale, t }: { locale: Locale; t: Dict }) {
     <footer className="border-t border-line-dark bg-navy-deep text-white on-dark" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">{company.name}</h2>
       <Container className="py-10 sm:py-14">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-9 md:grid-cols-3 lg:grid-cols-[1.1fr_1fr_0.9fr_0.9fr_1.3fr]">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-9 md:grid-cols-3 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div className="col-span-2 md:col-span-1">
             <Logo light />
             <p className="mt-4 max-w-xs text-[0.95rem] text-mist">{t.footer.claim}</p>
@@ -36,10 +35,6 @@ export function Footer({ locale, t }: { locale: Locale; t: Dict }) {
           <div>
             <h3 className={head}>{t.footer.legalTitle}</h3>
             <ul>{(["imprint", "privacy", "firstInfo"] as const).map((k) => <li key={k}><Link className={link} href={href(locale, k)}>{t.footer[k]}</Link></li>)}</ul>
-          </div>
-          <div className="col-span-2 md:col-span-3 lg:col-span-1">
-            <h3 className={head}>{t.v3.office}</h3>
-            <MapEmbed address={`${company.office.street}, ${company.office.postalCode} ${company.office.city}`} loadLabel={t.v3.mapLoad} note={t.v3.mapNote} title={t.v3.mapTitle} className="h-36 sm:h-44" />
           </div>
         </div>
         <div className="mt-8 flex sm:mt-10 flex-col gap-3 border-t border-line-dark pt-6 text-[0.85rem] text-mist sm:flex-row sm:justify-between">

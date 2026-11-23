@@ -68,26 +68,26 @@ test("Mobile Navigation öffnet, ist per Tastatur schließbar", async ({ page })
   await page.keyboard.press("Escape");
   await expect(page.locator("#mobile-menu")).toHaveCount(0);
   await btn.click();
-  await page.locator("#mobile-menu").getByRole("button", { name: "Unternehmen" }).click();
+  await page.locator("#mobile-menu").getByRole("button", { name: "Für Unternehmer" }).click();
   await page.locator('#mobile-menu a[href="/de/unternehmen"]').first().click();
   await expect(page).toHaveURL(/\/de\/unternehmen$/);
 });
 
 test("Startseite: Lebensthemen und Lösungen führen zu Unterseiten", async ({ page }) => {
   await page.goto("/de");
-  await page.getByRole("link", { name: /Unternehmen & Mitarbeitende/ }).click();
+  await page.getByRole("link", { name: /Tue ich genug, um mein Unternehmen abzusichern/ }).click();
   await expect(page).toHaveURL(/\/de\/unternehmen$/);
   await page.goto("/de");
   await page.getByRole("link", { name: /Private Krankenversicherung/ }).first().click();
   await expect(page).toHaveURL(/\/de\/private-krankenversicherung$/);
 });
 
-test("Startseite bleibt überschaubar (mobil höchstens 10 Bildschirmhöhen)", async ({ page }) => {
+test("Startseite bleibt überschaubar (mobil höchstens 13 Bildschirmhöhen)", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const l of ["de", "ar", "en", "fr"]) {
     await page.goto(`/${l}`);
     const h = await page.evaluate(() => document.documentElement.scrollHeight);
-    expect(h / 844, l).toBeLessThanOrEqual(10);
+    expect(h / 844, l).toBeLessThanOrEqual(13);
   }
 });
 
@@ -95,7 +95,7 @@ test("Erster Bildschirm mobil: Headline, Termin-Button und Sprachwechsel sichtba
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto("/de");
   await expect(page.locator("h1")).toBeInViewport();
-  await expect(page.getByRole("link", { name: /Beratungsgespräch buchen/ }).first()).toBeInViewport();
+  await expect(page.getByRole("link", { name: /Jetzt kostenlose Beratung buchen/ }).first()).toBeInViewport();
   await expect(page.getByRole("button", { name: /Sprache wählen/ })).toBeInViewport();
 });
 
@@ -237,4 +237,19 @@ test("Renten-Realitätscheck: drei Schritte, Rechenlogik wie im gelieferten Tool
   await panel.getByLabel("Geplantes Rentenalter").fill("30");
   await panel.getByRole("button", { name: /Mein Ergebnis anzeigen/ }).click();
   await expect(panel.getByRole("alert")).toContainText("Rentenalter");
+});
+
+test("Startseite: „Beratung buchen mit …“ wählt den Berater im Formular vor (Weg B)", async ({ page }) => {
+  await page.goto("/de");
+  await page.locator("#team").getByRole("link", { name: "Ali Ibrahim" }).first().click();
+  await expect(page).toHaveURL(/\/de\/kontakt\?advisor=ali-ibrahim$/);
+  await expect(page.getByText(/Ali Ibrahim/).first()).toBeVisible();
+});
+
+test("Startseite: Rechner sind direkt eingebettet", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/de");
+  const tools = page.locator("#rechner");
+  await tools.getByRole("button", { name: /Vermögen aufbauen/ }).click();
+  await expect(tools.getByText("143.652 €").first()).toBeVisible();
 });

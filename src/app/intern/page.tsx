@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { company } from "@/config/company";
 import { activeAdvisors } from "@/config/advisors";
 import { getMetrics, listLeads, storeEnabled } from "@/lib/store";
@@ -7,7 +8,10 @@ import { Dashboard } from "./Dashboard";
 export const dynamic = "force-dynamic";
 
 export default async function InternPage() {
-  const [leads, metrics] = await Promise.all([listLeads(), getMetrics()]);
+  const scope = (await headers()).get("x-intern-advisor"); // gesetzt von proxy.ts, nur für Berater-Logins
+  const [all, metrics] = await Promise.all([listLeads(), getMetrics()]);
+  // Berater sehen ausschließlich ihre eigenen Anfragen (Datenschutz)
+  const leads = scope ? all.filter((l) => l.advisor === scope) : all;
   return (
     <Dashboard
       leads={leads}
@@ -17,6 +21,7 @@ export default async function InternPage() {
       advisors={activeAdvisors().map((a) => ({ slug: a.slug, name: `${a.firstName} ${a.lastName}` }))}
       preview={isPreview}
       store={storeEnabled()}
+      scope={scope}
     />
   );
 }

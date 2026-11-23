@@ -7,9 +7,14 @@ const icons = { "renten-check": PiggyBank, "versicherungs-check": ShieldCheck, v
 export type ToolId = keyof typeof icons;
 
 /** Tool-Auswahl wie eine Liste – es wird immer nur ein Tool gezeigt (kurze Seite, klare Orientierung) */
-export function ToolHub({ tools, chooseLabel }: { tools: { id: ToolId; title: string; desc: string; node: ReactNode }[]; chooseLabel: string }) {
-  const [active, setActive] = useState<ToolId>(tools[0].id);
+export function ToolHub({ tools, chooseLabel, embedded = false, panelId = "tool-panel" }: { tools: { id: ToolId; title: string; desc: string; node: ReactNode }[]; chooseLabel: string; embedded?: boolean; panelId?: string }) {
+  // Eingebettet (Startseite): mobil erst nach Auswahl zeigen, ab Desktop gleich den ersten Rechner
+  const [active, setActive] = useState<ToolId | null>(embedded ? null : tools[0].id);
   useEffect(() => {
+    if (embedded) {
+      if (window.matchMedia("(min-width: 1024px)").matches) setActive((a) => a ?? tools[0].id);
+      return;
+    }
     const sync = () => {
       const h = window.location.hash.slice(1) as ToolId;
       if (tools.some((t) => t.id === h)) setActive(h);
@@ -17,13 +22,13 @@ export function ToolHub({ tools, chooseLabel }: { tools: { id: ToolId; title: st
     sync();
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
-  }, [tools]);
+  }, [tools, embedded]);
   const pick = (id: ToolId) => {
     setActive(id);
-    history.replaceState(null, "", `#${id}`);
-    if (window.matchMedia("(max-width: 1023px)").matches) document.getElementById("tool-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!embedded) history.replaceState(null, "", `#${id}`);
+    if (window.matchMedia("(max-width: 1023px)").matches) requestAnimationFrame(() => document.getElementById(panelId)?.scrollIntoView({ behavior: "smooth", block: "start" }));
   };
-  const current = tools.find((t) => t.id === active) ?? tools[0];
+  const current = active ? tools.find((t) => t.id === active) ?? null : null;
   return (
     <div className="grid gap-6 lg:grid-cols-[320px_1fr] lg:items-start">
       <div className="lg:sticky lg:top-24">
@@ -34,7 +39,7 @@ export function ToolHub({ tools, chooseLabel }: { tools: { id: ToolId; title: st
             const on = t.id === active;
             return (
               <li key={t.id}>
-                <button type="button" onClick={() => pick(t.id)} aria-pressed={on} aria-controls="tool-panel" data-track={`tool_${t.id}`}
+                <button type="button" onClick={() => pick(t.id)} aria-pressed={on} aria-controls={panelId} data-track={`tool_${t.id}`}
                   className={`flex w-full items-center gap-3 rounded-xl border p-3 text-start transition-colors ${on ? "border-navy bg-navy text-white" : "border-line bg-paper text-navy hover:border-navy/40"}`}>
                   <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${on ? "bg-white/10 text-champagne-light" : "bg-ivory text-brass"}`}><Icon size={20} aria-hidden="true" /></span>
                   <span className="min-w-0">
@@ -47,7 +52,7 @@ export function ToolHub({ tools, chooseLabel }: { tools: { id: ToolId; title: st
           })}
         </ul>
       </div>
-      <div id="tool-panel" className="scroll-mt-20" aria-live="polite">{current.node}</div>
+      <div id={panelId} className="scroll-mt-20" aria-live="polite">{current?.node}</div>
     </div>
   );
 }

@@ -11,8 +11,9 @@ import type { Dict } from "@/content";
 import { isPreview } from "@/lib/site";
 import { Container, Section } from "@/components/ui/Section";
 import { Portrait } from "@/components/ui/Portrait";
-import { LangFlag, WhatsAppIcon } from "@/components/ui/Icons";
+import { LangFlag, WA_GREEN, WhatsAppIcon } from "@/components/ui/Icons";
 import { waLink } from "@/components/layout/MobileContactBar";
+import { MapEmbed } from "@/components/ui/MapEmbed";
 
 export function formModes() {
   const m: ("office" | "phone" | "video" | "callback")[] = [];
@@ -47,8 +48,8 @@ export function WhatsAppButton({ t, className = "", track = "wa" }: { t: Dict; c
   const wa = waLink(t.v3.waMessage);
   if (!wa) return null;
   return (
-    <a href={wa} target="_blank" rel="noopener noreferrer" className={`btn btn-whatsapp ${className}`} data-track={track}>
-      <WhatsAppIcon size={20} /> {t.v3.whatsapp}<span className="sr-only"> ({t.common.externalNote})</span>
+    <a href={wa} target="_blank" rel="noopener noreferrer" className={`btn btn-ghost ${className}`} data-track={track}>
+      <WhatsAppIcon size={21} color={WA_GREEN} /> {t.v3.whatsapp}<span className="sr-only"> ({t.common.externalNote})</span>
     </a>
   );
 }
@@ -192,6 +193,7 @@ export function ContactBlock({ locale, t }: { locale: Locale; t: Dict }) {
           </a>
         </div>
       </div>
+      <MapEmbed address={`${company.office.street}, ${company.office.postalCode} ${company.office.city}`} loadLabel={t.v3.mapLoad} note={t.v3.mapNote} title={t.v3.mapTitle} className="h-56" />
       <div className="card flex items-start gap-4 p-4">
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sand text-brass"><Clock size={20} aria-hidden="true" /></span>
         <div>

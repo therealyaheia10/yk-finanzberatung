@@ -21,14 +21,17 @@ const topicIcons: Record<TopicKey, typeof Baby> = {
 const modeIcons: Record<Mode, typeof Phone> = { office: Building2, phone: Phone, video: Video, callback: PhoneIncoming };
 
 export function LeadForm({
-  locale, t, modes, isPreview, phone, phoneDisplay, backLabel, idPrefix = "lead", advisor = null, presetTopic = null,
+  locale, t, modes, isPreview, phone, phoneDisplay, backLabel, idPrefix = "lead", advisor: advisorProp = null, presetTopic = null, advisorOptions = [],
 }: {
   locale: Locale; t: FormT; backLabel: string; modes: Mode[]; isPreview: boolean;
   phone: string | null; phoneDisplay: string | null; idPrefix?: string;
   /** Weg B: Anfrage direkt an diesen Berater */
   advisor?: { slug: string; name: string } | null;
   presetTopic?: TopicKey | null;
+  /** Aktive Berater – erlaubt die Vorauswahl per Link (?advisor=slug) */
+  advisorOptions?: { slug: string; name: string }[];
 }) {
+  const [advisor, setAdvisor] = useState<{ slug: string; name: string } | null>(advisorProp);
   const [step, setStep] = useState(1);
   const [topic, setTopic] = useState<TopicKey | null>(null);
   const [mode, setMode] = useState<Mode | null>(null);
@@ -54,6 +57,8 @@ export function LeadForm({
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const q = presetTopic ?? params.get("topic");
+    const wanted = params.get("advisor");
+    if (!advisorProp && wanted) { const hit = advisorOptions.find((a) => a.slug === wanted); if (hit) setAdvisor(hit); }
     if (params.get("mode") === "callback") {
       // Rückruf-Direkteinstieg: nur noch Name + Telefon
       setTopic(q && (topicKeys as readonly string[]).includes(q) ? (q as TopicKey) : "general");

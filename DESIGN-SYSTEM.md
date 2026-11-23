@@ -49,3 +49,10 @@ Mobil 6,0 Bildschirmhöhen (vorher 21,4), Desktop 4,0 (vorher 12,9).
 - **Texte:** kurz, aus Sicht der Berater („wir“), keine Versprechen, keine erfundenen Kundenzitate. Arabisch in einfachem Hocharabisch.
 - **Bewertungen:** Bereich entfernt, bis echte, freigegebene Bewertungen vorliegen.
 - **Bilder:** thematisch passende Unsplash-Fotos (siehe docs/BILDQUELLEN.md).
+
+## v5 – Kundenpräsentation 2 + strategische Erweiterung
+- **Farben:** auf Kundenwunsch wieder „Graphit & Gold“ (v2/v3-Palette). Hauptaktion „Kostenlose Beratung buchen“ in **Dunkelgrün #1a7d50** (weißer Text 5,1 : 1, auf Graphit 3,6 : 1). WhatsApp-Buttons im Stil der Nebenbuttons, nur das Logo grün.
+- **Logo:** IFC-Logo nach Kundenvorlage (Globus + goldener Pfeil). Unterzeile zwischen 1280 und 1440 px ausgeblendet (Platz im Menü).
+- **Startseite:** Marke + „Unsere Mission“ als Titel → „Finanzielle Sorgen …“ (rote Überschrift, klickbare Fragen) → 3 Rechner eingebettet → Werte → Team (Schritte mit Verbindungslinie, grüner Haken, „Beratung buchen mit … / egal wer“) → nächster Schritt mit großer Karte.
+- **Menü:** „Über uns“ als Aufklappmenü mit allen aktiven Beratern (wächst automatisch mit advisors.ts).
+- **Dashboard:** Berater-Zugänge (ADVISOR_ACCESS) sehen nur eigene Anfragen; Admin sieht Auswertung pro Berater.

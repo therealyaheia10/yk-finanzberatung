@@ -9,7 +9,8 @@ import { retirementCheckTitle } from "@/components/calculators/retirementCheckTe
 import { insuranceChecklistTitle } from "@/components/calculators/insuranceChecklistText";
 import { wealthBuilderTitle } from "@/components/calculators/wealthBuilderText";
 import { Header, type NavGroup } from "@/components/layout/Header";
-import { extraKeys, href } from "@/lib/i18n";
+import { extraKeys, href, teamHref } from "@/lib/i18n";
+import { activeAdvisors, advisorName } from "@/config/advisors";
 import { Footer } from "@/components/layout/Footer";
 import { MobileContactBar } from "@/components/layout/MobileContactBar";
 import { FloatingCta } from "@/components/layout/FloatingCta";
@@ -17,7 +18,7 @@ import { Track } from "@/components/layout/Track";
 import { RevealObserver } from "@/components/layout/Reveal";
 import { analyticsEnabled } from "@/lib/site";
 
-export const viewport: Viewport = { themeColor: "#14213d", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#111519", width: "device-width", initialScale: 1 };
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -41,6 +42,8 @@ function navGroups(locale: Parameters<typeof href>[0], t: ReturnType<typeof getD
       { label: t.services.items.bkv.title, href: href(locale, "bkv") },
     ], all: { label: t.pages.business.topicsTitle, href: href(locale, "business") } },
     { id: "tools", label: t.v3.navTools, items: tools.map(([id, label]) => ({ label, href: href(locale, "tools", undefined, id) })) },
+    // Team: wächst automatisch mit jedem aktiven Berater aus src/config/advisors.ts
+    { id: "team", label: t.nav.about, items: activeAdvisors().map((a) => ({ label: advisorName(a, locale), href: teamHref(locale, a.slug) })), all: { label: t.nav.about, href: href(locale, "about") } },
   ];
 }
 
@@ -59,7 +62,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           locale={locale}
           nav={{ home: t.nav.home, cta: t.v3.freeShort, menu: t.nav.menu, close: t.nav.close, language: t.nav.language, mainNav: t.nav.mainNav, contact: t.nav.contact }}
           groups={navGroups(locale, t)}
-          links={[{ label: t.nav.about, href: href(locale, "about") }]}
+          links={[]}
         />
         <main id="main" tabIndex={-1} className="outline-none">{children}</main>
         <Footer locale={locale} t={t} />

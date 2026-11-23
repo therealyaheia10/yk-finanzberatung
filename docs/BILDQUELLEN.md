@@ -14,6 +14,7 @@ Namensnennung erforderlich. Keine „Unsplash+“-Bilder. Verkauf der Fotos als 
 | care.webp | Pflege / weitere Absicherungen | photo-1576765608535-5f04d1e3f289 |
 | business.webp | Unternehmen / bAV / bKV | photo-1543269865-cbf427effbad |
 | advice.webp | Persönliche Beratung | photo-1551836022-d5d88e9218df |
+| business-formal.webp | Unternehmer (Startseite) | photo-1577962917302-cd874c4e31d2 |
 
 Aufruf: `https://images.unsplash.com/<Foto-ID>`. Zuschnitt 4:3, 1200×900, WebP.
 

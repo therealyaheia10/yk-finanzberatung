@@ -16,9 +16,11 @@ const QUALIFIED = new Set(["qualifiziert", "termin", "stattgefunden", "abgeschlo
 const MEETING = new Set(["termin", "stattgefunden", "abgeschlossen"]);
 const TOPIC: Record<string, string> = { retirement: "Altersvorsorge", kids: "Kinder", bu: "BU", pkv: "PKV", bav: "bAV", bkv: "bKV", extras: "Weitere", general: "Allgemein" };
 
-export function Dashboard({ leads: initial, metrics, trial, brand, advisors, preview, store }: {
+export function Dashboard({ leads: initial, metrics, trial, brand, advisors, preview, store, scope = null }: {
   leads: StoredLead[]; metrics: Metrics; trial: { start: string | null; days: number; goal: number };
   brand: string; advisors: { slug: string; name: string }[]; preview: boolean; store: boolean;
+  /** Berater-Login: nur eigene Anfragen, ohne Löschen und ohne Gesamtauswertung */
+  scope?: string | null;
 }) {
   const [leads, setLeads] = useState(initial);
   const [showTest, setShowTest] = useState(preview);
@@ -71,13 +73,13 @@ export function Dashboard({ leads: initial, metrics, trial, brand, advisors, pre
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="tracking-label text-[0.75rem] font-semibold text-brass">Intern · nicht öffentlich</p>
-          <h1 className="display text-4xl text-navy">Anfragen – {brand}</h1>
+          <h1 className="display text-4xl text-navy">Anfragen – {scope ? advName(scope) : brand}</h1>
         </div>
         <div className="flex flex-wrap gap-2">
-          <select aria-label="Berater filtern" value={who} onChange={(e) => setWho(e.target.value)} className="min-h-11 rounded-full border border-line bg-paper px-4 text-[0.95rem]">
+          {!scope && <select aria-label="Berater filtern" value={who} onChange={(e) => setWho(e.target.value)} className="min-h-11 rounded-full border border-line bg-paper px-4 text-[0.95rem]">
             <option value="all">Alle Berater</option>
             {advisors.map((a) => <option key={a.slug} value={a.slug}>{a.name}</option>)}
-          </select>
+          </select>}
           <label className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-paper px-4 text-[0.95rem]">
             <input type="checkbox" checked={showTest} onChange={(e) => setShowTest(e.target.checked)} /> Testanfragen anzeigen
           </label>
@@ -94,12 +96,36 @@ export function Dashboard({ leads: initial, metrics, trial, brand, advisors, pre
         <Kpi label="Zeitraum" value={dates ? `${dates.left} Tage übrig` : "nicht gestartet"} sub={dates ? `${fmt(dates.s)} – ${fmt(dates.e)}` : "Start erst nach freigegebener Veröffentlichung (TRIAL_START)"} />
         <Kpi label="Eingegangene Anfragen" value={String(real.length)} sub={`Termine: ${meetings} · stattgefunden: ${held}`} />
         <Kpi label="Website-Besuche" value={visits || String(pv)} sub={`Seitenaufrufe (anonym): ${pv} · CTA/Anruf-Klicks: ${ctaClicks}`}>
-          <div className="mt-2 flex gap-2">
+          {!scope && <div className="mt-2 flex gap-2">
             <input aria-label="Besuche manuell (z. B. aus Hosting-Statistik)" inputMode="numeric" value={visits} onChange={(e) => setVisits(e.target.value.replace(/\D/g, ""))} placeholder="manuell" className="w-24 rounded border border-line bg-paper px-2 py-1 text-[0.9rem]" />
             <button onClick={saveVisits} className="rounded border border-line px-2 text-[0.85rem]">speichern</button>
-          </div>
+          </div>}
         </Kpi>
       </section>
+
+      {!scope && (
+        <section className="mt-8 overflow-x-auto rounded-[var(--radius-soft)] border border-line bg-paper">
+          <h2 className="px-4 pt-4 font-bold text-navy">Auswertung pro Berater</h2>
+          <table className="mt-2 w-full min-w-[640px] text-[0.95rem]">
+            <thead className="bg-sand text-navy"><tr>{["Berater", "Anfragen", "davon selbst gewählt", "qualifiziert", "Termine", "stattgefunden"].map((h) => <th key={h} className="p-3 text-start font-semibold">{h}</th>)}</tr></thead>
+            <tbody>
+              {advisors.map((a) => {
+                const mine = leads.filter((l) => (showTest || !l.test) && l.advisor === a.slug);
+                return (
+                  <tr key={a.slug} className="border-t border-line">
+                    <td className="p-3 font-semibold">{a.name}</td>
+                    <td className="p-3">{mine.length}</td>
+                    <td className="p-3">{mine.filter((l) => l.assignReason === "requested").length}</td>
+                    <td className="p-3">{mine.filter((l) => QUALIFIED.has(l.status)).length}</td>
+                    <td className="p-3">{mine.filter((l) => MEETING.has(l.status)).length}</td>
+                    <td className="p-3">{mine.filter((l) => l.status === "stattgefunden" || l.status === "abgeschlossen").length}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </section>
+      )}
 
       <section className="mt-10 overflow-x-auto rounded-[var(--radius-soft)] border border-line bg-paper">
         <table className="w-full min-w-[900px] text-start text-[0.95rem]">
@@ -121,7 +147,7 @@ export function Dashboard({ leads: initial, metrics, trial, brand, advisors, pre
                   </select>
                 </td>
                 <td className="p-3"><textarea defaultValue={l.note} onBlur={(e) => update(l.id, { note: e.target.value })} rows={2} className="w-48 rounded border border-line p-1.5 text-[0.9rem]" placeholder="z. B. Termin 12.12." /></td>
-                <td className="p-3"><button onClick={() => remove(l.id)} className="text-[0.85rem] text-error underline">löschen</button></td>
+                <td className="p-3">{!scope && <button onClick={() => remove(l.id)} className="text-[0.85rem] text-error underline">löschen</button>}</td>
               </tr>
             ))}
           </tbody>

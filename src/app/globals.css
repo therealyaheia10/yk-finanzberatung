@@ -11,29 +11,29 @@
 @import "@fontsource-variable/inter/index.css";
 
 /* ===================================================================
-   DESIGN TOKENS v4 – Markenfarben aus dem IFC-Logo
-   Navy #14213D (Rahmen, Überschriften) · Gold #E3B341 (EINE Hauptaktion:
-   Beratungsgespräch buchen) · Globe blue #22396B (Zweitfarbe) ·
-   Mist #EEF1F5 (helle Flächen). Kontraste (WCAG 2.2 AA, geprüft):
-   ink/Hintergrund 14.8 · navy/Hintergrund 14.9 · mist/navy 10.3 ·
-   Gold-Button-Text 8.2 · brass/Hintergrund 6.2 · muted/mist 6.7
+   DESIGN TOKENS – „Graphit & Gold“ (Farbkonzept auf Kundenwunsch beibehalten)
+   Dunkler Graphit als Rahmen (Header, Hero, Abschluss, Footer), warme helle
+   Flächen für Inhalte, Gold als Akzent. Die Hauptaktion „Kostenlose Beratung
+   buchen“ ist dunkelgrün (Kundenwunsch). Kontraste (WCAG 2.2 AA):
+   sand-gold/graphit 9.9 · mist/graphit 8.8 · ink/ivory 14.7 · brass/ivory 5.4 ·
+   muted/white 7.6 · Button-Text weiß/grün 5.1
    =================================================================== */
 @theme {
-  --color-ink: #1a2233;          /* Fließtext auf hell */
-  --color-navy: #14213d;         /* Marken-Navy: Überschriften, Icons */
-  --color-navy-deep: #14213d;    /* dunkle Flächen: Header, Hero, Footer */
-  --color-navy-soft: #22396b;    /* Globe blue: Zweitfarbe, Hover */
-  --color-ivory: #f5f7fa;        /* Seitenhintergrund */
-  --color-sand: #eef1f5;         /* Marken-Mist: helle Flächen */
+  --color-ink: #161d25;          /* Text auf hell */
+  --color-navy: #161d25;         /* Primärfarbe (Graphit) */
+  --color-navy-deep: #111519;    /* dunkle Flächen */
+  --color-navy-soft: #1d2329;    /* Hover / Karten auf dunkel */
+  --color-ivory: #f4f3ef;        /* Seitenhintergrund */
+  --color-sand: #ebe8e1;         /* alternative helle Fläche */
   --color-paper: #ffffff;
-  --color-champagne: #e3b341;    /* Marken-Gold – Linien, Dekor */
-  --color-champagne-light: #e3b341; /* Marken-Gold – Buttons & Akzent auf dunkel */
-  --color-brass: #7a5608;        /* Gold-Text auf hell (dunkler für Lesbarkeit) */
-  --color-muted: #4a5566;
-  --color-line: #dde2ea;
-  --color-line-dark: #2b3b5c;
-  --color-mist: #c8d0dd;
-  --color-success: #1d6a47;
+  --color-champagne: #c9ad7c;    /* Gold – Dekor */
+  --color-champagne-light: #d6be93; /* Gold – Akzent auf dunkel */
+  --color-brass: #7a5f2e;        /* Gold-Text auf hell */
+  --color-muted: #4b5560;
+  --color-line: #e2ded5;
+  --color-line-dark: #2a3138;
+  --color-mist: #b3b9bf;
+  --color-success: #1f6b4a;
   --color-error: #a3271f;
 
   --font-sans: "Figtree Variable", "Figtree", system-ui, sans-serif;
@@ -91,9 +91,15 @@ main [class*="grid-cols"] > * { min-width: 0; }
 }
 .btn-primary { background: var(--color-navy); color: #fff; }
 .btn-primary:hover { background: var(--color-navy-soft); }
-.btn-gold { background: var(--color-champagne-light); color: var(--color-navy-deep); box-shadow: 0 10px 24px -12px rgba(227,179,65,.8), inset 0 -2px 0 rgba(0,0,0,.08); }
-.btn-gold:hover { background: #ebc25e; transform: translateY(-1px); }
+.btn-gold { background: var(--color-champagne-light); color: var(--color-navy-deep); box-shadow: 0 10px 24px -12px rgba(201,173,124,.8), inset 0 -2px 0 rgba(0,0,0,.08); }
+.btn-gold:hover { background: #e3cfa9; transform: translateY(-1px); }
+/* Haupt-Aktion „Kostenlose Beratung buchen“ – Dunkelgrün (Kontrast Text 5,1 : 1, zum Navy-Grund 3,1 : 1) */
+.btn-cta { background: #1a7d50; color: #fff; box-shadow: 0 12px 26px -14px rgba(26,125,80,.9), inset 0 -2px 0 rgba(0,0,0,.12); }
+.btn-cta:hover { background: #156a43; transform: translateY(-1px); }
+/* Sekundär auf dunkel/hell mit grünem WhatsApp-Logo – zieht keine Aufmerksamkeit vom Hauptbutton ab */
+.btn-wa-soft { border: 1.5px solid currentColor; }
 .btn-lg { min-height: 3.75rem; padding: 0.95rem 2rem; font-size: 1.125rem; }
+@media (min-width: 640px) { .btn-lg { white-space: nowrap; } }
 .btn-ghost { border: 1.5px solid var(--color-line); color: var(--color-navy); background: var(--color-paper); }
 .btn-ghost:hover { border-color: var(--color-navy); }
 .btn-ghost-light { border: 1.5px solid rgba(255,255,255,.45); color: #fff; }

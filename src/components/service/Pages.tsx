@@ -55,7 +55,7 @@ function PageHero({ locale, t, eyebrow, title, lead, crumbs, cta, topic, image }
             <p className="reveal reveal-delay-1 mt-4 text-[1.1rem] text-mist sm:text-[1.2rem]">{lead}</p>
             {cta && (
               <div className="reveal reveal-delay-2 mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link href={href(locale, "contact", topic ? { topic } : undefined)} className="btn btn-gold btn-lg" data-track={`cta_pagehero_${topic ?? "general"}`}><CalendarCheck size={20} aria-hidden="true" /> {t.v3.free} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
+                <Link href={href(locale, "contact", topic ? { topic } : undefined)} className="btn btn-cta btn-lg" data-track={`cta_pagehero_${topic ?? "general"}`}><CalendarCheck size={20} aria-hidden="true" /> {t.v3.free} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
                 {company.phone && <a href={`tel:${company.phone}`} className="btn btn-ghost-light" data-track={`call_pagehero_${topic ?? "general"}`}><Phone size={18} aria-hidden="true" /> {t.home.call}</a>}
               </div>
             )}
@@ -87,7 +87,7 @@ function CtaBand({ locale, t, title, text, topic }: { locale: Locale; t: Dict; t
           </div>
         </div>
         <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row">
-          <Link href={href(locale, "contact", { topic })} className="btn btn-gold btn-lg" data-track={`cta_band_${topic}`}><CalendarCheck size={20} aria-hidden="true" /> {t.home.primary} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
+          <Link href={href(locale, "contact", { topic })} className="btn btn-cta btn-lg" data-track={`cta_band_${topic}`}><CalendarCheck size={20} aria-hidden="true" /> {t.home.primary} <ArrowRight size={18} className={arrow} aria-hidden="true" /></Link>
           <Link href={href(locale, "contact", { topic, mode: "callback" })} className="btn btn-ghost-light" data-track={`callback_band_${topic}`}>{t.home.callback}</Link>
         </div>
       </Container>
@@ -365,7 +365,7 @@ export function TeamMemberPage({ locale, t, a }: { locale: Locale; t: Dict; a: A
               <p className="mt-1 font-semibold text-champagne-light">{a.position ? a.position[locale] : t.team.positionFallback}</p>
               <div className="mt-4 flex flex-wrap items-center gap-2"><span className="text-[0.88rem] text-mist">{t.team.languages}</span><LangChips langs={a.languages} light /></div>
               <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
-                <a href="#termin" className="btn btn-gold" data-track={`cta_member_${a.slug}`}>{fill(t.team.requestTo, { name: name.split(" ")[0] })} <ArrowRight size={18} className={arrow} aria-hidden="true" /></a>
+                <a href="#termin" className="btn btn-cta" data-track={`cta_member_${a.slug}`}>{fill(t.team.requestTo, { name: name.split(" ")[0] })} <ArrowRight size={18} className={arrow} aria-hidden="true" /></a>
                 {phone && <a href={`tel:${phone}`} className="btn btn-ghost-light" data-track={`call_member_${a.slug}`}><Phone size={18} aria-hidden="true" /> <span className="ltr-nums">{phoneDisplay}</span></a>}
               </div>
             </div>
@@ -446,7 +446,7 @@ export function ContactPage({ locale, t }: { locale: Locale; t: Dict }) {
         <div className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:gap-12">
           <div>
             <h2 className="sr-only">{pg.formTitle}</h2>
-            <LeadForm locale={locale} t={t.form} modes={formModes()} isPreview={isPreview} phone={company.phone} phoneDisplay={company.phoneDisplay} backLabel={t.common.back} idPrefix="contact-lead" />
+            <LeadForm locale={locale} t={t.form} modes={formModes()} isPreview={isPreview} phone={company.phone} phoneDisplay={company.phoneDisplay} backLabel={t.common.back} idPrefix="contact-lead" advisorOptions={activeAdvisors().map((a) => ({ slug: a.slug, name: advisorName(a, locale) }))} />
           </div>
           <div className="space-y-8">
             <div>

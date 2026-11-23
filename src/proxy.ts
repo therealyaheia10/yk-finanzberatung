@@ -4,9 +4,10 @@ import { NextResponse, type NextRequest } from "next/server";
  * Zugriffsschutz & Sprachweiterleitung
  * - PREVIEW (Standard): ganze Website per Basic Auth (PREVIEW_USER / PREVIEW_PASSWORD),
  *   auf localhost ohne Passwort. Ohne Passwort auf einem Server → gesperrt.
- * - /intern (Lead-Dashboard): immer Basic Auth mit ADMIN_USER / ADMIN_PASSWORD.
+ * - /intern (Lead-Dashboard): Basic Auth. Admin (ADMIN_USER / ADMIN_PASSWORD) sieht alles;
+ *   Berater (ADVISOR_ACCESS="slug:passwort,slug2:passwort2") sehen nur ihre eigenen Anfragen.
  */
-const LOCALES = ["de", "ar", "en"];
+const LOCALES = ["de", "ar", "en", "fr"];
 
 function unauthorized(realm: string) {
   return new NextResponse("Zugriff nur für autorisierte Personen.", {
@@ -28,6 +29,23 @@ function checkAuth(req: NextRequest, user?: string, pass?: string) {
   }
 }
 
+/** Rolle im internen Bereich: Admin oder ein einzelner Berater (Slug) */
+function internRole(req: NextRequest): { admin: true } | { advisor: string } | null {
+  if (process.env.ADMIN_PASSWORD && checkAuth(req, process.env.ADMIN_USER, process.env.ADMIN_PASSWORD)) return { admin: true };
+  const h = req.headers.get("authorization") || "";
+  if (!h.startsWith("Basic ") || !process.env.ADVISOR_ACCESS) return null;
+  try {
+    const [u, ...rest] = atob(h.slice(6)).split(":");
+    const p = rest.join(":");
+    for (const entry of process.env.ADVISOR_ACCESS.split(",")) {
+      const [slug, ...pw] = entry.trim().split(":");
+      const pass = pw.join(":");
+      if (slug && pass && u === slug && p === pass) return { advisor: slug };
+    }
+  } catch { /* ungültiger Header */ }
+  return null;
+}
+
 function isLocalHost(req: NextRequest) {
   const host = (req.headers.get("host") || "").split(":")[0];
   return host === "localhost" || host === "127.0.0.1" || host === "[::1]";
@@ -39,9 +57,14 @@ export function proxy(req: NextRequest) {
 
   // 1) Internes Dashboard
   if (pathname.startsWith("/intern") || pathname.startsWith("/api/intern")) {
-    if (!process.env.ADMIN_PASSWORD) return new NextResponse("Dashboard deaktiviert (ADMIN_PASSWORD fehlt).", { status: 404 });
-    if (!checkAuth(req, process.env.ADMIN_USER, process.env.ADMIN_PASSWORD)) return unauthorized("Lead-Dashboard");
-    return NextResponse.next();
+    if (!process.env.ADMIN_PASSWORD && !process.env.ADVISOR_ACCESS) return new NextResponse("Dashboard deaktiviert (ADMIN_PASSWORD fehlt).", { status: 404 });
+    const role = internRole(req);
+    if (!role) return unauthorized("Lead-Dashboard");
+    // Rolle serverseitig weitergeben – ein vom Browser mitgeschickter Wert wird immer überschrieben
+    const headers = new Headers(req.headers);
+    headers.delete("x-intern-advisor");
+    if ("advisor" in role) headers.set("x-intern-advisor", role.advisor);
+    return NextResponse.next({ request: { headers } });
   }
 
   // 2) Vorschau-Schutz
