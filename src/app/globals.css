@@ -9,6 +9,7 @@
 
 @import "@fontsource-variable/source-serif-4/index.css";
 @import "@fontsource-variable/inter/index.css";
+@import "@fontsource/allura/latin-400.css"; /* Schreibschrift für die Unterschrift auf Beraterseiten */
 
 /* ===================================================================
    DESIGN TOKENS – „Graphit & Gold“ (Farbkonzept auf Kundenwunsch beibehalten)

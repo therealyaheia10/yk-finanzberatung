@@ -347,6 +347,9 @@ export function AboutPage({ locale, t }: { locale: Locale; t: Dict }) {
 }
 
 /* ================================================================ Beraterseite */
+const meetLabel: Record<Locale, string> = { de: "Lernen wir uns persönlich kennen", en: "Let’s meet in person", fr: "Faisons connaissance", ar: "لنتعرّف على بعض شخصياً" };
+const yoursLabel: Record<Locale, string> = { de: "Ihr", en: "Yours,", fr: "Votre", ar: "" };
+
 export function TeamMemberPage({ locale, t, a }: { locale: Locale; t: Dict; a: Advisor }) {
   const name = advisorName(a, locale);
   const others = activeAdvisors().filter((x) => x.id !== a.id);
@@ -386,6 +389,17 @@ export function TeamMemberPage({ locale, t, a }: { locale: Locale; t: Dict; a: A
             <div className="space-y-4">{a.bio[locale].map((p) => <p key={p}>{p}</p>)}</div>
           </div>
           <aside className="space-y-3">
+            {/* Persönlich: Porträt, Unterschrift, Einladung zum Kennenlernen */}
+            <div className="overflow-hidden rounded-2xl border border-line bg-paper">
+              <Portrait src={a.officePhoto ?? a.portrait} alt={name} initials={initials(a)} placeholderLabel={t.common.portraitPlaceholder} className="aspect-[4/4.4] w-full" sizes="(min-width:1024px) 420px, 100vw" />
+              <div className="p-5">
+                {yoursLabel[locale] && <p className="text-[0.95rem] text-muted">{yoursLabel[locale]}</p>}
+                {a.signature
+                  ? <Image src={a.signature} alt={name} width={320} height={110} className="h-16 w-auto" />
+                  : <p dir="ltr" className="text-[2.6rem] leading-none text-navy" style={{ fontFamily: "Allura, cursive" }}>{a.firstName} {a.lastName}</p>}
+                <a href="#termin" className="btn btn-cta mt-5 w-full" data-track={`meet_${a.slug}`}><CalendarCheck size={19} aria-hidden="true" /> {meetLabel[locale]}</a>
+              </div>
+            </div>
             <div className="rounded-2xl bg-ivory p-5">
               <h2 className="font-semibold text-navy">{t.team.background}</h2>
               <ul className="mt-2 space-y-2 text-[0.95rem]">{a.background[locale].map((b) => <li key={b} className="flex gap-2"><Check size={17} className="mt-0.5 shrink-0 text-brass" aria-hidden="true" />{b}</li>)}</ul>

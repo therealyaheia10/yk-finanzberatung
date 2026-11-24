@@ -40,6 +40,10 @@ export type Advisor = {
   bio: Localized<string[]>;
   /** Persönlicher Leitsatz (optional) */
   quote: Localized | null;
+  /** Optional: natürliches Porträt im Büro für die Profilseite (sonst wird `portrait` genutzt) */
+  officePhoto?: string | null;
+  /** Optional: eingescannte Unterschrift (Bild). Ohne Bild wird der Name in Schreibschrift gezeigt. */
+  signature?: string | null;
   /** Belegbarer Werdegang / Hintergrund */
   background: Localized<string[]>;
   /** Tatsächlich gesprochene Beratungssprachen */
@@ -74,38 +78,59 @@ export const advisors: Advisor[] = [
     portrait: "/images/team/yaheia-kaswan.webp",
     position: null,
     short: {
-      de: "Kommt aus dem Finanz- und Versicherungsvertrieb und erklärt Vorsorge so, dass man sie wirklich versteht.",
-      en: "Comes from financial and insurance sales and explains long-term planning in a way that actually makes sense.",
-      fr: "Issu de la vente de produits financiers et d’assurance, il explique la prévoyance de façon vraiment compréhensible.",
-      ar: "يأتي من مجال المبيعات المالية والتأمين، ويشرح التخطيط للمستقبل بطريقة واضحة ومفهومة.",
+      de: "Als Unternehmer weiß ich, wie wichtig finanzielle Sicherheit, Verantwortung und bewusste Entscheidungen sind. Mein Ziel ist es, komplexe Finanz- und Versicherungsthemen verständlich zu machen und Menschen langfristig als persönlicher Ansprechpartner zu begleiten. Für mich steht dabei immer der Mensch im Mittelpunkt – nicht das Produkt.",
+      en: "As an entrepreneur, I know how important financial security, responsibility and well-informed decisions are. My goal is to make complex finance and insurance topics easy to understand and to support people as their personal contact in the long run. For me, it's always about the person – not the product.",
+      fr: "En tant qu’entrepreneur, je sais à quel point la sécurité financière, la responsabilité et les décisions réfléchies sont importantes. Mon objectif est de rendre compréhensibles les sujets complexes de finance et d’assurance et d’accompagner les gens durablement en tant qu’interlocuteur personnel. Pour moi, c’est toujours la personne qui compte – pas le produit.",
+      ar: "بصفتي صاحب عمل، أعرف مدى أهمية الأمان المالي والمسؤولية والقرارات الواعية. هدفي أن أجعل المواضيع المالية والتأمينية المعقّدة مفهومة، وأن أرافق الناس على المدى الطويل كشخص يتواصلون معه مباشرة. وبالنسبة لي، يبقى الإنسان دائماً في المركز – لا المنتج.",
     },
     bio: {
       de: [
-        "Ich bin Unternehmer und komme aus dem Finanz- und Versicherungsvertrieb. In vielen Gesprächen habe ich erlebt, dass Menschen nicht am fehlenden Willen scheitern, sondern an Fachbegriffen, Kleingedrucktem und fehlender Zeit.",
-        "Genau dort setze ich an: Ich erkläre Versicherungen und Vorsorge so, dass Sie die Zusammenhänge verstehen und in Ruhe selbst entscheiden können – auf Deutsch, Arabisch oder Englisch.",
-        "Mein Anspruch ist kein schneller Abschluss, sondern eine Begleitung, auf die Sie sich auch in fünf oder zehn Jahren noch verlassen können.",
+        "Ich bin Yaheia Kaswan – und für mich beginnt eine gute Beratung nicht mit einem Produkt, sondern mit einem Menschen.",
+        "Als Unternehmer weiß ich selbst, was es bedeutet, Verantwortung zu übernehmen, schwierige Entscheidungen zu treffen und sich Gedanken über die eigene Zukunft und die seiner Familie zu machen.",
+        "Ich weiß auch, wie herausfordernd es sein kann, sich in Deutschland mit all den finanziellen Möglichkeiten, Versicherungen und komplizierten Fachbegriffen zurechtzufinden. Gerade wenn Deutsch nicht die eigene Muttersprache ist.",
+        "Genau deshalb ist es mir wichtig, einen Unterschied zu machen. Ich möchte, dass Sie verstehen, welche Entscheidungen Sie treffen, warum Sie diese treffen und was sie langfristig für Ihr Leben bedeuten.",
+        "Bei mir müssen Sie nicht mit Vorwissen ins Gespräch kommen. Sie können jede Frage stellen, Ihre Sorgen offen ansprechen und sich die Zeit nehmen, die Sie für eine Entscheidung benötigen.",
+        "Ob Sie für Ihre Kinder vorsorgen, Ihre Familie absichern, Ihre finanzielle Zukunft gestalten oder als Unternehmer Verantwortung für Ihre Mitarbeiter übernehmen möchten – ich möchte zunächst Ihre Situation verstehen, bevor wir gemeinsam über mögliche Lösungen sprechen.",
+        "Für mich endet eine gute Beratung nicht mit einer Unterschrift. Mein Anspruch ist es, auch danach ein persönlicher Ansprechpartner für Sie zu sein.",
+        "Ich freue mich darauf, Sie persönlich kennenzulernen.",
       ],
       en: [
-        "I'm an entrepreneur with a background in financial and insurance sales. In many conversations I've seen that people rarely hold back because they don't care – it's the jargon, the small print and the lack of time.",
-        "That's where I come in: I explain insurance and long-term planning so you understand how things fit together and can decide for yourself, without pressure – in German, Arabic or English.",
-        "I'm not after a quick signature. I want to be someone you can still rely on in five or ten years.",
+        "I'm Yaheia Kaswan – and for me, good advice doesn't start with a product. It starts with a person.",
+        "As an entrepreneur, I know first-hand what it means to take on responsibility, make difficult decisions and think about your own future and that of your family.",
+        "I also know how challenging it can be to find your way through all the financial options, insurance policies and complicated jargon in Germany – especially when German isn't your first language.",
+        "That's exactly why I want to make a difference. I want you to understand which decisions you're making, why you're making them and what they mean for your life in the long run.",
+        "You don't need any prior knowledge to talk to me. You can ask any question, share your concerns openly and take all the time you need to make a decision.",
+        "Whether you want to provide for your children, protect your family, shape your financial future or, as a business owner, take responsibility for your employees – I first want to understand your situation before we talk about possible solutions together.",
+        "For me, good advice doesn't end with a signature. I want to remain your personal point of contact long after that.",
+        "I look forward to getting to know you personally.",
       ],
       fr: [
-        "Je suis entrepreneur et je viens de la vente de produits financiers et d’assurance. Au fil de nombreux échanges, j’ai constaté que les gens ne manquent pas de volonté : ce qui les freine, ce sont le jargon, les petites lignes et le manque de temps.",
-        "C’est là que j’interviens : je vous explique l’assurance et la prévoyance pour que vous compreniez l’ensemble et puissiez décider sereinement, en allemand, en arabe ou en anglais.",
-        "Mon objectif n’est pas une signature rapide, mais un accompagnement sur lequel vous pourrez encore compter dans cinq ou dix ans.",
+        "Je suis Yaheia Kaswan – et pour moi, un bon conseil ne commence pas par un produit, mais par une personne.",
+        "En tant qu’entrepreneur, je sais moi-même ce que signifie prendre des responsabilités, faire des choix difficiles et se soucier de son avenir et de celui de sa famille.",
+        "Je sais aussi à quel point il peut être difficile de s’y retrouver en Allemagne entre toutes les possibilités financières, les assurances et les termes techniques compliqués – surtout quand l’allemand n’est pas sa langue maternelle.",
+        "C’est justement pour cela que je veux faire la différence. Je veux que vous compreniez quelles décisions vous prenez, pourquoi vous les prenez et ce qu’elles signifient pour votre vie sur le long terme.",
+        "Avec moi, aucune connaissance préalable n’est nécessaire. Vous pouvez poser toutes vos questions, parler ouvertement de vos inquiétudes et prendre le temps dont vous avez besoin pour décider.",
+        "Que vous souhaitiez préparer l’avenir de vos enfants, protéger votre famille, construire votre avenir financier ou, en tant qu’entrepreneur, assumer vos responsabilités envers vos salariés – je veux d’abord comprendre votre situation avant que nous parlions ensemble des solutions possibles.",
+        "Pour moi, un bon conseil ne s’arrête pas à une signature. Mon ambition est de rester votre interlocuteur personnel par la suite.",
+        "Je me réjouis de faire votre connaissance.",
       ],
       ar: [
-        "أنا صاحب عمل خاص، وخبرتي في مجال المبيعات المالية والتأمين. ومن خلال لقاءات كثيرة لاحظت أن الناس لا يتأخرون في تأمين أنفسهم لأنهم لا يهتمون، بل لأن المصطلحات معقدة، والتفاصيل كثيرة، والوقت قليل.",
-        "وهنا يأتي دوري: أشرح لك التأمين والتخطيط للمستقبل بكلام واضح، حتى تفهم الصورة كاملة وتتخذ قرارك بنفسك وبدون ضغط، بالعربية أو الألمانية أو الإنجليزية.",
-        "هدفي ليس توقيع عقد بسرعة، بل علاقة ثقة تستطيع أن تعتمد عليها بعد خمس أو عشر سنوات أيضاً.",
+        "أنا يحيى كسوان – وبالنسبة لي، لا تبدأ الاستشارة الجيدة بمنتج، بل بإنسان.",
+        "بصفتي صاحب عمل، أعرف بنفسي معنى أن تتحمّل المسؤولية، وأن تتخذ قرارات صعبة، وأن تفكّر في مستقبلك ومستقبل عائلتك.",
+        "وأعرف أيضاً كم قد يكون صعباً أن تجد طريقك في ألمانيا بين كل الخيارات المالية والتأمينات والمصطلحات المعقّدة – خاصة عندما لا تكون الألمانية لغتك الأم.",
+        "ولهذا بالتحديد يهمّني أن أُحدث فرقاً. أريد أن تفهم ما هي القرارات التي تتخذها، ولماذا تتخذها، وماذا تعني لحياتك على المدى البعيد.",
+        "معي لا تحتاج إلى أي معرفة مسبقة. يمكنك أن تسأل أي سؤال، وأن تتحدث بصراحة عن مخاوفك، وأن تأخذ الوقت الذي تحتاجه لاتخاذ قرارك.",
+        "سواء أردت أن تؤمّن مستقبل أطفالك، أو تحمي عائلتك، أو تبني مستقبلك المالي، أو أن تتحمّل مسؤوليتك تجاه موظفيك كصاحب عمل – أريد أولاً أن أفهم وضعك، قبل أن نتحدث معاً عن الحلول الممكنة.",
+        "بالنسبة لي، لا تنتهي الاستشارة الجيدة بالتوقيع. وهدفي أن أبقى الشخص الذي تتواصل معه مباشرة بعد ذلك أيضاً.",
+        "يسعدني أن أتعرّف عليك شخصياً.",
       ],
     },
+    /* Persönlicher Text von Yaheia (DE), übersetzt EN/FR/AR */
     quote: {
-      de: "Ich möchte, dass Sie jede Entscheidung verstehen – nicht nur unterschreiben.",
-      en: "I want you to understand every decision – not just sign it.",
-      fr: "Je veux que vous compreniez chaque décision, pas seulement que vous la signiez.",
-      ar: "أريدك أن تفهم كل قرار، لا أن توقّع عليه فقط.",
+      de: "Ich möchte nicht, dass Menschen eine Entscheidung treffen, nur weil sie mir vertrauen. Ich möchte, dass sie mir vertrauen, weil sie ihre Entscheidung verstehen.",
+      en: "I don't want people to make a decision just because they trust me. I want them to trust me because they understand their decision.",
+      fr: "Je ne veux pas que les gens prennent une décision simplement parce qu’ils me font confiance. Je veux qu’ils me fassent confiance parce qu’ils comprennent leur décision.",
+      ar: "لا أريد أن يتخذ الناس قراراً لمجرد أنهم يثقون بي. بل أريد أن يثقوا بي لأنهم يفهمون قرارهم.",
     },
     background: {
       de: ["Unternehmer", "Finanz- und Versicherungsvertrieb im Umfeld von ERGO Pro / ONE Financial Services AG"],

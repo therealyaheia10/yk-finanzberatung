@@ -82,7 +82,7 @@ function Hero({ locale, t }: { locale: Locale; t: Dict }) {
 
         <figure className="reveal reveal-delay-2">
           <div className="relative overflow-hidden rounded-[1.5rem] shadow-[0_40px_80px_-40px_rgba(0,0,0,.8)] ring-1 ring-white/10">
-            {company.teamPhoto && <Image src={company.teamPhoto} alt={h.photoAlt} width={1600} height={1067} priority sizes="(min-width:1024px) 600px, 100vw" className="h-auto w-full object-cover" />}
+            {company.teamPhoto && <Image src={company.teamPhoto} alt={h.photoAlt} width={1600} height={900} priority sizes="(min-width:1024px) 600px, 100vw" className="h-auto w-full object-cover" />}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#111519]/90 via-[#111519]/40 to-transparent px-3 pb-3 pt-14 sm:px-5 sm:pb-4">
               <ul className="grid grid-cols-3 text-center text-[0.82rem] font-semibold sm:text-[0.95rem]" dir="ltr">
                 {order.map((a) => <li key={a.id}><Link href={teamHref(locale, a.slug)} className="hover:text-champagne-light">{advisorName(a, locale)}</Link></li>)}

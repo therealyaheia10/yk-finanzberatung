@@ -40,7 +40,7 @@ export const company = {
   /** Optionale Fotos für „Fragen, die Sie sich stellen“ (Querformat). null = gestaltete Grafik */
   issueImages: { private: null as string | null, business: null as string | null },
   /** Reihenfolge der Personen auf dem Teamfoto (für Bildbeschreibung), von links */
-  teamPhotoOrder: ["ismael-palanga", "yaheia-kaswan", "ali-ibrahim"],
+  teamPhotoOrder: ["yaheia-kaswan", "ali-ibrahim", "ismael-palanga"],
   /** Bild im Abschnitt „Was uns verbindet“ – eigenes Foto hier eintragen (public/images/…) */
   whyImage: "/images/topics/advice.webp",
   email: null as string | null,
