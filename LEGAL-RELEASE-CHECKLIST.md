@@ -47,3 +47,10 @@ Die Website kann technisch erst im Produktionsmodus gebaut werden, wenn
 - [ ] Definition „qualifizierte Anfrage“ schriftlich bestätigt
 - [ ] `TRIAL_START` am Tag der Veröffentlichung gesetzt
 - [ ] Lead-Tabelle / Dashboard eingerichtet
+
+## Stand 24.11.2026 – Website veröffentlicht (ifc-consulting.de)
+Auf ausdrücklichen Wunsch des Inhabers **ohne** die noch fehlenden Pflichtangaben veröffentlicht
+(Freigabe dokumentiert in `src/config/launch.ts`). Offene Punkte: `npm run release-check:prod`.
+Bis zur Ergänzung zeigen Impressum/Erstinformation an fehlenden Stellen „–“.
+Kontaktformular: ohne SMTP-Zugang (LEADS_ENABLED, SMTP_*) bietet es automatisch den Versand per WhatsApp an.
+Zurück in die passwortgeschützte Vorschau: in Vercel `SITE_MODE=preview` setzen und neu veröffentlichen.

@@ -14,5 +14,5 @@ export default defineConfig({
   },
   webServer: process.env.BASE_URL
     ? undefined
-    : { command: "npm run start", url: "http://localhost:3000/de", reuseExistingServer: true, timeout: 60_000, env: { RATE_LIMIT: "100" } },
+    : { command: "npm run start", url: "http://localhost:3000/de", reuseExistingServer: true, timeout: 60_000, env: { RATE_LIMIT: "100", SITE_MODE: "preview" } },
 });

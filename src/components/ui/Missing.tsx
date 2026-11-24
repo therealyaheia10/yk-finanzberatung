@@ -6,7 +6,7 @@ import { isPreview } from "@/lib/site";
  * verhindert ohnehin einen Build mit fehlenden Pflichtangaben.
  */
 export function Missing({ label }: { label: string }) {
-  if (!isPreview) return null;
+  if (!isPreview) return <span aria-hidden="true">–</span>; // öffentlich: neutraler Strich statt leerer Stelle
   return (
     <span className="placeholder-chip" data-placeholder="true">
       <span aria-hidden="true">⚠</span> {label}

@@ -94,7 +94,7 @@ export const company = {
 
   /** Zentrale Empfängeradresse, falls kein Berater zugeordnet werden kann */
   leadRecipientEmail: null as string | null,
-  siteUrl: "https://example.invalid" as string,
+  siteUrl: "https://ifc-consulting.de" as string,
 
   trial: {
     startDate: null as string | null,

@@ -10,6 +10,8 @@ import { href, languageNames, locales, topicKeys, type Locale, type TopicKey } f
 import { fill } from "@/lib/format";
 import { send, getCampaign } from "@/components/layout/Track";
 import type { Dict } from "@/content";
+import { company } from "@/config/company";
+import { WA_GREEN, WhatsAppIcon } from "@/components/ui/Icons";
 
 type FormT = Dict["form"];
 type Mode = "office" | "phone" | "video" | "callback";
@@ -45,6 +47,7 @@ export function LeadForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [serverError, setServerError] = useState<string>("");
+  const [waFallback, setWaFallback] = useState<string | null>(null);
   const [isTest, setIsTest] = useState(false);
   const [assigned, setAssigned] = useState<string>("");
   const startedAt = useRef<number>(Date.now());
@@ -123,6 +126,21 @@ export function LeadForm({
       } else {
         const key = data.error === "rate" ? "rate" : data.error === "disabled" ? "disabled" : "server";
         setServerError(t.errors[key as "rate" | "disabled" | "server"]);
+        // Kein E-Mail-Versand eingerichtet / Serverfehler: Anfrage fertig formuliert per WhatsApp anbieten,
+        // damit nichts verloren geht. Der Besucher sieht den Text und sendet selbst.
+        if (key !== "rate" && company.whatsapp) {
+          const lines = [
+            `${t.topics[topic as TopicKey] ?? ""}`,
+            name && `${name}`,
+            mode && `${t.modes[mode]}`,
+            tel && `${tel}`,
+            email && `${email}`,
+            time && `${t.times[time]}`,
+            advisor && `→ ${advisor.name}`,
+            message && `„${message}“`,
+          ].filter(Boolean).join("\n");
+          setWaFallback(`https://wa.me/${company.whatsapp}?text=${encodeURIComponent(lines)}`);
+        }
         setStatus("error");
       }
     } catch {
@@ -309,7 +327,10 @@ export function LeadForm({
           {status === "error" && (
             <div role="alert" className="rounded-md border border-error/40 bg-error/5 p-4 text-error">
               <p className="font-semibold">{serverError}</p>
-              {phone && <a href={`tel:${phone}`} className="btn btn-primary mt-3"><Phone size={18} aria-hidden="true" /> <span className="ltr-nums">{phoneDisplay}</span></a>}
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                {waFallback && <a href={waFallback} target="_blank" rel="noopener noreferrer" className="btn btn-cta" data-track="form_wa_fallback"><WhatsAppIcon size={20} color={WA_GREEN} /> {t.waFallback}</a>}
+                {phone && <a href={`tel:${phone}`} className="btn btn-primary"><Phone size={18} aria-hidden="true" /> <span className="ltr-nums">{phoneDisplay}</span></a>}
+              </div>
             </div>
           )}
 

@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { LAUNCHED } from "@/config/launch";
 
 /**
  * Zugriffsschutz & Sprachweiterleitung
@@ -53,7 +54,7 @@ function isLocalHost(req: NextRequest) {
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const preview = process.env.SITE_MODE !== "production";
+  const preview = !(process.env.SITE_MODE === "production" || (LAUNCHED && process.env.SITE_MODE !== "preview"));
 
   // 1) Internes Dashboard
   if (pathname.startsWith("/intern") || pathname.startsWith("/api/intern")) {

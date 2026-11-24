@@ -284,6 +284,7 @@ const de = (p: P) => ({
     autoAssign: "Wir ordnen Ihre Anfrage dem passenden Berater zu – nach Sprache und Thema.",
     toAdvisor: "Ihre Anfrage geht direkt an {name}.",
     anyAdvisor: "Beliebigen Berater",
+    waFallback: "Anfrage per WhatsApp senden",
     errors: {
       name: "Bitte geben Sie Ihren Namen ein.",
       contact: "Bitte geben Sie eine Telefonnummer oder E-Mail-Adresse an.",
@@ -291,7 +292,7 @@ const de = (p: P) => ({
       phone: "Bitte prüfen Sie die Telefonnummer (nur Ziffern, Leerzeichen, + oder /).",
       rate: "Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es später erneut oder rufen Sie direkt an.",
       server: "Ihre Anfrage konnte leider nicht übermittelt werden. Bitte rufen Sie uns direkt an.",
-      disabled: "Das Online-Formular ist derzeit nicht aktiv. Bitte rufen Sie uns direkt an.",
+      disabled: "Das Online-Formular ist gerade nicht aktiv. Senden Sie uns Ihre Anfrage einfach per WhatsApp – Ihre Angaben sind schon eingetragen – oder rufen Sie uns an.",
       summary: "Bitte prüfen Sie die markierten Angaben.",
     },
     success: {

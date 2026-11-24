@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
-const isPreview = process.env.SITE_MODE !== "production";
+import { LAUNCHED } from "./src/config/launch";
+
+const isPreview = !(process.env.SITE_MODE === "production" || (LAUNCHED && process.env.SITE_MODE !== "preview"));
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },

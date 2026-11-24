@@ -276,6 +276,7 @@ const en = (p: P): Dict => ({
     autoAssign: "We'll match your request with the right advisor – by language and topic.",
     toAdvisor: "Your request goes directly to {name}.",
     anyAdvisor: "Any advisor",
+    waFallback: "Send request via WhatsApp",
     errors: {
       name: "Please enter your name.",
       contact: "Please enter a phone number or an email address.",
@@ -283,7 +284,7 @@ const en = (p: P): Dict => ({
       phone: "Please check the phone number (digits, spaces, + or / only).",
       rate: "Too many requests in a short time. Please try again later or call us directly.",
       server: "Sorry, your request couldn't be sent. Please call us directly.",
-      disabled: "The online form isn't active at the moment. Please call us directly.",
+      disabled: "The online form is not active right now. Simply send us your request via WhatsApp – your details are already filled in – or give us a call.",
       summary: "Please check the highlighted fields.",
     },
     success: {

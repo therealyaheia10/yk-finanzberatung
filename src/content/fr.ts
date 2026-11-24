@@ -278,6 +278,7 @@ const fr = (p: P): Dict => ({
     autoAssign: "Nous transmettons votre demande au conseiller le plus adapté – selon la langue et le sujet.",
     toAdvisor: "Votre demande est envoyée directement à {name}.",
     anyAdvisor: "Peu importe le conseiller",
+    waFallback: "Envoyer la demande via WhatsApp",
     errors: {
       name: "Merci d’indiquer votre nom.",
       contact: "Merci d’indiquer un numéro de téléphone ou une adresse e-mail.",
@@ -285,7 +286,7 @@ const fr = (p: P): Dict => ({
       phone: "Merci de vérifier le numéro (chiffres, espaces, + ou / uniquement).",
       rate: "Trop de demandes en peu de temps. Réessayez plus tard ou appelez-nous directement.",
       server: "Désolé, votre demande n’a pas pu être envoyée. Appelez-nous directement.",
-      disabled: "Le formulaire en ligne n’est pas actif pour le moment. Appelez-nous directement.",
+      disabled: "Le formulaire en ligne n’est pas actif pour le moment. Envoyez-nous simplement votre demande via WhatsApp – vos informations sont déjà saisies – ou appelez-nous.",
       summary: "Merci de vérifier les champs signalés.",
     },
     success: {

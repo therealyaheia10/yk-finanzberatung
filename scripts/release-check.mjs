@@ -16,7 +16,8 @@ if (!process.execArgv.includes("--experimental-strip-types")) {
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const { company } = await import(pathToFileURL(path.join(root, "src/config/company.ts")).href);
 const { activeAdvisors } = await import(pathToFileURL(path.join(root, "src/config/advisors.ts")).href);
-const mode = process.env.SITE_MODE === "production" ? "production" : "preview";
+const { LAUNCHED } = await import(pathToFileURL(path.join(root, "src/config/launch.ts")).href);
+const mode = process.env.SITE_MODE === "production" || (LAUNCHED && process.env.SITE_MODE !== "preview") ? "production" : "preview";
 
 const problems = [];
 const need = (cond, msg) => { if (!cond) problems.push(msg); };
@@ -57,6 +58,13 @@ if (mode === "production") {
 
 const head = `\n[release-check] Modus: ${mode.toUpperCase()}`;
 if (!problems.length) { console.log(`${head} – alle Prüfpunkte erfüllt.\n`); process.exit(0); }
+if (mode === "production" && LAUNCHED) {
+  // Inhaber hat die Veröffentlichung trotz offener Punkte freigegeben (src/config/launch.ts) → nur warnen
+  console.warn(`${head} – VERÖFFENTLICHT TROTZ ${problems.length} OFFENER PUNKTE (Freigabe des Inhabers, siehe src/config/launch.ts):`);
+  for (const p of problems) console.warn("  ⚠ " + p);
+  console.warn("");
+  process.exit(0);
+}
 if (mode === "production") {
   console.error(`${head} – VERÖFFENTLICHUNG BLOCKIERT (${problems.length} offene Punkte):`);
   for (const p of problems) console.error("  ✗ " + p);
